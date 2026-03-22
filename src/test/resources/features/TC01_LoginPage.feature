@@ -61,7 +61,5 @@ Feature: Login Functionality
     Given the user "<submission_method>" with "<testCaseType>"
     Then the user should be redirected to the Dashboard Page
     Examples:
-      | testCaseType | submission_method          |
-      | valid credentials  | Submits the login form     |
-      
-     
+      | testCaseType | submission_method     |
+      | valid credentials  | Submits the login form |
