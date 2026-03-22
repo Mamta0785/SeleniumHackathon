@@ -30,9 +30,9 @@ public class Hooks {
 		Properties prop = ConfigReader.initializeProperties();
 		logger.debug("Loaded configuration properties");
 
-		ExcelReader.readDataFromExcel(prop.getProperty("loginsheetName"));
-		ExcelReader.readDataFromExcel(prop.getProperty("RegisterPage"));
-		ExcelReader.readDataFromExcel(prop.getProperty("ArrayPractice"));
+//		ExcelReader.readDataFromExcel(prop.getProperty("loginsheetName"));
+//		ExcelReader.readDataFromExcel(prop.getProperty("RegisterPage"));
+//		ExcelReader.readDataFromExcel(prop.getProperty("ArrayPractice"));
 		logger.info("Excel test data loaded");
 
 		String browser = System.getProperty("browserName", prop.getProperty("browserName"));
