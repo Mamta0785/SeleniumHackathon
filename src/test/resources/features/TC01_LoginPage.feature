@@ -3,7 +3,6 @@ Feature: Login Functionality
 
   Background: User enters the URL of the application in the browser
     
-    
     Scenario: Navigation bar text visibility
     Then User should see the text "Dietician Project" on the left side of navigation bar
     
@@ -26,12 +25,10 @@ Feature: Login Functionality
         | Username   |
         | Password   |
     
-    
     Scenario: presence of login button
 	Then login button should be visible in Login UI
 	Scenario: Login button color and styling
 	Then Login button should be displayed with a blue-purple background and white text
-	
 	
 	Scenario: Input field label alignment
     Then Username and Password labels should be left-aligned above their respective input fields
@@ -42,8 +39,8 @@ Feature: Login Functionality
 	Scenario: Login button enabled state
 	Then User should see login button enabled
 	 
-  @negativeTC_Login
-  Scenario Outline: Invalid login attempts for "<testCaseType>"
+@negativeTC_Login
+	Scenario Outline: Invalid login attempts for "<testCaseType>"
 	Given the user is on the login page
     When the user "<submission_method>" with "<testCaseType>"
     Then the appropriate error messages should be displayed in "<Field>"
@@ -60,7 +57,7 @@ Feature: Login Functionality
 
 
 @positiveTC_Login
-  Scenario Outline: Successful login from Excel
+    Scenario Outline: Successful login from Excel
     Given the user "<submission_method>" with "<testCaseType>"
     Then the user should be redirected to the Dashboard Page
     Examples:
