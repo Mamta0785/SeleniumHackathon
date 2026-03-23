@@ -30,9 +30,7 @@ public class Hooks {
 		Properties prop = ConfigReader.initializeProperties();
 		logger.debug("Loaded configuration properties");
 
-//		ExcelReader.readDataFromExcel(prop.getProperty("loginsheetName"));
-//		ExcelReader.readDataFromExcel(prop.getProperty("RegisterPage"));
-//		ExcelReader.readDataFromExcel(prop.getProperty("ArrayPractice"));
+		ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
 		logger.info("Excel test data loaded");
 
 		String browser = System.getProperty("browserName", prop.getProperty("browserName"));
@@ -46,16 +44,8 @@ public class Hooks {
 		logger.info("PageObjectManager initialized");
 	}
 
-	@Before(value = "@Getstarted", order = 1)
-	public void GetstartedAction() {
-		pom = new PageObjectManager();
-//		pom.getLaunchPage().clickGetStartedButton();
-		logger.info("Clicked Get Started button for @Getstarted scenario");
-	}
-
 	@Before(value = "@Login", order = 2)
 	public void performLogin() throws IOException {
-	//	pom.getHomePage().clickSignInButton();
 		logger.info("Clicked Sign In button");
 
 		pom.getLoginPage().login("Submits the login form", "valid_login");
