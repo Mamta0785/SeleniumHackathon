@@ -81,20 +81,20 @@ public class ExcelReader {
 		return dataList;
 	}
 
-	public static Map<String, String> getTestData(String scenarioType) {
+	public static Map<String, String> getTestData(String testCaseType) {
 
 		for (String sheetName : sheetData.keySet()) {
 			List<Map<String, String>> rows = sheetData.get(sheetName);
 
 			for (Map<String, String> row : rows) {
-				String cellValue = row.get("scenario_type");
-				if (cellValue != null && cellValue.equalsIgnoreCase(scenarioType)) {
+				String cellValue = row.get("testCaseType");
+				if (cellValue != null && cellValue.equalsIgnoreCase(testCaseType)) {
 					return row;
 				}
 			}
 		}
 
-		throw new IllegalArgumentException("No row found with scenario_type = " + scenarioType);
+		throw new IllegalArgumentException("No row found with scenario_type = " + testCaseType);
 	}
 
 }
