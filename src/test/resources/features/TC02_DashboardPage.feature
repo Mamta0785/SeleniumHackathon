@@ -12,10 +12,13 @@ Background: User is successfully logged into the application
         
     Scenario Outline: "<navigation link>" is clickable
     Then User should be able to click on "<navigation link>"  and navigate to the respective "<page>"
+      Examples:
         | navigation link | page           |
         | My Patients     | My Patients    |
         | New Patient     | New Patient    |
         | Logout          | Login           |
-    
-    Scenario: home icon is clickable
+
+
+
+  Scenario: home icon is clickable
     Then User should be able to click on home icon and navigate to the dashboard page

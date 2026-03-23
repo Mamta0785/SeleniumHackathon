@@ -35,6 +35,7 @@ Then user should see the values in all coulmns of the table for each patient rec
 
 Scenario Outline: Verify column values are present for each patient record when patients record  alredy exist in the system
 Then <column name> values should be displayed for each patient record
+  Examples:
     | column name       |
     | Patient Id        |
     | Name              |
@@ -51,12 +52,15 @@ Then Phone number, email , date of birth should be displayed on separate lines f
 
 Scenario Outline: details formats in details column
 Then <details> in details column should be displayed in correct <format> for each patient record
+  Examples:
     | details         | format |
     | phone number  | valid numeric digits |
     | email         | valid email format |
     | date of birth | MM/DD/YYYY |
-    
-Scenario: last visit date format
+
+
+
+  Scenario: last visit date format
 Then Last visit date should be displayed in correct format MM/DD/YYYY for each patient record
 
 Scenario: buttons under action column display for each patient record
@@ -148,28 +152,6 @@ Then User should see the newly added record in the next page
 
 Scenario: Navigation of View Previous Test Reports
 Then User should be navigated to "View Patient Test Reports" page
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Scenario: My Patient page loads with empty table when there is no patient record in the system
 Then My Patients page should display with empty table
