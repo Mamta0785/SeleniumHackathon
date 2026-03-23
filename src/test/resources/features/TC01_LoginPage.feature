@@ -63,3 +63,4 @@ Feature: Login Functionality
     Examples:
       | testCaseType | submission_method     |
       | valid credentials  | Submits the login form |
+      
