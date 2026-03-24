@@ -155,7 +155,7 @@ Then User should be navigated to "View Patient Test Reports" page
 
 Scenario: My Patient page loads with empty table when there is no patient record in the system
 Then My Patients page should display with empty table
-
+ 
 
 
 

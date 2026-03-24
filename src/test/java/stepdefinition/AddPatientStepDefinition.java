@@ -26,9 +26,8 @@ public class AddPatientStepDefinition {
     private AddPatientPage addPatientPage;
     private LoginPage loginPage;
 
-    public AddPatientStepDefinition() {
-        driver = DriverFactory.getDriver();
-        pom = new PageObjectManager(driver);
+    public AddPatientStepDefinition(PageObjectManager pom) {
+        pom = new PageObjectManager();
         addPatientPage = pom.getNewPatientPage();
         loginPage = pom.getLoginPage();
     }

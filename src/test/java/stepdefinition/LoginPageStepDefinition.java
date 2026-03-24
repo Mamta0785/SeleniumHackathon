@@ -26,28 +26,9 @@ public class LoginPageStepDefinition {
 	WebDriver driver;
 	private LoginPage loginPage;
 
-	public LoginPageStepDefinition() {
-        pom = new PageObjectManager(driver);
-		driver = DriverFactory.getDriver();
-		loginPage = pom.getLoginPage();
+	public LoginPageStepDefinition(PageObjectManager pom) {
+		this.pom = pom;
 	}
-	/*
-	 * // Background step
-	 * 
-	 * @Given("the registered user has navigated to the home page") public void
-	 * the_registered_user_has_navigated_to_the_home_page() {
-	 * DriverFactory.getDriver().get(ConfigReader.getProperty("baseURL")); }
-	 * 
-	 * @When("the user clicks sign in link") public void
-	 * the_user_clicks_sign_in_link() { // Write code here that turns the phrase
-	 * above into concrete actions //throw new io.cucumber.java.PendingException();
-	 * }
-	 * 
-	 * @Then("User must see {int} input fields in Login UI") public void
-	 * user_must_see_input_fields_in_login_ui(Integer int1) { // Write code here
-	 * that turns the phrase above into concrete actions //throw new
-	 * io.cucumber.java.PendingException(); }
-	 */
 
     @Then("User should see the text {string} on the left side of navigation bar")
     public void user_should_see_the_text_on_the_left_side_of_navigation_bar(String pageHeading) {
@@ -80,7 +61,7 @@ public class LoginPageStepDefinition {
 	}
 
 	@Then("User should see label with text in Login UI")
-	public void user_should_see_label_with_text_in_login_ui(io.cucumber.datatable.DataTable dataTable) {
+	public void user_should_see_label_with_text_in_login_ui(DataTable dataTable) {
 
 		List<String> expectedLabels = dataTable.asList();
 		List<String> actualLabels = pom.getLoginPage().getLabeltext();
@@ -88,7 +69,7 @@ public class LoginPageStepDefinition {
 	}
 
 	@Then("input field should be visible in Login UI")
-	public void input_field_should_be_visible_in_login_ui(io.cucumber.datatable.DataTable dataTable) {
+	public void input_field_should_be_visible_in_login_ui(DataTable dataTable) {
 
 		List<String> expectedFields = dataTable.asList();
 		for (String field : expectedFields) {
