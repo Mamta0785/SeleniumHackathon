@@ -1,18 +1,18 @@
 package runner;
-import org.testng.annotations.DataProvider;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.DataProvider;
 
-@CucumberOptions(plugin={
-        "pretty","html:target/SeleniumHackathon.html", "json:target/cucumber.json",
+@CucumberOptions(plugin = {
+        "pretty", "html:target/SeleniumHackathon.html", "json:target/cucumber.json",
         "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
         "com.aventstack.chaintest.plugins.ChainTestCucumberListener:"
 
 
 },
         monochrome = true,
-        features = {"src/test/resources/features/"},
+        features = {"src/test/resources/features"},
         //tags = "@loginfeature",
         glue = "stepdefinition")
 
