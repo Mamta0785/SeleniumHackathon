@@ -27,7 +27,7 @@ public class LoginPageStepDefinition {
 	private LoginPage loginPage;
 
 	public LoginPageStepDefinition() {
-		pom = new PageObjectManager();
+        pom = new PageObjectManager(driver);
 		driver = DriverFactory.getDriver();
 		loginPage = pom.getLoginPage();
 	}
@@ -49,14 +49,19 @@ public class LoginPageStepDefinition {
 	 * io.cucumber.java.PendingException(); }
 	 */
 
-	@Then("User should see the text {string} on the left side of navigation bar")
-	public void user_should_see_the_text_on_the_left_side_of_navigation_bar(String pageHeading) {
-		Assert.assertEquals(pom.getLoginPage().getPageHeadingText(), pageHeading,
-				"Page heading text does not match expected value.");
+    @Then("User should see the text {string} on the left side of navigation bar")
+    public void user_should_see_the_text_on_the_left_side_of_navigation_bar(String pageHeading) {
+        try {
+            String actualHeading = pom.getLoginPage().getPageHeadingText();
+            Assert.assertEquals(actualHeading, pageHeading,
+                    "Page heading text does not match expected value.");
+        } catch (Exception e) {
+            Assert.fail("Failed to validate page heading text ", e);
+        }
+    }
 
-	}
 
-	@Then("User should see the home icon on the left side of navigation bar")
+    @Then("User should see the home icon on the left side of navigation bar")
 	public void user_should_see_the_home_icon_on_the_left_side_of_navigation_bar() {
 		Assert.assertTrue(pom.getLoginPage().isHomeIconVisible(),
 				"Home icon is not visible on the left side of the navigation bar.");

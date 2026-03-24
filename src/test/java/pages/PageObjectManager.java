@@ -1,22 +1,31 @@
 package pages;
 
+import org.openqa.selenium.WebDriver;
+
 public class PageObjectManager {
 
-	private DashboardPage dashboardPage;
-	private LoginPage loginPage;
+    private WebDriver driver;
 
-/*	public DashboardPage getLaunchPage() {
-		if (dashb == null) {
-			launchPage = new LaunchPage();
-		}
-		return launchPage;
-	}
-*/
-	public LoginPage getLoginPage() {
-		if (loginPage == null) {
-			loginPage = new LoginPage();
-		}
-		return loginPage;
-	}
+    private DashboardPage dashboardPage;
+    private LoginPage loginPage;
+    private AddPatientPage newPatientPage;
 
+    public PageObjectManager(WebDriver driver) {
+        this.driver = driver;
+    }
+
+
+    public LoginPage getLoginPage() {
+        if (loginPage == null) {
+            loginPage = new LoginPage(driver);
+        }
+        return loginPage;
+    }
+
+    public AddPatientPage getNewPatientPage() {
+        if (newPatientPage == null) {
+            newPatientPage = new AddPatientPage(driver);
+        }
+        return newPatientPage;
+    }
 }

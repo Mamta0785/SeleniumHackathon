@@ -13,31 +13,31 @@ Feature: Login Functionality
 
 	Scenario: Page title visibility
 	Then Heading "Dietician Application" should be visible inside the login card
-    
+
     Scenario: label text visibility for the field
     Then User should see label with text in Login UI
         | Username   |
         | Password   |
-    
+
     Scenario: presence of the input field
     Then input field should be visible in Login UI
         | Username   |
         | Password   |
-    
+
     Scenario: presence of login button
 	Then login button should be visible in Login UI
 	Scenario: Login button color and styling
 	Then Login button should be displayed with a blue-purple background and white text
-	
+
 	Scenario: Input field label alignment
     Then Username and Password labels should be left-aligned above their respective input fields
-    
+
 	Scenario: Total number of input fields
-	Then User should see exactly two input field 
-	
+	Then User should see exactly two input field
+
 	Scenario: Login button enabled state
 	Then User should see login button enabled
-	 
+
 @negativeTC_Login
 	Scenario Outline: Invalid login attempts for "<testCaseType>"
 	Given the user is on the login page

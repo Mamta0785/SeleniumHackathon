@@ -52,11 +52,12 @@ public class LoginPage {
 	private List<WebElement> labelList;
 
 	// Constructor
-	public LoginPage() {
-		this.driver = DriverFactory.getDriver();
-		PageFactory.initElements(driver, this);
-		logger.info("LoginPage initialized successfully.");
-	}
+
+    public LoginPage(WebDriver driver) {
+        this.driver = DriverFactory.getDriver();
+        PageFactory.initElements(this.driver, this);
+        logger.info("LoginPage initialized successfully.");
+    }
 
 	public List<String> getLabeltext() {
 		List<String> labels = labelList.stream()
