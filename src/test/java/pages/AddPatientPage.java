@@ -25,7 +25,7 @@ public class AddPatientPage {
     private List<WebElement> dropdowns;
 
 
-    public AddPatientPage(WebDriver driver) {
+    public AddPatientPage() {
         this.driver = DriverFactory.getDriver();
         PageFactory.initElements(this.driver, this);
     }
