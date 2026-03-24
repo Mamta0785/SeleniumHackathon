@@ -40,7 +40,7 @@ public class Hooks {
 		DriverFactory.getDriver().get(prop.getProperty("baseURL"));
 		logger.info("Navigated to base URL: {}", prop.getProperty("baseURL"));
 
-		pom = new PageObjectManager();
+        pom = new PageObjectManager(driver);
 		logger.info("PageObjectManager initialized");
 	}
 
