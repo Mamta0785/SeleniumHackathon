@@ -1,7 +1,6 @@
 package pages;
 
-import java.util.List;
-
+import DriverManager.DriverFactory;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,12 +8,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import DriverManager.DriverFactory;
 import utils.ExcelReader;
 import utils.JSUtils;
 import utils.TestContext;
 import utils.WaitUtils;
+
+import java.util.List;
 
 public class LoginPage {
 	
@@ -42,7 +41,7 @@ public class LoginPage {
 	@FindBy(id = "id_password")
 	private WebElement passwordField;
 
-	@FindBy(xpath = "//input[@value='Login']")
+	@FindBy(xpath = "//button[@onclick='login()']")
 	private WebElement loginButton;
 
 	@FindBy(xpath = ("//div[@role='alert']"))
