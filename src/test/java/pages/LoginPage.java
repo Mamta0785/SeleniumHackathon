@@ -35,13 +35,13 @@ public class LoginPage {
     @FindBy(xpath = "//*[(text()='Dietician Application']")
     private WebElement apploginHeading;
 
-	@FindBy(id = "username")
+	@FindBy(id = "id_username")
 	private WebElement usernameField;
 	
-	@FindBy(id = "password")
+	@FindBy(id = "id_password")
 	private WebElement passwordField;
 
-	@FindBy(xpath = "//button[@onclick='goToDashboard()']")
+	@FindBy(xpath = "//button[@onclick='login()']")
 	private WebElement loginButton;
 
 	@FindBy(xpath = ("//div[@role='alert']"))
