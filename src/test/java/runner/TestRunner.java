@@ -12,7 +12,7 @@ import org.testng.annotations.DataProvider;
 
 },
         monochrome = true,
-        features = {"src/test/resources/features"},
+        features = {"src/test/resources/features/"},
         //tags = "@loginfeature",
         glue = "stepdefinition")
 
