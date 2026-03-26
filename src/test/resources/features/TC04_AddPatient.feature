@@ -90,3 +90,89 @@ Feature: Add Patient Dialog Box - Validation
   Scenario: Specific values in Allergy dropdown
     When User clicks on Allergy dropdown
     Then Dropdown should contain specific allergy values
+
+  Scenario: Presence of dropdown values in Food Preference
+    When User clicks on Food Preference dropdown
+    Then Values should be present inside Food preference dropdown
+
+  Scenario: Number of values in Food Preference dropdown
+    When User clicks on Food Preference dropdown
+    Then Dropdown should contain 5 values in Food Preference dropdown
+
+  Scenario: Specific values in Food Preference dropdown
+    When User clicks on Food Preference dropdown
+    Then Dropdown should contain specific Food Preference values
+
+  Scenario: Presence of dropdown values in Cuisine
+    When User clicks on Cuisine dropdown
+    Then Values should be present inside Cuisine dropdown
+
+  Scenario: Number of values in Cuisine dropdown
+    When User clicks on Cuisine dropdown
+    Then Cuisine dropdown should contain 36 values
+
+  Scenario: Specific values in Cuisine dropdown
+    When User clicks on Cuisine dropdown
+    Then Dropdown should contain specific Cuisine values
+
+  Scenario: Submit button enabled only when all required fields are filled
+    When User enters valid values in all required fields
+    Then Submit button should be enabled
+
+  Scenario: Success message validation for adding new patient with valid data
+    When User clicks Submit after entering valid data in all mandatory fields
+    Then User should see patient successfully created toast message
+
+
+  Scenario: Navigation to My Patients after adding new patient with valid data
+    When User clicks Submit after entering valid data in all mandatory fields
+    Then User is directed to My Patient Page with New Patient Details created
+
+  Scenario: Select a single value from Allergy dropdown
+    When User selects "Peanuts" from Allergy dropdown
+    Then "Peanuts" should be selected in the Allergy field
+
+  Scenario: Select multiple values from Allergy dropdown
+    When User selects "Peanuts" and "Milk" from Allergy dropdown
+    Then "Milk" should be selected in the Allergy field
+
+  Scenario: Selecting a value not present in Allergy dropdown
+    When User tries to select "Soybean" from Allergy dropdown
+    Then No selection should occur in the Allergy field
+
+
+  Scenario: Select a single value from Food Preference dropdown
+    When User selects "Vegan" from Food Preference dropdown
+    Then "Vegan" should be selected in the Food Preference field
+
+  Scenario: Select multiple values from Food Preference dropdown
+    When User selects "Vegan" and "Jain" from Food Preference dropdown
+    Then "Jain" should be selected in the Food Preference field
+
+  Scenario: Selecting a value not present in Food Preference dropdown
+    When User tries to select "Keto" from Food Preference dropdown
+    Then No selection should occur in the Food Preference field
+
+  Scenario: Select a single value from Cuisine Category dropdown
+    When User selects "Punjabi" from Cuisine Category dropdown
+    Then "Punjabi" should be selected in the Cuisine Category field
+
+  Scenario: Select multiple values from Cuisine Category dropdown
+    When User selects "Punjabi" and "Gujarati" from Cuisine Category dropdown
+    Then "Gujarati" should be selected in the Cuisine Category field
+
+  Scenario: Selecting a value not present in Cuisine Category dropdown
+    When User tries to select "Italian" from Cuisine Category dropdown
+    Then No selection should occur in the Cuisine Category field
+
+
+
+
+
+
+
+
+
+
+
+
