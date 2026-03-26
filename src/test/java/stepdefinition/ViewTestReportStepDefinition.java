@@ -18,6 +18,7 @@ public class ViewTestReportStepDefinition {
 
 	@Given("User is on the My Patients page")
 	public void user_is_on_the_my_patients_page() {
+		
 	    
 	}
 

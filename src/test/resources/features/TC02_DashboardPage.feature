@@ -1,4 +1,4 @@
-@LoginFeature
+@DashboardPage @LoginFeature
 Feature: Dashboard Page Functionality
 Background: User is successfully logged into the application 
     Given the user is on the dashboard page

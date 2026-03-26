@@ -44,7 +44,7 @@ public class Hooks {
         logger.info("PageObjectManager initialized");
     }
 
-    @Before(value = "@Login", order = 2)
+    @Before(value = "@Login", order = 1)
     public void performLogin() throws IOException {
         logger.info("Clicked Sign In button");
 
