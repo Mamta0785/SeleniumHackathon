@@ -1,4 +1,4 @@
-@DashboardPage @LoginFeature
+@DashboardPage @Login
 Feature: Dashboard Page Functionality
 Background: User is successfully logged into the application 
     Given the user is on the dashboard page
@@ -17,8 +17,6 @@ Background: User is successfully logged into the application
         | My Patients     | My Patients    |
         | New Patient     | New Patient    |
         | Logout          | Login           |
-
-
 
   Scenario: home icon is clickable
     Then User should be able to click on home icon and navigate to the dashboard page

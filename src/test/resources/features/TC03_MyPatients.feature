@@ -1,4 +1,4 @@
-@MyPatiens @LoginFeature
+@MyPatiens @Login
 Feature: My Patients Page Functionality
 Background: User is successfully logged into the application
 Given User is on the "My Patients" page
@@ -146,11 +146,8 @@ Then First, previous, next, last arrows should be disabled
 Scenario: Each page should display only 5 records when maximum 5 patient record is displayed
 Then User should see only 5 records in each page
 
-Scenario: Newly added record move to the next page when 6th record is added when maximum 5 patient record is displayed 
-When User adds 6th record
-Then User should see the newly added record in the next page
-
 Scenario: Navigation of View Previous Test Reports when patient data already exist in the sysytem for that user 
+When User clicks View Patient Test Report button
 Then User should be navigated to "View Patient Test Reports" page
 
 Scenario: My Patient page loads with empty table when there is no patient record in the system

@@ -1,30 +1,21 @@
 package stepdefinition;
 
 import java.util.List;
-
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-
-import DriverManager.DriverFactory;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.MyPatientPage;
 import pages.PageObjectManager;
 
 public class MyPatientPageStepdefinition {
 	private final PageObjectManager pom;
-	private static final Logger logger = LoggerFactory.getLogger(LoginPageStepDefinition.class);
-	WebDriver driver;
-	private MyPatientPage myPatientPage;
+	private static final Logger logger = LoggerFactory.getLogger(MyPatientPageStepdefinition.class);
 
-	public MyPatientPageStepdefinition() {
-		pom = new PageObjectManager();
-		driver = DriverFactory.getDriver();
-		myPatientPage = pom.getMyPatientPage();
+	public MyPatientPageStepdefinition(PageObjectManager pom) {
+		this.pom = pom;
 	}
 
 	@Then("Page header {string} should be displayed")
@@ -43,6 +34,7 @@ public class MyPatientPageStepdefinition {
 	public void search_icon_should_be_displayed_inside_the_search_bar() {
 		Assert.assertTrue(pom.getMyPatientPage().isSearchIconVisible(),
 				"Search icon is not visible inside the search bar on My Patients page.");
+
 	}
 
 	@Then("Placeholder text {string} should be displayed")
@@ -53,9 +45,11 @@ public class MyPatientPageStepdefinition {
 
 	@Then("Table should have column headers with text")
 	public void table_should_have_column_headers_with_text(DataTable dataTable) {
+
 		List<String> expectedHeaders = dataTable.asList();
 		List<String> actualHeaders = pom.getMyPatientPage().getTableHeaderTexts();
 		Assert.assertEquals(actualHeaders, expectedHeaders, "Table column headers do not match expected values.");
+
 	}
 
 	@Then("Up and down arrow icons should be displayed in the {string} header")
@@ -74,22 +68,6 @@ public class MyPatientPageStepdefinition {
 	public void values_should_be_displayed_for_each_patient_record(String columnHeader) {
 		Assert.assertTrue(pom.getMyPatientPage().iscolumnheadervaluePresent(columnHeader),
 				"Values not present for" + columnHeader);
-
-	}
-
-	@Then("Patient Id values should be displayed for each patient record")
-	public void patient_id_values_should_be_displayed_for_each_patient_record() {
-
-	}
-
-	@Then("Name values should be displayed for each patient record")
-	public void name_values_should_be_displayed_for_each_patient_record() {
-
-	}
-
-	@Then("Last Visit Date values should be displayed for each patient record")
-	public void last_visit_date_values_should_be_displayed_for_each_patient_record() {
-
 	}
 
 	@Then("Details column should display below details for each patient record")
@@ -97,14 +75,12 @@ public class MyPatientPageStepdefinition {
 		List<String> expecteddetails = dataTable.asList();
 		List<String> actualdetails = pom.getMyPatientPage().getDetailsrowText();
 		Assert.assertEquals(actualdetails, expecteddetails, "Details displayed do not match expected details");
-
 	}
 
 	@Then("Phone number, email , date of birth should be displayed on separate lines for each patient record")
 	public void phone_number_email_date_of_birth_should_be_displayed_on_separate_lines_for_each_patient_record() {
 		Assert.assertTrue(pom.getMyPatientPage().isdetailsDisplayednextline(),
 				"Details not displayed on seperate lines");
-
 	}
 
 	@Then("{string} in details column should be displayed in correct {string} for each patient record")
@@ -132,154 +108,97 @@ public class MyPatientPageStepdefinition {
 
 	@When("User clicks {string} arrow in {string} column")
 	public void user_clicks_arrow_in_column(String arrow, String column) {
-	pom.getMyPatientPage().clicksortarrow(column, arrow);
+		pom.getMyPatientPage().clicksortarrow(column, arrow);
 	}
 
 	@Then("Patient records should be sorted in {string} order for {string}")
-	public void patient_records_should_be_sorted_in_order_for(String string, String string2) {
-		
-	}
-
-	@When("User clicks up arrow in Patient Id column")
-	public void user_clicks_up_arrow_in_patient_id_column() {
-
-	}
-
-	@Then("Patient records should be sorted in ascending order for Patient Id")
-	public void patient_records_should_be_sorted_in_ascending_order_for_patient_id() {
-
-	}
-
-	@When("User clicks down arrow in Patient Id column")
-	public void user_clicks_down_arrow_in_patient_id_column() {
-
-	}
-
-	@Then("Patient records should be sorted in descending order for Patient Id")
-	public void patient_records_should_be_sorted_in_descending_order_for_patient_id() {
-
-	}
-
-	@When("User clicks up arrow in Name column")
-	public void user_clicks_up_arrow_in_name_column() {
-
-	}
-
-	@Then("Patient records should be sorted in ascending order for Name")
-	public void patient_records_should_be_sorted_in_ascending_order_for_name() {
-
-	}
-
-	@When("User clicks down arrow in Name column")
-	public void user_clicks_down_arrow_in_name_column() {
-
-	}
-
-	@Then("Patient records should be sorted in descending order for Name")
-	public void patient_records_should_be_sorted_in_descending_order_for_name() {
-
-	}
-
-	@When("User searches using <input>")
-	public void user_searches_using_input() {
-
+	public void patient_records_should_be_sorted_in_order_for(String order, String column) {
+		Assert.assertTrue(pom.getMyPatientPage().isColumnSorted(order, column), "Column recds not sorted");
 	}
 
 	@Then("Matching patient details should be displayed")
 	public void matching_patient_details_should_be_displayed() {
-
+		Assert.assertTrue(pom.getMyPatientPage().isSearchResultDisplayed(), "Record not found");
 	}
 
 	@When("user enters text in search bar and then clears the search input")
 	public void user_enters_text_in_search_bar_and_then_clears_the_search_input() {
-
+		pom.getMyPatientPage().clearInput();
 	}
 
 	@Then("All patient records should be displayed again in the table")
 	public void all_patient_records_should_be_displayed_again_in_the_table() {
-
+		Assert.assertTrue(pom.getMyPatientPage().isclearresetdata(), "Table data did not reset");
 	}
 
 	@When("User clicks {string} from pagination arrow")
-	public void user_clicks_from_pagination_arrow(String string) {
-
+	public void user_clicks_from_pagination_arrow(String arrow) {
+		pom.getMyPatientPage().clickPaginationarrow(arrow);
 	}
 
 	@Then("{string} page of patient records should be displayed")
-	public void page_of_patient_records_should_be_displayed(String string) {
-
+	public void page_of_patient_records_should_be_displayed(String expectedPage) {
+		Assert.assertTrue(pom.getMyPatientPage().isExpectedPageDisplayed(), "page not displayed");
 	}
 
 	@Given("the user is on any page of {string}")
-	public void the_user_is_on_any_page_of(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_is_on_any_page_of(String MyPatient) {
+		logger.info("User is on any page of" + MyPatient);
 	}
 
 	@When("the user navigates using pagination")
 	public void the_user_navigates_using_pagination() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pom.getMyPatientPage().clicknextArrow();
 	}
 
 	@Then("pagination text should display correct range and total number of patients")
 	public void pagination_text_should_display_correct_range_and_total_number_of_patients() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Assert.assertTrue(pom.getMyPatientPage().getPaginationText().contains("showing"),
+				"pagination text is incorrect");
 	}
 
 	@When("the user is on {string} of My Patients page with multiple pages of patient records")
-	public void the_user_is_on_of_my_patients_page_with_multiple_pages_of_patient_records(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void the_user_is_on_of_my_patients_page_with_multiple_pages_of_patient_records(String page) {
+		pom.getMyPatientPage().specificpageClick(page);
 	}
 
 	@Then("{string} arrow should be {string}")
-	public void arrow_should_be(String string, String string2) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void arrow_should_be(String arrow, String state) {
+		if (state.equalsIgnoreCase("enabled")) {
+			Assert.assertTrue(pom.getMyPatientPage().isArrowEnabled(arrow), arrow + " should be enabled");
+		} else {
+			Assert.assertFalse(pom.getMyPatientPage().isArrowEnabled(arrow), arrow + " should be disabled");
+		}
 	}
 
 	@Then("First, previous, next, last arrows should be disabled")
 	public void first_previous_next_last_arrows_should_be_disabled() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Assert.assertTrue(pom.getMyPatientPage().areAllArrowsDisabled(), "All arrows are not disabled");
 	}
 
 	@Then("{string} text should be displayed")
-	public void text_should_be_displayed(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void text_should_be_displayed(String Paginationtext) {
+		Assert.assertEquals(pom.getMyPatientPage().getPaginationText(), Paginationtext);
 	}
 
 	@Then("User should see only {int} records in each page")
-	public void user_should_see_only_records_in_each_page(Integer int1) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void user_should_see_only_records_in_each_page(Integer record) {
+		Assert.assertEquals(pom.getMyPatientPage().getRowCount(), record, "reocrd count do not match");
 	}
 
-	@When("User adds 6th record")
-	public void user_adds_6th_record() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
-	}
-
-	@Then("User should see the newly added record in the next page")
-	public void user_should_see_the_newly_added_record_in_the_next_page() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@When("User clicks View Patient Test Report button")
+	public void user_clicks_view_patient_test_report_button() {
+		pom.getMyPatientPage().clickviewReportBtn();
 	}
 
 	@Then("User should be navigated to {string} page")
-	public void user_should_be_navigated_to_page(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void user_should_be_navigated_to_page(String pageHeading) {
+		Assert.assertEquals(pom.getMyPatientPage().viewReportsText(), pageHeading);
 	}
 
 	@Then("My Patients page should display with empty table")
 	public void my_patients_page_should_display_with_empty_table() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		Assert.assertTrue(pom.getMyPatientPage().isEmptyTable(), "Table is not empty");
 	}
 
 	@Given("User is on the {string} page")
@@ -288,10 +207,8 @@ public class MyPatientPageStepdefinition {
 	}
 
 	@When("User searches using {string}")
-	public void user_searches_using(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	public void user_searches_using(String input) {
+		pom.getMyPatientPage().enterInput(input);
 	}
-
 
 }

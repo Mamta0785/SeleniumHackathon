@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import DriverManager.DriverFactory;
 
 public class DashboardPage {
-	private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+	private static final Logger logger = LoggerFactory.getLogger(DashboardPage.class);
 
 	private WebDriver driver;
-	
+
 	@FindBy(xpath = "//a[text()='Login']")
 	private WebElement loginLink;
 
@@ -29,15 +29,16 @@ public class DashboardPage {
 	@FindBy(xpath = "//a[text()='NewPatient']")
 	private WebElement newPatientLink;
 
-	@FindBy(xpath = "//img[@alt='Home']")//*
-    private WebElement homeIcon;
-	
+	@FindBy(xpath = "//img[@alt='Home']") // *
+	private WebElement homeIcon;
+
 	public DashboardPage() {
 		this.driver = DriverFactory.getDriver();
-		PageFactory.initElements(driver, this);;
+		PageFactory.initElements(driver, this);
+		;
 		logger.info("DashboardPage initialized successfully.");
 	}
-	
+
 	public List<String> getNavigationLinkText() {
 		List<String> linkTexts = new ArrayList<>();
 		if (loginLink.isDisplayed()) {
@@ -54,32 +55,32 @@ public class DashboardPage {
 		}
 		return linkTexts;
 	}
-	
+
 	public void clickhomeIcon() {
 		homeIcon.click();
 		logger.info("Clicked on Home icon.");
-	}	
-	
+	}
+
 	public void clicknavigationLink(String linkText) {
 		switch (linkText.toLowerCase()) {
-			case "Login":
-				loginLink.click();
-				logger.info("Clicked on Login link.");
-				break;
-			case "Logout":
-				logoutLink.click();
-				logger.info("Clicked on Logout link.");
-				break;
-			case "MyPatients":
-				myPatientsLink.click();
-				logger.info("Clicked on MyPatients link.");
-				break;
-			case "NewPatient":
-				newPatientLink.click();
-				logger.info("Clicked on NewPatient link.");
-				break;
-			default:
-				logger.warn("No matching navigation link found for text: {}", linkText);
+		case "Login":
+			loginLink.click();
+			logger.info("Clicked on Login link.");
+			break;
+		case "Logout":
+			logoutLink.click();
+			logger.info("Clicked on Logout link.");
+			break;
+		case "MyPatients":
+			myPatientsLink.click();
+			logger.info("Clicked on MyPatients link.");
+			break;
+		case "NewPatient":
+			newPatientLink.click();
+			logger.info("Clicked on NewPatient link.");
+			break;
+		default:
+			logger.warn("No matching navigation link found for text: {}", linkText);
 		}
 	}
 }
