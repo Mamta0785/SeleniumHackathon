@@ -162,6 +162,6 @@ Feature: Add Patient Dialog Box - Validation
     When User tries to select "Italian" from Cuisine Category dropdown
     Then No selection should occur in the Cuisine Category field
 
-    Scenario: Selecting date for DOB field
-      When User clicks Date of Birth field
-      Then User should see calender date picker displayed with Month,Day,Year
+  Scenario: Selecting date for DOB field
+    When User clicks Date of Birth field
+    Then User should see calender date picker displayed with Month,Day,Year
