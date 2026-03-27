@@ -5,8 +5,13 @@ public class PageObjectManager {
     private DashboardPage dashboardPage;
     private LoginPage loginPage;
     private AddPatientPage newPatientPage;
+
     private EditPatientPage editPatientPage;
-    private MyPatientPage myPatientPage;
+   
+
+	private MyPatientPage myPatientPage;
+    private ViewTestReportPage viewtestreportPage;
+
 
 	
 	public LoginPage getLoginPage() {
@@ -42,4 +47,11 @@ public MyPatientPage getMyPatientPage() {
     }
       return newPatientPage;
     }
+    
+    public ViewTestReportPage getViewTestReportPage() {
+		if (viewtestreportPage == null) {
+			viewtestreportPage = new ViewTestReportPage();
+		}
+		return viewtestreportPage;
+	}
 }
