@@ -7,51 +7,51 @@ public class PageObjectManager {
     private AddPatientPage newPatientPage;
 
     private EditPatientPage editPatientPage;
-   
 
-	private MyPatientPage myPatientPage;
+
+    private MyPatientPage myPatientPage;
     private ViewTestReportPage viewtestreportPage;
 
 
-	
-	public LoginPage getLoginPage() {
-		if (loginPage == null) {
-			loginPage = new LoginPage();
-		}
-		return loginPage;
-	}
-	
-	public DashboardPage getDashboardPage() {
-		if (dashboardPage == null) {
-			dashboardPage = new DashboardPage();
-		}
-		return dashboardPage;
-	}
-	
-public MyPatientPage getMyPatientPage() {
-		if (myPatientPage == null) {
-			myPatientPage = new MyPatientPage();
-		}
-		return myPatientPage;
-	}
-	public EditPatientPage getEditPatientPage() {
-		if (editPatientPage == null) {
-			editPatientPage = new EditPatientPage();
-		}
-		return editPatientPage;
-	}
+    public LoginPage getLoginPage() {
+        if (loginPage == null) {
+            loginPage = new LoginPage();
+        }
+        return loginPage;
+    }
+
+    public DashboardPage getDashboardPage() {
+        if (dashboardPage == null) {
+            dashboardPage = new DashboardPage();
+        }
+        return dashboardPage;
+    }
+
+    public MyPatientPage getMyPatientPage() {
+        if (myPatientPage == null) {
+            myPatientPage = new MyPatientPage();
+        }
+        return myPatientPage;
+    }
+
+    public EditPatientPage getEditPatientPage() {
+        if (editPatientPage == null) {
+            editPatientPage = new EditPatientPage();
+        }
+        return editPatientPage;
+    }
 
     public AddPatientPage getNewPatientPage() {
-    if (newPatientPage == null) {
-      newPatientPage = new AddPatientPage();
+        if (newPatientPage == null) {
+            newPatientPage = new AddPatientPage();
+        }
+        return newPatientPage;
     }
-      return newPatientPage;
-    }
-    
+
     public ViewTestReportPage getViewTestReportPage() {
-		if (viewtestreportPage == null) {
-			viewtestreportPage = new ViewTestReportPage();
-		}
-		return viewtestreportPage;
-	}
+        if (viewtestreportPage == null) {
+            viewtestreportPage = new ViewTestReportPage();
+        }
+        return viewtestreportPage;
+    }
 }

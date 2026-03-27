@@ -1,7 +1,7 @@
+@Login
 Feature: Add Patient Dialog Box - Validation
 
   Background: User logged into Application, clicks on New Patient
-    Given User is in Home Page
     When User clicks on New Patient in the header section
 
   Scenario: Title of the dialog box
@@ -12,9 +12,6 @@ Feature: Add Patient Dialog Box - Validation
 
   Scenario: Presence of 3 dropdowns
     Then User should see 3 dropdowns in the Add Patient Details dialog box
-
-  Scenario: Presence of a Date Picker field
-    Then User should see a date picker for DOB field with MM/DD/YYYY displayed
 
   Scenario: Presence of file Upload option
     Then User should see exactly 1 file upload option in Add Patient Details dialog box
@@ -165,14 +162,6 @@ Feature: Add Patient Dialog Box - Validation
     When User tries to select "Italian" from Cuisine Category dropdown
     Then No selection should occur in the Cuisine Category field
 
-
-
-
-
-
-
-
-
-
-
-
+    Scenario: Selecting date for DOB field
+      When User clicks Date of Birth field
+      Then User should see calender date picker displayed with Month,Day,Year

@@ -17,238 +17,270 @@ import java.util.List;
 
 public class LoginPage {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
-	private WebDriver driver;
+    private WebDriver driver;
 
-	@FindBy(xpath = "//div[@class='navbar']")
-	private WebElement navbar;
+    // Locators
 
-	@FindBy(xpath = "//*[text()='Dietician Project']") // *
-	private WebElement pageHeading;
+    @FindBy(xpath = "//div[@class='navbar']")
+    private WebElement navbar;
 
-	@FindBy(xpath = "//img[@alt='Home']") // *
-	private WebElement homeIcon;
+    @FindBy(xpath = "//*[text()='Dietician Project']")//*
+    private WebElement pageHeading;
 
-	@FindBy(xpath = "//*[(text()='Dietician Application']")
-	private WebElement apploginHeading;
+    @FindBy(xpath = "//img[@alt='Home']")//*
+    private WebElement homeIcon;
 
-	@FindBy(id = "id_username")
-	private WebElement usernameField;
+    @FindBy(xpath = "//*[(text()='Dietician Application']")
+    private WebElement apploginHeading;
 
-	@FindBy(id = "id_password")
-	private WebElement passwordField;
+    @FindBy(id = "username")
+    private WebElement usernameField;
 
-	@FindBy(xpath = "//button[@onclick='login()']")
-	private WebElement loginButton;
+    @FindBy(id = "password")
+    private WebElement passwordField;
 
-	@FindBy(xpath = ("//div[@role='alert']"))
-	private WebElement error;
+    @FindBy(xpath = "//button[@onclick='goToDashboard()']")
+    private WebElement loginButton;
 
-	@FindBy(xpath = "//label")
-	private List<WebElement> labelList;
+    @FindBy(xpath = ("//div[@role='alert']"))
+    private WebElement error;
 
-	public LoginPage() {
-		this.driver = DriverFactory.getDriver();
-		PageFactory.initElements(this.driver, this);
-		logger.info("LoginPage initialized successfully.");
-	}
+    @FindBy(xpath = "//label")
+    private List<WebElement> labelList;
 
-	public List<String> getLabeltext() {
-		List<String> labels = labelList.stream().map(WebElement::getText).map(String::trim).toList();
-		logger.info("Label texts retrieved: {}", labels);
-		return labels;
-	}
+    // Constructor
 
-	public int getLabelCount() {
-		return labelList.size();
-	}
+    public LoginPage() {
+        this.driver = DriverFactory.getDriver();
+        PageFactory.initElements(this.driver, this);
+        logger.info("LoginPage initialized successfully.");
+    }
 
-	public String getPageHeadingText() {
-		String heading = pageHeading.getText().trim();
-		logger.info("Page heading retrieved: {}", heading);
-		return heading;
-	}
+    public List<String> getLabeltext() {
+        List<String> labels = labelList.stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .toList();
+        logger.info("Label texts retrieved: {}", labels);
+        return labels;
+    }
 
-	public boolean isHomeIconVisible() {
-		boolean visible = homeIcon.isDisplayed();
-		logger.info("Home icon visibility: {}", visible);
-		return visible;
-	}
+    public int getLabelCount() {
+        return labelList.size();
+    }
 
-	public String getNavbarBackgroundColor() {
-		String bgColor = navbar.getCssValue("background-color");
-		logger.info("Navbar background color retrieved: {}", bgColor);
-		return bgColor;
-	}
+    public String getPageHeadingText() {
+        String heading = pageHeading.getText().trim();
+        logger.info("Page heading retrieved: {}", heading);
+        return heading;
+    }
 
-	public boolean isApploginHeadingVisible() {
-		boolean visible = apploginHeading.isDisplayed();
-		logger.info("Login card heading visibility: {}", visible);
-		return visible;
-	}
+    public boolean isHomeIconVisible() {
+        boolean visible = homeIcon.isDisplayed();
+        logger.info("Home icon visibility: {}", visible);
+        return visible;
+    }
 
-	public boolean isFieldVisible(String fieldName) {
-		WebElement field = null;
-		switch (fieldName.toLowerCase().trim()) {
-		case "username field":
-			field = usernameField;
-			break;
+    public String getNavbarBackgroundColor() {
+        String bgColor = navbar.getCssValue("background-color");
+        logger.info("Navbar background color retrieved: {}", bgColor);
+        return bgColor;
+    }
 
-		case "password field":
-			field = passwordField;
-			break;
+    public boolean isApploginHeadingVisible() {
+        boolean visible = apploginHeading.isDisplayed();
+        logger.info("Login card heading visibility: {}", visible);
+        return visible;
+    }
 
-		default:
-			logger.warn("Unknown field name: {}", fieldName);
-			return false;
-		}
-		boolean visible = field.isDisplayed();
-		logger.info("{} visibility: {}", fieldName, visible);
-		return visible;
-	}
+    public boolean isFieldVisible(String fieldName) {
+        WebElement field = null;
+        switch (fieldName.toLowerCase().trim()) {
+            case "username field":
+                field = usernameField;
+                break;
 
-	public boolean isLebelsleftalignedaboveInputField() {
-		boolean allAligned = false;
-		for (WebElement label : labelList) {
-			String labelText = label.getText().trim();
-			WebElement field = null;
-			if (labelText.equalsIgnoreCase("Username")) {
-				field = usernameField;
-			} else if (labelText.equalsIgnoreCase("Password")) {
-				field = passwordField;
-			} else {
-				logger.warn("Unknown label text: {}", labelText);
-				continue;
-			}
-			int labelX = label.getLocation().getX();
-			int fieldX = field.getLocation().getX();
-			int fieldY = field.getLocation().getY();
-			int labelY = label.getLocation().getY();
-			boolean isAbove = labelY < fieldY;
-			boolean isLeftAligned = Math.abs(labelX - fieldX) < 5;
-			logger.info("Label: {}, Above: {}, Left Aligned: {}", labelText, isAbove, isLeftAligned);
-			if (!isAbove || !isLeftAligned) {
-				allAligned = false;
-				break;
-			}
-		}
-		return allAligned;
-	}
+            case "password field":
+                field = passwordField;
+                break;
 
-	public boolean isLoginButtonEnabled() {
-		boolean enabled = loginButton.isEnabled();
-		logger.info("Login button enabled: {}", enabled);
-		return enabled;
-	}
+            default:
+                logger.warn("Unknown field name: {}", fieldName);
+                return false;
+        }
+        boolean visible = field.isDisplayed();
+        logger.info("{} visibility: {}", fieldName, visible);
+        return visible;
+    }
 
-	public boolean isLoginButtonVisible() {
-		boolean visible = loginButton.isDisplayed();
-		logger.info("Login button visibility: {}", visible);
-		return visible;
-	}
 
-	public boolean isLoginButtonStyledCorrectly() {
-		String bgColor = loginButton.getCssValue("background-color");
-		String textColor = loginButton.getCssValue("color");
-		logger.info("Login button background color: {}, text color: {}", bgColor, textColor);
-		return "rgba(75, 0, 130, 1)".equals(bgColor) && "rgba(255, 255, 255, 1)".equals(textColor);
-	}
+    public boolean isLebelsleftalignedaboveInputField() {
+        boolean allAligned = false;
+        for (WebElement label : labelList) {
+            String labelText = label.getText().trim();
+            WebElement field = null;
+            if (labelText.equalsIgnoreCase("Username")) {
+                field = usernameField;
+            } else if (labelText.equalsIgnoreCase("Password")) {
+                field = passwordField;
+            } else {
+                logger.warn("Unknown label text: {}", labelText);
+                continue;
+            }
+            int labelX = label.getLocation().getX();
+            int fieldX = field.getLocation().getX();
+            int fieldY = field.getLocation().getY();
+            int labelY = label.getLocation().getY();
+            boolean isAbove = labelY < fieldY;
+            boolean isLeftAligned = Math.abs(labelX - fieldX) < 5;
+            logger.info("Label: {}, Above: {}, Left Aligned: {}", labelText, isAbove, isLeftAligned);
+            if (!isAbove || !isLeftAligned) {
+                allAligned = false;
+                break;
+            }
+        }
+        return allAligned;
+    }
 
-	public String getapploginHeadingText() {
-		String heading = apploginHeading.getText().trim();
-		logger.info("Login card heading retrieved: {}", heading);
-		return heading;
-	}
+    public boolean isLoginButtonEnabled() {
+        boolean enabled = loginButton.isEnabled();
+        logger.info("Login button enabled: {}", enabled);
+        return enabled;
+    }
 
-	public void enterUsername(String username) {
-		logger.info("Entering username.");
-		WebElement field = WaitUtils.waitForVisibility(driver, usernameField, 10);
-		field.clear();
-		field.sendKeys(username);
-	}
+    public boolean isLoginButtonVisible() {
+        boolean visible = loginButton.isDisplayed();
+        logger.info("Login button visibility: {}", visible);
+        return visible;
+    }
 
-	public void enterPassword(String password) {
-		logger.info("Entering password.");
-		if (password != null && !password.isEmpty()) {
-			passwordField.clear();
-			passwordField.sendKeys(password);
-		} else {
-			logger.warn("Password provided is null or empty.");
-		}
-	}
+    public boolean isLoginButtonStyledCorrectly() {
+        String bgColor = loginButton.getCssValue("background-color");
+        String textColor = loginButton.getCssValue("color");
+        logger.info("Login button background color: {}, text color: {}", bgColor, textColor);
+        return "rgba(75, 0, 130, 1)".equals(bgColor) && "rgba(255, 255, 255, 1)".equals(textColor);
+    }
 
-	// Submission
-	public void clickLoginButton() {
-		logger.info("Clicking Login button.");
-		JSUtils.clickElement(loginButton);
-	}
+    public String getapploginHeadingText() {
+        String heading = apploginHeading.getText().trim();
+        logger.info("Login card heading retrieved: {}", heading);
+        return heading;
+    }
 
-	public void pressEnterToSubmit() {
-		logger.info("Submitting login using ENTER key.");
-		passwordField.sendKeys(Keys.ENTER);
-	}
+    public void enterUsername(String username) {
+        logger.info("Entering username.");
+        WebElement field = WaitUtils.waitForVisibility(driver, usernameField, 10);
+        field.clear();
+        field.sendKeys(username);
+    }
 
-	public boolean isLoginPageVisible() {
-		boolean visible = usernameField.isDisplayed() && passwordField.isDisplayed();
-		logger.info("Login page fields visible: {}", visible);
-		return visible;
-	}
+    public void enterPassword(String password) {
+        logger.info("Entering password.");
+        if (password != null && !password.isEmpty()) {
+            passwordField.clear();
+            passwordField.sendKeys(password);
+        } else {
+            logger.warn("Password provided is null or empty.");
+        }
+    }
 
-	public String getErrorMessage() {
-		if (error.isDisplayed()) {
-			String errorMsg = error.getText().trim();
-			logger.info("Error message retrieved: {}", errorMsg);
-			return errorMsg;
-		} else {
-			logger.info("No error message displayed.");
-			return "";
-		}
-	}
+    // Submission
+    public void clickLoginButton() {
+        try {
+            logger.info("Clicking Login button.");
+            JSUtils.clickElement(loginButton);
 
-	// Reusable login helper
-	public void login(String method, String scenarioType) {
+        } catch (AssertionError ae) {
 
-		logger.info("Executing login with method: {} and scenario: {}", method, scenarioType);
+            throw ae;
 
-		TestContext.testData = ExcelReader.getTestData(scenarioType);
+        } catch (Exception e) {
 
-		enterUsername(TestContext.testData.get("username"));
-		enterPassword(TestContext.testData.get("password"));
+            throw new AssertionError("Failed to click Login button — " + e.getMessage(), e);
+        }
+    }
 
-		switch (method.toLowerCase().trim()) {
-		case "submits the login form":
-		case "initiates login":
-		case "submits the login form with mouse click":
-			clickLoginButton();
-			break;
 
-		case "presses enter":
-		case "confirms login using enter":
-			pressEnterToSubmit();
-			break;
+    public void pressEnterToSubmit() {
+        logger.info("Submitting login using ENTER key.");
+        passwordField.sendKeys(Keys.ENTER);
+    }
 
-		default:
-			logger.error("Unknown submission method: {}", method);
-			throw new IllegalArgumentException("Unknown submission method: " + method);
-		}
-	}
+    // Helpers
 
-	public void waitForHomeRedirect() {
-		logger.info("Waiting for redirect to Home page.");
-		WaitUtils.waitForUrlContains(driver, "/home", 10);
-	}
+    public boolean isLoginPageVisible() {
+        boolean visible = usernameField.isDisplayed() && passwordField.isDisplayed();
+        logger.info("Login page fields visible: {}", visible);
+        return visible;
+    }
 
-	public int getInputFieldCount() {
-		int count = labelList.size();
-		logger.info("Total input fields (labels) found: {}", count);
-		return count;
-	}
+    public String getErrorMessage() {
+        if (error.isDisplayed()) {
+            String errorMsg = error.getText().trim();
+            logger.info("Error message retrieved: {}", errorMsg);
+            return errorMsg;
+        } else {
+            logger.info("No error message displayed.");
+            return "";
+        }
+    }
 
-	public List<String> getLoginLabelNames() {
-		logger.info("Fetching login page label names.");
+    // Reusable login helper
+    public void login(String method, String scenarioType) {
+        try {
+            logger.info("Executing login with method: {} and scenario: {}", method, scenarioType);
 
-		return labelList.stream().map(WebElement::getText).map(String::trim).toList();
-	}
+            TestContext.testData = ExcelReader.getTestData(scenarioType);
+
+            enterUsername(TestContext.testData.get("username"));
+            enterPassword(TestContext.testData.get("password"));
+
+            switch (method.toLowerCase().trim()) {
+
+                case "submits the login form":
+                case "initiates login":
+                case "submits the login form with mouse click":
+                    clickLoginButton();
+                    break;
+
+                case "presses enter":
+                case "confirms login using enter":
+                    pressEnterToSubmit();
+                    break;
+
+                default:
+                    throw new AssertionError(" Unknown login submission method: " + method);
+            }
+        } catch (AssertionError ae) {
+
+            throw ae;
+        } catch (Exception e) {
+            throw new AssertionError("Failed during login flow — " + e.getMessage(), e);
+        }
+    }
+
+    public void waitForHomeRedirect() {
+        logger.info("Waiting for redirect to Home page.");
+        WaitUtils.waitForUrlContains(driver, "/home", 10);
+    }
+
+    public int getInputFieldCount() {
+        int count = labelList.size();
+        logger.info("Total input fields (labels) found: {}", count);
+        return count;
+    }
+
+
+    public List<String> getLoginLabelNames() {
+        logger.info("Fetching login page label names.");
+
+        return labelList.stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .toList();
+    }
+
 
 }
