@@ -128,11 +128,20 @@ public class MyPatientPage {
     }
 
     public boolean isExpectedPageDisplayed() {
-        WaitUtils waitUtils = new WaitUtils();
-        waitUtils.waitForPageLoad();
-        return tableRows.size() > 0;
+        try {
+            WaitUtils waitUtils = new WaitUtils();
+            waitUtils.waitForPageLoad();
 
+            boolean displayed = tableRows.size() > 0;
+            logger.info("Expected page displayed: {}", displayed);
+            return displayed;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to verify expected page display — "
+                    + t.getMessage(), t);
+        }
     }
+
 
     public String getPaginationText() {
         return commonPageText.getText().trim();

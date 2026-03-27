@@ -840,57 +840,6 @@ public class AddPatientPage {
         }
     }
 
-    public void selectMonth(String monthName) {
-        try {
-            monthDropdown.click();
-            for (WebElement m : monthOptions) {
-                if (m.getText().equalsIgnoreCase(monthName)) {
-                    m.click();
-                    return;
-                }
-            }
-            throw new AssertionError("Month option not found: " + monthName);
-        } catch (Exception e) {
-            throw new AssertionError("Failed to select month: " + monthName + " — "
-                    + e.getMessage(), e);
-        }
-    }
-
-
-    public void selectYear(String year) {
-        try {
-            yearInput.clear();
-            yearInput.sendKeys(year);
-        } catch (Exception e) {
-            throw new AssertionError("Failed to select year: " + year + " — "
-                    + e.getMessage(), e);
-        }
-    }
-
-    public void selectDay(String day) {
-        try {
-            for (WebElement d : dayCells) {
-                if (d.getText().equals(day)) {
-                    d.click();
-                    return;
-                }
-            }
-            throw new AssertionError("Day not found in calendar: " + day);
-        } catch (Exception e) {
-            throw new AssertionError("Failed to select day: " + day + " — "
-                    + e.getMessage(), e);
-        }
-    }
-
-    public String getDOBValue() {
-        try {
-            return dobField.getAttribute("value");
-        } catch (Exception e) {
-            throw new AssertionError("Failed to retrieve DOB value: "
-                    + e.getMessage(), e);
-        }
-    }
-
 
 }
 

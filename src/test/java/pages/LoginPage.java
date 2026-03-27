@@ -59,132 +59,213 @@ public class LoginPage {
     }
 
     public List<String> getLabeltext() {
-        List<String> labels = labelList.stream()
-                .map(WebElement::getText)
-                .map(String::trim)
-                .toList();
-        logger.info("Label texts retrieved: {}", labels);
-        return labels;
+        try {
+            List<String> labels = labelList.stream()
+                    .map(WebElement::getText)
+                    .map(String::trim)
+                    .toList();
+
+            logger.info("Label texts retrieved: {}", labels);
+            return labels;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Unable to retrieve label text — " + t.getMessage(), t);
+        }
     }
 
+
     public int getLabelCount() {
-        return labelList.size();
+        try {
+            return labelList.size();
+
+        } catch (Throwable t) {
+            throw new AssertionError("Unable to get label count" + t.getMessage(), t);
+        }
     }
 
     public String getPageHeadingText() {
-        String heading = pageHeading.getText().trim();
-        logger.info("Page heading retrieved: {}", heading);
-        return heading;
+        try {
+            String heading = pageHeading.getText().trim();
+            logger.info("Page heading retrieved: {}", heading);
+            return heading;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to retrieve page heading text"
+                    + t.getMessage(), t);
+        }
     }
+
 
     public boolean isHomeIconVisible() {
-        boolean visible = homeIcon.isDisplayed();
-        logger.info("Home icon visibility: {}", visible);
-        return visible;
+        try {
+            boolean visible = homeIcon.isDisplayed();
+            logger.info("Home icon visibility: {}", visible);
+            return visible;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to verify Home icon visibility"
+                    + t.getMessage(), t);
+        }
     }
+
 
     public String getNavbarBackgroundColor() {
-        String bgColor = navbar.getCssValue("background-color");
-        logger.info("Navbar background color retrieved: {}", bgColor);
-        return bgColor;
+        try {
+            String bgColor = navbar.getCssValue("background-color");
+            logger.info("Navbar background color retrieved: {}", bgColor);
+            return bgColor;
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to retrieve navbar background color — "
+                    + t.getMessage(), t);
+        }
     }
 
-    public boolean isApploginHeadingVisible() {
-        boolean visible = apploginHeading.isDisplayed();
-        logger.info("Login card heading visibility: {}", visible);
-        return visible;
-    }
 
     public boolean isFieldVisible(String fieldName) {
-        WebElement field = null;
-        switch (fieldName.toLowerCase().trim()) {
-            case "username field":
-                field = usernameField;
-                break;
+        try {
+            WebElement field = null;
 
-            case "password field":
-                field = passwordField;
-                break;
+            switch (fieldName.toLowerCase().trim()) {
+                case "username field":
+                    field = usernameField;
+                    break;
+                case "password field":
+                    field = passwordField;
+                    break;
+                default:
+                    logger.warn("Unknown field name: {}", fieldName);
+                    return false;
+            }
+            boolean visible = field.isDisplayed();
+            logger.info("{} visibility: {}", fieldName, visible);
+            return visible;
 
-            default:
-                logger.warn("Unknown field name: {}", fieldName);
-                return false;
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to verify visibility for field '" + t.getMessage(), t);
         }
-        boolean visible = field.isDisplayed();
-        logger.info("{} visibility: {}", fieldName, visible);
-        return visible;
     }
+
 
 
     public boolean isLebelsleftalignedaboveInputField() {
-        boolean allAligned = false;
-        for (WebElement label : labelList) {
-            String labelText = label.getText().trim();
-            WebElement field = null;
-            if (labelText.equalsIgnoreCase("Username")) {
-                field = usernameField;
-            } else if (labelText.equalsIgnoreCase("Password")) {
-                field = passwordField;
-            } else {
-                logger.warn("Unknown label text: {}", labelText);
-                continue;
+        try {
+            boolean allAligned = true;
+            for (WebElement label : labelList) {
+                String labelText = label.getText().trim();
+                WebElement field = null;
+                if (labelText.equalsIgnoreCase("Username")) {
+                    field = usernameField;
+                } else if (labelText.equalsIgnoreCase("Password")) {
+                    field = passwordField;
+                } else {
+                    logger.warn("Unknown label text: {}", labelText);
+                    continue;
+                }
+                int labelX = label.getLocation().getX();
+                int fieldX = field.getLocation().getX();
+                int fieldY = field.getLocation().getY();
+                int labelY = label.getLocation().getY();
+                boolean isAbove = labelY < fieldY;
+                boolean isLeftAligned = Math.abs(labelX - fieldX) < 5;
+                logger.info("Label: {}, Above: {}, Left Aligned: {}",
+                        labelText, isAbove, isLeftAligned);
+
+                if (!isAbove || !isLeftAligned) {
+                    allAligned = false;
+                    break;
+                }
             }
-            int labelX = label.getLocation().getX();
-            int fieldX = field.getLocation().getX();
-            int fieldY = field.getLocation().getY();
-            int labelY = label.getLocation().getY();
-            boolean isAbove = labelY < fieldY;
-            boolean isLeftAligned = Math.abs(labelX - fieldX) < 5;
-            logger.info("Label: {}, Above: {}, Left Aligned: {}", labelText, isAbove, isLeftAligned);
-            if (!isAbove || !isLeftAligned) {
-                allAligned = false;
-                break;
-            }
+            return allAligned;
+        } catch (Throwable t) {
+            throw new AssertionError(
+                    "Failed to verify label alignment above input fields  " + t.getMessage(), t);
         }
-        return allAligned;
     }
 
+
     public boolean isLoginButtonEnabled() {
-        boolean enabled = loginButton.isEnabled();
-        logger.info("Login button enabled: {}", enabled);
-        return enabled;
+        try {
+            boolean enabled = loginButton.isEnabled();
+            logger.info("Login button enabled: {}", enabled);
+            return enabled;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to verify Login button enabled state — "
+                    + t.getMessage(), t);
+        }
     }
 
     public boolean isLoginButtonVisible() {
-        boolean visible = loginButton.isDisplayed();
-        logger.info("Login button visibility: {}", visible);
-        return visible;
+        try {
+            boolean visible = loginButton.isDisplayed();
+            logger.info("Login button visibility: {}", visible);
+            return visible;
+
+        } catch (Throwable t) {
+            throw new AssertionError(" Failed to verify Login button visibility — "
+                    + t.getMessage(), t);
+        }
     }
 
     public boolean isLoginButtonStyledCorrectly() {
-        String bgColor = loginButton.getCssValue("background-color");
-        String textColor = loginButton.getCssValue("color");
-        logger.info("Login button background color: {}, text color: {}", bgColor, textColor);
-        return "rgba(75, 0, 130, 1)".equals(bgColor) && "rgba(255, 255, 255, 1)".equals(textColor);
+        try {
+            String bgColor = loginButton.getCssValue("background-color");
+            String textColor = loginButton.getCssValue("color");
+
+            logger.info("Login button background color: {}, text color: {}", bgColor, textColor);
+
+            return "rgba(75, 0, 130, 1)".equals(bgColor)
+                    && "rgba(255, 255, 255, 1)".equals(textColor);
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to verify Login button styling — "
+                    + t.getMessage(), t);
+        }
     }
 
+
     public String getapploginHeadingText() {
-        String heading = apploginHeading.getText().trim();
-        logger.info("Login card heading retrieved: {}", heading);
-        return heading;
+        try {
+            String heading = apploginHeading.getText().trim();
+            logger.info("Login card heading retrieved: {}", heading);
+            return heading;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to retrieve login card heading — "
+                    + t.getMessage(), t);
+        }
     }
 
     public void enterUsername(String username) {
-        logger.info("Entering username.");
-        WebElement field = WaitUtils.waitForVisibility(driver, usernameField, 10);
-        field.clear();
-        field.sendKeys(username);
+        try {
+            logger.info("Entering username.");
+            WebElement field = WaitUtils.waitForVisibility(driver, usernameField, 10);
+            field.clear();
+            field.sendKeys(username);
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to enter username — "
+                    + t.getMessage(), t);
+        }
     }
 
     public void enterPassword(String password) {
-        logger.info("Entering password.");
-        if (password != null && !password.isEmpty()) {
-            passwordField.clear();
-            passwordField.sendKeys(password);
-        } else {
-            logger.warn("Password provided is null or empty.");
+        try {
+            logger.info("Entering password.");
+
+            if (password != null && !password.isEmpty()) {
+                passwordField.clear();
+                passwordField.sendKeys(password);
+            } else {
+                logger.warn("Password provided is null or empty.");
+            }
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to enter password — "
+                    + t.getMessage(), t);
         }
     }
+
 
     // Submission
     public void clickLoginButton() {
@@ -204,28 +285,35 @@ public class LoginPage {
 
 
     public void pressEnterToSubmit() {
-        logger.info("Submitting login using ENTER key.");
-        passwordField.sendKeys(Keys.ENTER);
-    }
+        try {
+            logger.info("Submitting login using ENTER key.");
+            passwordField.sendKeys(Keys.ENTER);
 
-    // Helpers
-
-    public boolean isLoginPageVisible() {
-        boolean visible = usernameField.isDisplayed() && passwordField.isDisplayed();
-        logger.info("Login page fields visible: {}", visible);
-        return visible;
-    }
-
-    public String getErrorMessage() {
-        if (error.isDisplayed()) {
-            String errorMsg = error.getText().trim();
-            logger.info("Error message retrieved: {}", errorMsg);
-            return errorMsg;
-        } else {
-            logger.info("No error message displayed.");
-            return "";
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to submit login using ENTER key  "
+                    + t.getMessage(), t);
         }
     }
+
+
+
+    public String getErrorMessage() {
+        try {
+            if (error.isDisplayed()) {
+                String errorMsg = error.getText().trim();
+                logger.info("Error message retrieved: {}", errorMsg);
+                return errorMsg;
+            } else {
+                logger.info("No error message displayed.");
+                return "";
+            }
+
+        } catch (Throwable t) {
+            throw new AssertionError("Failed to retrieve error message — "
+                    + t.getMessage(), t);
+        }
+    }
+
 
     // Reusable login helper
     public void login(String method, String scenarioType) {
@@ -261,26 +349,7 @@ public class LoginPage {
         }
     }
 
-    public void waitForHomeRedirect() {
-        logger.info("Waiting for redirect to Home page.");
-        WaitUtils.waitForUrlContains(driver, "/home", 10);
-    }
 
-    public int getInputFieldCount() {
-        int count = labelList.size();
-        logger.info("Total input fields (labels) found: {}", count);
-        return count;
-    }
-
-
-    public List<String> getLoginLabelNames() {
-        logger.info("Fetching login page label names.");
-
-        return labelList.stream()
-                .map(WebElement::getText)
-                .map(String::trim)
-                .toList();
-    }
 
 
 }

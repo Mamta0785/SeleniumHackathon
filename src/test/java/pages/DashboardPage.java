@@ -39,26 +39,39 @@ public class DashboardPage {
     }
 
     public List<String> getNavigationLinkText() {
-        List<String> linkTexts = new ArrayList<>();
-        if (loginLink.isDisplayed()) {
-            linkTexts.add(loginLink.getText());
+        try {
+            List<String> linkTexts = new ArrayList<>();
+
+            if (loginLink.isDisplayed()) {
+                linkTexts.add(loginLink.getText());
+            }
+            if (logoutLink.isDisplayed()) {
+                linkTexts.add(logoutLink.getText());
+            }
+            if (myPatientsLink.isDisplayed()) {
+                linkTexts.add(myPatientsLink.getText());
+            }
+            if (newPatientLink.isDisplayed()) {
+                linkTexts.add(newPatientLink.getText());
+            }
+
+            return linkTexts;
+
+        } catch (Throwable t) {
+            throw new AssertionError("Navigation links not displayed correctly — " + t.getMessage(), t);
         }
-        if (logoutLink.isDisplayed()) {
-            linkTexts.add(logoutLink.getText());
-        }
-        if (myPatientsLink.isDisplayed()) {
-            linkTexts.add(myPatientsLink.getText());
-        }
-        if (newPatientLink.isDisplayed()) {
-            linkTexts.add(newPatientLink.getText());
-        }
-        return linkTexts;
     }
 
+
     public void clickhomeIcon() {
-        homeIcon.click();
-        logger.info("Clicked on Home icon.");
+        try {
+            logger.info("Clicking Home icon.");
+            homeIcon.click();
+        } catch (Throwable t) {
+            throw new AssertionError("Home icon click failed — " + t.getMessage(), t);
+        }
     }
+
 
     public void clicknavigationLink(String linkText) {
         try {
@@ -85,16 +98,13 @@ public class DashboardPage {
                     break;
 
                 default:
-                    throw new AssertionError("Product defect: No matching navigation link found for text: " + linkText);
+                    throw new AssertionError("No matching navigation link found for text: " + linkText);
             }
 
         } catch (AssertionError ae) {
-
             throw ae;
-
         } catch (Exception e) {
-
-            throw new AssertionError("Test defect: Failed to click navigation link: " + linkText + " — " + e.getMessage(), e);
+            throw new AssertionError(" Failed to click navigation link: " + linkText + " — " + e.getMessage(), e);
         }
     }
 
