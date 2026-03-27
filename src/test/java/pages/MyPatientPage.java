@@ -271,9 +271,9 @@ public class MyPatientPage {
             String text = row.findElements(By.xpath("td")).get(columnIndex).getText();
 
             return switch (detail.toLowerCase()) {
-                case "phone number" -> text.matches(".*\\b\\d{10}\\b.*");
-                case "email" -> text.matches(".*[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+.*");
-                case "date of birth" -> text.matches(".*\\b\\d{2}/\\d{2}/\\d{4}\\b.*");
+                case "phone number" -> text.matches(".\\b\\d{10}\\b.");
+                case "email" -> text.matches(".[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+.");
+                case "date of birth" -> text.matches(".\\b\\d{2}/\\d{2}/\\d{4}\\b.");
 
                 default -> false;
             };

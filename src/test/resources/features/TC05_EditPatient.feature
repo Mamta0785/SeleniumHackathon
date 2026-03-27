@@ -20,25 +20,30 @@ Feature:Edit Patient Dialog Box Validation
   Scenario: State of Close button
     Then  User should see close button in enable mode
 
-  Scenario Outline: Presence of 9 Input field
-    Then User should see 9 input field
+Scenario: Presence of 9 Input field 
+Then User should see 9 input field
 
-  Scenario: Presence of first name of the patient
-    Then  User should see the First Name field populated with the value entered during patient creation.
+Scenario: Presence of 3 drop down
+Then User should see 3 drop down
 
-  Scenario: Presence of last name of the patient
-    Then  User should see the Last Name field populated with the value entered during patient creation
+Scenario:Presence of file upload option
+Then User should see exactly 1 file upload option
 
-#Scenario: Presence of Email of the patient
-#Then User should see the Email field populated with the value entered during patient creation
+Scenario:Presence of place holder in First Name 
+Given User is edit dialog box
+When User clears existing value in First Name field 
+Then User should see placeholder "First Name" for FirstName
 
-  Scenario:Presence of place holder in First Name
-#And User is on Edit Patient dialog box
-    When User clears existing value in First Name field
-    Then User should see placeholder "First Name" for FirstName
+Scenario: Presence of first name of the patient
+Then User should see the "First Name" field populated with the value entered during patient creation for first name.
 
-  Scenario:Presence of place holder in Last Name
-    Then User should see placeholder "Last Name" for LastName
+Scenario: Presence of last name of the patient
+Then User should see the "Last Name" field populated with the value entered during patient creation for last name.
+
+Scenario:Presence of place holder in Last Name 
+Then User should see placeholder "Last Name" for LastName
+
+
 
 
 

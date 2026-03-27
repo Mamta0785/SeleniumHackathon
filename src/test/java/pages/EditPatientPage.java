@@ -1,6 +1,8 @@
 package pages;
 
-import DriverManager.DriverFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -10,229 +12,331 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import DriverManager.DriverFactory;
 
 public class EditPatientPage {
 
-    private static final Logger logger = LoggerFactory.getLogger(EditPatientPage.class);
+	private static final Logger logger = LoggerFactory.getLogger(EditPatientPage.class);
 
-    private WebDriver driver;
+	private WebDriver driver;
 
-    // Locators
+	// Locators
 
-    @FindBy(xpath = "//tr")
-    private List<WebElement> tableRows;
+	@FindBy(xpath = "//tr")
+	private List<WebElement> tableRows;
 
-    @FindBy(xpath = "//th")
-    private List<WebElement> tableHeaders;
+	@FindBy(xpath = "//th")
+	private List<WebElement> tableHeaders;
 
-    @FindBy(xpath = "//input[placeholder='Full name']")
-    private WebElement firstnameField;
+	@FindBy(xpath = "//input[placeholder='Full name']")
+	private WebElement firstnameField;
 
-    @FindBy(xpath = "//input[@placeholder='Last name']")
-    private WebElement lastnameField;
+	@FindBy(xpath = "//input[@placeholder='Last name']")
+	private WebElement lastnameField;
 
-    @FindBy(xpath = "//input[@placeholder='Email']")
-    private WebElement emailField;
+	@FindBy(xpath = "//input[@placeholder='Email']")
+	private WebElement emailField;
 
-    @FindBy(xpath = "//input[@placeholder='ContactNumber']")
-    private WebElement contactNumberField;
+	@FindBy(xpath = "//input[@placeholder='ContactNumber']")
+	private WebElement contactNumberField;
 
-    @FindBy(xpath = "//input[contains@class,'edit']")
-    private WebElement editIcon;
+	@FindBy(xpath = "//input[contains@class,'edit']")
+	private WebElement editIcon;
 
-    @FindBy(xpath = "//h2[text()='Edit Patient Details']")
-    private WebElement edialogTitle;
+	@FindBy(xpath = "//h2[text()='Edit Patient Details']")
+	private WebElement edialogTitle;
 
-    @FindBy(xpath = "//input[@type='submit']")
-    private WebElement submitButton;
+	@FindBy(xpath = "//input[@type='submit']")
+	private WebElement submitButton;
 
-    @FindBy(xpath = "//input[@type='close']")
-    private WebElement closeButton;
+	@FindBy(xpath = "//input[@type='close']")
+	private WebElement closeButton;
 
-    @FindBy(css = "a#myPatientLink")
-    private WebElement myPatientHeader;
+	@FindBy(css = "a#myPatientLink")
+	private WebElement myPatientHeader;
 
-    @FindBy(xpath = "//h2[text()='Edit Patient]")
-    WebElement dialogTitle;
+	@FindBy(xpath = "//h2[text()='Edit Patient]")
+	WebElement dialogTitle;
 
-    @FindBy(css = "div.dialog-container input[type='text']")
-    private List<WebElement> inputFields;
+	@FindBy(css = "div.dialog-container input[type='text']")
+	private List<WebElement> inputFields;
 
-    @FindBy(css = "div.dialog-container select")
-    private List<WebElement> dropdowns;
+	@FindBy(css = "div.dialog-container select")
+	private List<WebElement> dropdowns;
 
-    @FindBy(id = "weight")
-    private WebElement weightField;
-    @FindBy(id = "foodPreference")
-    private WebElement foodPreferenceDropdown;
-    @FindBy(id = "cuisineCategory")
-    private WebElement cuisineCategoryDropdown;
-    @FindBy(id = "allergies")
-    private WebElement allergiesDropdown;
+	@FindBy(id = "weight")
+	private WebElement weightField;
+	@FindBy(id = "foodPreference")
+	private WebElement foodPreferenceDropdown;
+	@FindBy(id = "cuisineCategory")
+	private WebElement cuisineCategoryDropdown;
+	@FindBy(id = "allergies")
+	private WebElement allergiesDropdown;
 
-    // private By foodPreference = By.xpath("//div[contains(text(),'Food Preference')]/following::input[1]");
-    // private By cuisineCategory = By.xpath("//div[contains(text(),'Cuisine Category')]/following::input[1]");
-    //private By dob = By.xpath("//input[@type='date']");
+	List<WebElement> fileInputs = driver.findElements(By.xpath("//input[@type='file']"));
 
-    // private By errorMsg = By.xpath("//span[contains(@class,'error')]"); confirm this xpath
+	// Constructor
 
-    List<WebElement> fileInputs = driver.findElements(By.xpath("//input[@type='file']"));
+	public EditPatientPage() {
+		try {
+			this.driver = DriverFactory.getDriver();
+			PageFactory.initElements(this.driver, this);
+			logger.info("EditPatientPage initialized successfully.");
+		} catch (Exception e) {
+			logger.error("Failed to initialize EditPatientPage", e);
+			throw e;
+		}
+	}
 
-    // Constructor
+	public void clearFirstNameField() {
+		try {
+			firstnameField.click();
+			firstnameField.sendKeys(Keys.CONTROL + "a");
+			firstnameField.sendKeys(Keys.DELETE);
+			logger.info("First name cleared ");
+		} catch (Exception e) {
+			logger.error("Failed to clear First Name field", e);
+			throw e;
+		}
 
-    public EditPatientPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(this.driver, this);
-        logger.info("EditPatientPage initialized successfully.");
-    }
+	}
 
-    public void clearFirstNameField() {
-        firstnameField.click();
-        firstnameField.sendKeys(Keys.CONTROL + "a");
-        firstnameField.sendKeys(Keys.CONTROL + "a");
-        firstnameField.sendKeys(Keys.DELETE);
-    }
+	public void clearLastNameField() {
+		try {
+			lastnameField.click();
+			lastnameField.sendKeys(Keys.CONTROL + "a");
+			lastnameField.sendKeys(Keys.DELETE);
+			logger.info("Last name cleared ");
+		} catch (Exception e) {
+			logger.error("Failed to clear Last Name field", e);
+			throw e;
+		}
 
+	}
 
-    public void ClickmyPatientHeader() {
-        myPatientHeader.click();
-    }
+	public void ClickmyPatientHeader() {
+		try {
+			myPatientHeader.click();
+			logger.info("My patient header clicked successfully");
+		} catch (Exception e) {
+			logger.error("Failed to click My Patient", e);
+			throw e;
+		}
+	}
 
+	public boolean isSubmitButtonDisplayed() {
 
-    public boolean isSubmitButtonDisplayed() {
-        try {
-            return submitButton.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+		try {
+			boolean isDisplayed = submitButton.isDisplayed();
+			logger.info("Submit button is displayed:" + isDisplayed);
+			return submitButton.isDisplayed();
+		} catch (Exception e) {
+			logger.error("Failed to see the submitbutton", e);
+			return false;
+		}
+	}
 
-    public boolean isSubmitButtonEnabled() {
-        try {
-            return submitButton.isEnabled();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	public boolean isSubmitButtonEnabled() {
+		try {
+			boolean isEnabled = submitButton.isEnabled();
+			logger.info("Submit button enabled:" + isEnabled);
+			return submitButton.isEnabled();
+		} catch (Exception e) {
+			logger.error("Failed to check the state");
+			return false;
+		}
+	}
 
-    public boolean iscloseButtonDisplayed() {
-        try {
-            return closeButton.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	public boolean iscloseButtonDisplayed() {
+		try {
+			boolean isDisplayed = closeButton.isDisplayed();
+			logger.info("close button is displayed:" + isDisplayed);
+			return closeButton.isDisplayed();
+		} catch (Exception e) {
+			logger.error("Failed to see the close button", e);
+			return false;
+		}
+	}
 
-    public boolean iscloseButtonEnabled() {
-        try {
-            return closeButton.isEnabled();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	public boolean iscloseButtonEnabled() {
+		try {
+			boolean isEnabled = closeButton.isEnabled();
+			logger.info("Submit button enabled:" + isEnabled);
+			return closeButton.isEnabled();
+		} catch (Exception e) {
+			logger.error("Failed to check the state of the button");
+			return false;
+		}
+	}
 
-    public boolean isDialogDisplayed() {
-        try {
-            return dialogTitle.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	public boolean isDialogDisplayed() {
+		try {
+			boolean isEnabled = dialogTitle.isDisplayed();
+			logger.info("Dialog is displayed:" + isEnabled);
+			return dialogTitle.isDisplayed();
+		} catch (Exception e) {
+			logger.error("Failed to check the state of Dialog");
+			return false;
+		}
+	}
 
-    public int getInputFieldCount() {
-        return inputFields.size();
-    }
+	public int getInputFieldCount() {
+		try {
+			int size = inputFields.size();
+			logger.info("No. of input fields:" + size);
+			return size;
+		} catch (Exception e) {
+			logger.error("Failed to check the state of Dialog");
+			return 0;
+		}
 
-    public int getDropdownCount() {
-        return dropdowns.size();
-    }
+	}
 
+	public int getDropdownCount() {
+		try {
+			int size = dropdowns.size();
+			logger.info("No. of dropdowns:" + size);
+			return size;
+		} catch (Exception e) {
+			logger.error("Failed to check the state of Dialog");
+			return 0;
+		}
 
-    public List<WebElement> getFileUploadFields() {
-        return driver.findElements(By.xpath("//input[@type='file']"));
-    }
+	}
 
+	public List<WebElement> getFileUploadFields() {
+		try {
 
-    public String getFirstNamePlaceholder() {
-        return firstnameField.getAttribute("placeholder");
-    }
+			List<WebElement> fileInputs = driver.findElements(By.xpath("//input[@type='file']"));
+			logger.info("No. of file Inputs elements found:" + fileInputs.size());
+			return fileInputs;
+		} catch (Exception e) {
+			logger.error("Failed to locate file input elements", e);
+			return new ArrayList<>();
+		}
+	}
 
-    public String getFirstNamefield() {
-        return firstnameField.getAttribute("value");
-    }
+	public String getFirstNamePlaceholder() {
+		try {
+			String placeholder = firstnameField.getAttribute("placeholder");
+			logger.info("FirstName Placeholder:" + placeholder);
+			return placeholder;
+		} catch (Exception e) {
+			logger.error("Failed to get First Name placeholder", e);
+			return null;
 
-    public String getLastNamefield() {
-        return lastnameField.getAttribute("value");
-    }
+		}
+	}
 
-    public String getWeightPlaceholder() {
-        return weightField.getAttribute("placeholder");
+	public String getFirstNamefield() {
+		try {
+			String value = firstnameField.getAttribute("value");
+			logger.info("First name field value:" + value);
+			return value;
+		} catch (Exception e) {
+			logger.info("Failed to get First name field value:" + e);
+			return null;
+		}
 
+	}
 
-    }
+	public String getLastNamefield() {
+		try {
+			String value = lastnameField.getAttribute("value");
+			logger.info("last name field value:" + value);
+			return value;
+		} catch (Exception e) {
+			logger.info("Failed to get last name field value:" + e);
+			return null;
+		}
+	}
 
-    public String getLastNamePlaceholder() {
-        return lastnameField.getAttribute("placeholder");
+	public String getWeightPlaceholder() {
+		try {
+			String placeholder = weightField.getAttribute("placeholder");
+			logger.info("Weght Placeholder:" + placeholder);
+			return placeholder;
+		} catch (Exception e) {
+			logger.error("Failed to get Weight Placeholder", e);
+			return null;
+		}
 
+	}
 
-    }
+	public String getLastNamePlaceholder() {
+		try {
+			String placeholder = lastnameField.getAttribute("placeholder");
+			logger.info("LastName Placeholder:" + placeholder);
+			return placeholder;
+		} catch (Exception e) {
+			logger.error("Failed to get LastName Placeholder", e);
+			return null;
+		}
 
-    public boolean iseDialogDisplayed() {
-        try {
-            return edialogTitle.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	}
 
-    public String getFirstRowName() {
-        List<String> DetailsrowText = new ArrayList<>();
+	public boolean iseDialogDisplayed() {
+		try {
+			boolean isEnabled = edialogTitle.isDisplayed();
+			logger.info("Dialog is displayed:" + isEnabled);
+			return edialogTitle.isDisplayed();
+		} catch (Exception e) {
+			logger.error("Failed to check the state of eDialog");
+			return false;
+		}
+	}
 
-        List<WebElement> rows = tableRows.subList(1, tableRows.size()); // Skip header row
-        int columnIndex = tableHeaders.stream()
-                .map(WebElement::getText)
-                .map(String::trim)
-                .toList()
-                .indexOf("Name");
+	public String getFirstRowName() {
+		try {
+			List<String> DetailsrowText = new ArrayList<>();
 
-        for (int i = 0; i < rows.size(); i++) {
+			List<WebElement> rows = tableRows.subList(1, tableRows.size()); // Skip header row
+			int columnIndex = tableHeaders.stream().map(WebElement::getText).map(String::trim).toList().indexOf("Name");
 
-            WebElement detailsCell = rows.get(i)
-                    .findElements(By.xpath("td"))
-                    .get(columnIndex);
+			for (int i = 0; i < rows.size(); i++) {
 
-            String cellText = detailsCell.getText().trim();
-            DetailsrowText.add(cellText);
-        }
-        return DetailsrowText.getFirst().split(" ")[0];
-    }
+				WebElement detailsCell = rows.get(i).findElements(By.xpath("td")).get(columnIndex);
 
-    public String getFirstRowLastName() {
-        List<String> DetailsrowText = new ArrayList<>();
+				String cellText = detailsCell.getText().trim();
+				DetailsrowText.add(cellText);
+			}
+			return DetailsrowText.getFirst().split(" ")[0];
+		} catch (Exception e) {
+			logger.error("Failed to get the first row first name");
+			return null;
+		}
+	}
 
-        List<WebElement> rows = tableRows.subList(1, tableRows.size()); // Skip header row
-        int columnIndex = tableHeaders.stream()
-                .map(WebElement::getText)
-                .map(String::trim)
-                .toList()
-                .indexOf("Name");
+	public String getFirstRowLastName() {
+		List<String> detailsRowText = new ArrayList<>();
+		try {
 
-        for (int i = 0; i < rows.size(); i++) {
+			List<WebElement> rows = tableRows.subList(1, tableRows.size());
 
-            WebElement detailsCell = rows.get(i)
-                    .findElements(By.xpath("td"))
-                    .get(columnIndex);
+			int columnIndex = tableHeaders.stream().map(WebElement::getText).map(String::trim).toList().indexOf("Name");
 
-            String cellText = detailsCell.getText().trim();
-            DetailsrowText.add(cellText);
-        }
-        return DetailsrowText.getFirst().split(" ")[1];
-    }
+			for (WebElement row : rows) {
+				WebElement detailsCell = row.findElements(By.tagName("td")).get(columnIndex);
+				String cellText = detailsCell.getText().trim();
+				detailsRowText.add(cellText);
+			}
 
+			if (!detailsRowText.isEmpty()) {
+				String[] nameParts = detailsRowText.get(0).split(" ");
+				if (nameParts.length > 1) {
+					return nameParts[1]; // last name
+				} else {
+					logger.warn("Name in first row does not have a last name: " + detailsRowText.get(0));
+					return "";
+				}
+			} else {
+				logger.warn("No names found in the table rows");
+				return null;
+			}
 
+		} catch (Exception e) {
+			logger.error("Failed to get last name from the first row", e);
+			return null;
+		}
+	}
 }
-
-
-
