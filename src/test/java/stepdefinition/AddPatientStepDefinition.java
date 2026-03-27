@@ -1,7 +1,7 @@
 package stepdefinition;
 
 import DriverManager.DriverFactory;
-import io.cucumber.java.en.Given;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -12,13 +12,11 @@ import pages.AddPatientPage;
 import pages.DashboardPage;
 import pages.LoginPage;
 import pages.PageObjectManager;
-import utils.ConfigReader;
 import utils.ExcelReader;
-import utils.TestContext;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+
 
 public class AddPatientStepDefinition {
 
@@ -29,8 +27,9 @@ public class AddPatientStepDefinition {
     private final PageObjectManager pom;
     private AddPatientPage addPatientPage;
     private LoginPage loginPage;
-    private  DashboardPage dashboardPage;
+    private DashboardPage dashboardPage;
     private boolean selectionAttempt;
+
     public AddPatientStepDefinition() {
 
         pom = new PageObjectManager();
@@ -43,79 +42,61 @@ public class AddPatientStepDefinition {
 
     @When("User clicks on New Patient in the header section")
     public void user_clicks_on_new_patient_in_the_header_section() {
-            logger.info("Clicking New Patient header link...");
-            dashboardPage.clicknavigationLink("NewPatient");
+        logger.info("Clicking New Patient header link...");
+        dashboardPage.clicknavigationLink("NewPatient");
     }
 
     @Then("User should see Add Patient Details on the dialog box")
     public void user_should_see_add_patient_details_on_the_dialog_box() {
 
-            logger.info("Validating Add Patient Details dialog...");
-            boolean dialogIsValid =
-                    pom.getNewPatientPage().isDialogDisplayed() &&
-                            pom.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
-            Assert.assertTrue(dialogIsValid,
-                    "Dialog is not displayed OR dialog title is incorrect");
+        logger.info("Validating Add Patient Details dialog...");
+        boolean dialogIsValid =
+                pom.getNewPatientPage().isDialogDisplayed() &&
+                        pom.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
+        Assert.assertTrue(dialogIsValid,
+                "Dialog is not displayed OR dialog title is incorrect");
     }
 
 
     @Then("User should see 9 input boxes in the Add Patient Details dialog box")
     public void user_should_see_9_input_boxes_in_the_add_patient_details_dialog_box() {
 
-            int actualCount = addPatientPage.getInputFieldCount();
-            Assert.assertEquals(actualCount, 9, "Input field count mismatch");
+        int actualCount = addPatientPage.getInputFieldCount();
+        Assert.assertEquals(actualCount, 9, "Input field count mismatch");
 
     }
 
     @Then("User should see 3 dropdowns in the Add Patient Details dialog box")
     public void user_should_see_3_dropdowns_in_the_add_patient_details_dialog_box() {
 
-            int actualCount = addPatientPage.getDropdownCount();
-            Assert.assertEquals(actualCount, 3, "Dropdown count mismatch");
+        int actualCount = addPatientPage.getDropdownCount();
+        Assert.assertEquals(actualCount, 3, "Dropdown count mismatch");
 
     }
 
-    @Then("User should see a date picker for DOB field with MM\\/DD\\/YYYY displayed")
-    public void user_should_see_a_date_picker_for_dob_field_with_mm_dd_yyyy_displayed() {
-
-            logger.info("Validating DOB date picker field...");
-
-            boolean isValid =
-                    addPatientPage.isDobDatePicker() &&
-                            addPatientPage.getDobPlaceholder().matches(".*(MM|mm|YYYY|yyyy).*");
-
-            Assert.assertTrue(
-                    isValid,
-                    "DOB date picker validation failed. " +
-                            "isDatePicker=" + addPatientPage.isDobDatePicker() +
-                            ", placeholder=" + addPatientPage.getDobPlaceholder()
-            );
-
-
-    }
 
     @Then("User should see exactly 1 file upload option in Add Patient Details dialog box")
     public void user_should_see_exactly_1_file_upload_option_in_add_patient_details_dialog_box() {
 
-            int actualCount = addPatientPage.getFileUploadCount();
-            Assert.assertEquals(actualCount, 1, "File upload option count mismatch");
+        int actualCount = addPatientPage.getFileUploadCount();
+        Assert.assertEquals(actualCount, 1, "File upload option count mismatch");
 
     }
 
     @Then("User should see one Submit button")
     public void user_should_see_one_submit_button() {
 
-            int actualCount = addPatientPage.getSubmitButtonCount();
-            Assert.assertEquals(actualCount, 1, "Submit button count mismatch");
+        int actualCount = addPatientPage.getSubmitButtonCount();
+        Assert.assertEquals(actualCount, 1, "Submit button count mismatch");
 
     }
 
     @Then("User should see one Submit button in disabled state")
     public void user_should_see_one_submit_button_in_disabled_state() {
 
-            logger.info("Validating disabled state of Submit button...");
-            Assert.assertTrue(addPatientPage.isSubmitButtonDisabled(), "Submit button is NOT disabled"
-            );
+        logger.info("Validating disabled state of Submit button...");
+        Assert.assertTrue(addPatientPage.isSubmitButtonDisabled(), "Submit button is NOT disabled"
+        );
 
 
     }
@@ -123,76 +104,76 @@ public class AddPatientStepDefinition {
     @Then("User should see one Close button")
     public void user_should_see_one_close_button() {
 
-            int actualCount = addPatientPage.getCloseButtonCount();
-            Assert.assertEquals(actualCount, 1, "Close button count mismatch");
+        int actualCount = addPatientPage.getCloseButtonCount();
+        Assert.assertEquals(actualCount, 1, "Close button count mismatch");
 
     }
 
     @Then("User should see one Close button in enabled state")
     public void user_should_see_one_close_button_in_enabled_state() {
 
-            logger.info("Validating enabled state of Close button...");
+        logger.info("Validating enabled state of Close button...");
 
-            Assert.assertTrue(
-                    addPatientPage.isCloseButtonEnabled(),
-                    "Close button is NOT enabled"
-            );
+        Assert.assertTrue(
+                addPatientPage.isCloseButtonEnabled(),
+                "Close button is NOT enabled"
+        );
 
     }
 
     @Then("User should see mandatory field error for First name")
     public void user_should_see_mandatory_field_error_for_first_name() {
 
-            logger.info("Validating mandatory error message for First Name...");
+        logger.info("Validating mandatory error message for First Name...");
 
-            addPatientPage.clickFirstNameAndBlur();
+        addPatientPage.clickFirstNameAndBlur();
 
-            Assert.assertTrue(
-                    addPatientPage.isFirstNameErrorDisplayed(),
-                    "Expected 'First name is required' error message was NOT displayed"
-            );
+        Assert.assertTrue(
+                addPatientPage.isFirstNameErrorDisplayed(),
+                "Expected 'First name is required' error message was NOT displayed"
+        );
 
     }
 
     @Then("User should see mandatory field with placeholder {string} for last name")
     public void user_should_see_mandatory_field_with_placeholder_for_last_name(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for Last Name field...");
+        logger.info("Validating placeholder and mandatory state for Last Name field...");
 
-            String actualPlaceholder = addPatientPage.getLastNamePlaceholder();
-            boolean isMandatory = addPatientPage.isLastNameMandatory();
+        String actualPlaceholder = addPatientPage.getLastNamePlaceholder();
+        boolean isMandatory = addPatientPage.isLastNameMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Last Name validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Last Name validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
     }
 
     @Then("User should see mandatory field with placeholder {string} for email")
     public void user_should_see_mandatory_field_with_placeholder_for_email(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for Email field...");
+        logger.info("Validating placeholder and mandatory state for Email field...");
 
-            String actualPlaceholder = addPatientPage.getEmailPlaceholder();
-            boolean isMandatory = addPatientPage.isEmailMandatory();
+        String actualPlaceholder = addPatientPage.getEmailPlaceholder();
+        boolean isMandatory = addPatientPage.isEmailMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Email field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Email field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -200,42 +181,42 @@ public class AddPatientStepDefinition {
     @Then("User should see mandatory field with placeholder {string} for contact number")
     public void user_should_see_mandatory_field_with_placeholder_for_contact_number(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for Contact Number field...");
+        logger.info("Validating placeholder and mandatory state for Contact Number field...");
 
-            String actualPlaceholder = addPatientPage.getContactNumberPlaceholder();
-            boolean isMandatory = addPatientPage.isContactNumberMandatory();
+        String actualPlaceholder = addPatientPage.getContactNumberPlaceholder();
+        boolean isMandatory = addPatientPage.isContactNumberMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Contact Number field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Contact Number field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
 
     @Then("User should see mandatory dropdown with placeholder {string} for allergies")
     public void user_should_see_mandatory_dropdown_with_placeholder_for_allergies(String expectedPlaceholder) {
-            logger.info("Validating placeholder and mandatory state for Allergies dropdown...");
+        logger.info("Validating placeholder and mandatory state for Allergies dropdown...");
 
-            String actualText = addPatientPage.getAllergiesSelectedText();
-            boolean isMandatory = addPatientPage.isAllergiesMandatory();
+        String actualText = addPatientPage.getAllergiesSelectedText();
+        boolean isMandatory = addPatientPage.isAllergiesMandatory();
 
-            boolean isValid =
-                    actualText.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualText.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Allergies dropdown validation failed. " +
-                            "placeholder=" + actualText +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Allergies dropdown validation failed. " +
+                        "placeholder=" + actualText +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -243,22 +224,21 @@ public class AddPatientStepDefinition {
     @Then("User should see mandatory dropdown with placeholder {string} for food preference")
     public void user_should_see_mandatory_dropdown_with_placeholder_for_food_preference(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for Food Preference dropdown...");
+        logger.info("Validating placeholder and mandatory state for Food Preference dropdown...");
 
-            String actualText = addPatientPage.getFoodPreferencePlaceholder();
-            boolean isMandatory = addPatientPage.isFoodPreferenceMandatory();
+        String actualText = addPatientPage.getFoodPreferencePlaceholder();
+        boolean isMandatory = addPatientPage.isFoodPreferenceMandatory();
 
-            boolean isValid =
-                    actualText.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualText.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Food Preference dropdown validation failed. " +
-                            "placeholder=" + actualText +
-                            ", mandatory=" + isMandatory
-            );
-
+        Assert.assertTrue(
+                isValid,
+                "Food Preference dropdown validation failed. " +
+                        "placeholder=" + actualText +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -266,21 +246,21 @@ public class AddPatientStepDefinition {
     @Then("User should see mandatory dropdown with placeholder {string} for cuisine category")
     public void user_should_see_mandatory_dropdown_with_placeholder_for_cuisine_category(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for Cuisine Category dropdown...");
+        logger.info("Validating placeholder and mandatory state for Cuisine Category dropdown...");
 
-            String actualText = addPatientPage.getCuisineCategoryPlaceholder();
-            boolean isMandatory = addPatientPage.isCuisineCategoryMandatory();
+        String actualText = addPatientPage.getCuisineCategoryPlaceholder();
+        boolean isMandatory = addPatientPage.isCuisineCategoryMandatory();
 
-            boolean isValid =
-                    actualText.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualText.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Cuisine Category dropdown validation failed. " +
-                            "placeholder=" + actualText +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Cuisine Category dropdown validation failed. " +
+                        "placeholder=" + actualText +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -288,22 +268,21 @@ public class AddPatientStepDefinition {
     @Then("User should see mandatory DOB with placeholder {string}")
     public void user_should_see_mandatory_dob_with_placeholder(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and mandatory state for DOB field...");
+        logger.info("Validating placeholder and mandatory state for DOB field...");
 
-            String actualPlaceholder = addPatientPage.getDobPlaceholder();
-            boolean isMandatory = addPatientPage.isDobMandatory();
+        String actualPlaceholder = addPatientPage.getDobPlaceholder();
+        boolean isMandatory = addPatientPage.isDobMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "DOB field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
-
+        Assert.assertTrue(
+                isValid,
+                "DOB field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -311,22 +290,21 @@ public class AddPatientStepDefinition {
     @Then("User should see non-mandatory field placeholder with {string} for weight")
     public void user_should_see_non_mandatory_field_placeholder_with_for_weight(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and non-mandatory state for Weight field...");
+        logger.info("Validating placeholder and non-mandatory state for Weight field...");
 
-            String actualPlaceholder = addPatientPage.getWeightPlaceholder();
-            boolean isMandatory = addPatientPage.isWeightMandatory();
+        String actualPlaceholder = addPatientPage.getWeightPlaceholder();
+        boolean isMandatory = addPatientPage.isWeightMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            !isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        !isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Weight field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
-
+        Assert.assertTrue(
+                isValid,
+                "Weight field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -334,44 +312,43 @@ public class AddPatientStepDefinition {
     @Then("User should see non-mandatory field placeholder with {string} for height")
     public void user_should_see_non_mandatory_field_placeholder_with_for_height(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and non-mandatory state for Height field...");
+        logger.info("Validating placeholder and non-mandatory state for Height field...");
 
-            String actualPlaceholder = addPatientPage.getHeightPlaceholder();
-            boolean isMandatory = addPatientPage.isHeightMandatory();
+        String actualPlaceholder = addPatientPage.getHeightPlaceholder();
+        boolean isMandatory = addPatientPage.isHeightMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            !isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        !isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Height field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Height field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
 
-
     @Then("User should see non-mandatory field placeholder with {string} for temperature")
     public void user_should_see_non_mandatory_field_placeholder_with_for_temperature(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and non-mandatory state for Temperature field...");
+        logger.info("Validating placeholder and non-mandatory state for Temperature field...");
 
-            String actualPlaceholder = addPatientPage.getTemperaturePlaceholder();
-            boolean isMandatory = addPatientPage.isTemperatureMandatory();
+        String actualPlaceholder = addPatientPage.getTemperaturePlaceholder();
+        boolean isMandatory = addPatientPage.isTemperatureMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            !isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        !isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "Temperature field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "Temperature field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -379,42 +356,42 @@ public class AddPatientStepDefinition {
     @Then("User should see non-mandatory field placeholder with {string} for sp")
     public void user_should_see_non_mandatory_field_placeholder_with_for_sp(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and non-mandatory state for SP field...");
+        logger.info("Validating placeholder and non-mandatory state for SP field...");
 
-            String actualPlaceholder = addPatientPage.getSpPlaceholder();
-            boolean isMandatory = addPatientPage.isSpMandatory();
+        String actualPlaceholder = addPatientPage.getSpPlaceholder();
+        boolean isMandatory = addPatientPage.isSpMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            !isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        !isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "SP field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "SP field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
     }
 
     @Then("User should see non-mandatory field placeholder with {string} for dp")
     public void user_should_see_non_mandatory_field_placeholder_with_for_dp(String expectedPlaceholder) {
 
-            logger.info("Validating placeholder and non-mandatory state for DP field...");
+        logger.info("Validating placeholder and non-mandatory state for DP field...");
 
-            String actualPlaceholder = addPatientPage.getDpPlaceholder();
-            boolean isMandatory = addPatientPage.isDpMandatory();
+        String actualPlaceholder = addPatientPage.getDpPlaceholder();
+        boolean isMandatory = addPatientPage.isDpMandatory();
 
-            boolean isValid =
-                    actualPlaceholder.equals(expectedPlaceholder) &&
-                            !isMandatory;
+        boolean isValid =
+                actualPlaceholder.equals(expectedPlaceholder) &&
+                        !isMandatory;
 
-            Assert.assertTrue(
-                    isValid,
-                    "DP field validation failed. " +
-                            "placeholder=" + actualPlaceholder +
-                            ", mandatory=" + isMandatory
-            );
+        Assert.assertTrue(
+                isValid,
+                "DP field validation failed. " +
+                        "placeholder=" + actualPlaceholder +
+                        ", mandatory=" + isMandatory
+        );
 
 
     }
@@ -422,14 +399,14 @@ public class AddPatientStepDefinition {
     @Then("User should see text Upload Health Report")
     public void user_should_see_text_upload_health_report() {
 
-            logger.info("Validating presence of Upload Health Report text...");
+        logger.info("Validating presence of Upload Health Report text...");
 
-            boolean isVisible = addPatientPage.isUploadHealthReportVisible();
+        boolean isVisible = addPatientPage.isUploadHealthReportVisible();
 
-            Assert.assertTrue(
-                    isVisible,
-                    "Upload Health Report text is NOT visible"
-            );
+        Assert.assertTrue(
+                isVisible,
+                "Upload Health Report text is NOT visible"
+        );
 
 
     }
@@ -437,14 +414,14 @@ public class AddPatientStepDefinition {
     @Then("User should see text No file Chosen")
     public void user_should_see_text_no_file_chosen() {
 
-            logger.info("Validating presence of 'No file Chosen' text...");
+        logger.info("Validating presence of 'No file Chosen' text...");
 
-            boolean isVisible = addPatientPage.isNoFileChosenVisible();
+        boolean isVisible = addPatientPage.isNoFileChosenVisible();
 
-            Assert.assertTrue(
-                    isVisible,
-                    "'No file Chosen' text is NOT visible"
-            );
+        Assert.assertTrue(
+                isVisible,
+                "'No file Chosen' text is NOT visible"
+        );
 
 
     }
@@ -452,14 +429,14 @@ public class AddPatientStepDefinition {
     @Then("User should see a scroll bar at the right side of dialog box")
     public void user_should_see_a_scroll_bar_at_the_right_side_of_dialog_box() {
 
-            logger.info("Validating presence of scroll bar on dialog box...");
+        logger.info("Validating presence of scroll bar on dialog box...");
 
-            boolean isScrollable = addPatientPage.isDialogScrollable();
+        boolean isScrollable = addPatientPage.isDialogScrollable();
 
-            Assert.assertTrue(
-                    isScrollable,
-                    "Scroll bar is NOT present on the dialog box"
-            );
+        Assert.assertTrue(
+                isScrollable,
+                "Scroll bar is NOT present on the dialog box"
+        );
 
 
     }
@@ -467,34 +444,34 @@ public class AddPatientStepDefinition {
     @When("User clicks on Allergy dropdown")
     public void user_clicks_on_allergy_dropdown() {
 
-            logger.info("Clicking Allergy dropdown...");
-            addPatientPage.clickAllergyDropdown();
+        logger.info("Clicking Allergy dropdown...");
+        addPatientPage.clickAllergyDropdown();
 
     }
 
     @Then("Values should be present inside Allergy dropdown")
     public void values_should_be_present_inside_allergy_dropdown() {
 
-            logger.info("Validating Allergy dropdown values...");
+        logger.info("Validating Allergy dropdown values...");
 
 
-            List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
 
 
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("allergies");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("allergies");
 
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
 
-            boolean isValid = actualValues.containsAll(expectedValues);
+        boolean isValid = actualValues.containsAll(expectedValues);
 
-            Assert.assertTrue(
-                    isValid,
-                    "Allergy dropdown values mismatch.\nExpected: " + expectedValues +
-                            "\nActual: " + actualValues
-            );
+        Assert.assertTrue(
+                isValid,
+                "Allergy dropdown values mismatch.\nExpected: " + expectedValues +
+                        "\nActual: " + actualValues
+        );
 
     }
 
@@ -502,17 +479,17 @@ public class AddPatientStepDefinition {
     @Then("Dropdown should contain {int} values")
     public void dropdown_should_contain_values(Integer expectedCount) {
 
-            logger.info("Validating number of values in Allergy dropdown...");
+        logger.info("Validating number of values in Allergy dropdown...");
 
-            List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
 
-            int actualCount = actualValues.size();
+        int actualCount = actualValues.size();
 
-            Assert.assertEquals(
-                    actualCount,
-                    expectedCount,
-                    "Mismatch in number of Allergy dropdown values. Actual: " + actualCount
-            );
+        Assert.assertEquals(
+                actualCount,
+                expectedCount,
+                "Mismatch in number of Allergy dropdown values. Actual: " + actualCount
+        );
 
 
     }
@@ -520,26 +497,26 @@ public class AddPatientStepDefinition {
     @Then("Dropdown should contain specific allergy values")
     public void dropdown_should_contain_specific_allergy_values() {
 
-            logger.info("Validating specific Allergy dropdown values from Excel...");
+        logger.info("Validating specific Allergy dropdown values from Excel...");
 
 
-            List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
 
 
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("allergies");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("allergies");
 
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
 
-            boolean isValid = actualValues.containsAll(expectedValues);
+        boolean isValid = actualValues.containsAll(expectedValues);
 
-            Assert.assertTrue(
-                    isValid,
-                    "Allergy dropdown values mismatch.\nExpected: " + expectedValues +
-                            "Actual: " + actualValues
-            );
+        Assert.assertTrue(
+                isValid,
+                "Allergy dropdown values mismatch.\nExpected: " + expectedValues +
+                        "Actual: " + actualValues
+        );
 
 
     }
@@ -547,34 +524,34 @@ public class AddPatientStepDefinition {
     @When("User clicks on Food Preference dropdown")
     public void user_clicks_on_food_preference_dropdown() {
 
-            logger.info("Clicking Food Preference dropdown...");
-            addPatientPage.clickFoodPreferenceDropdown();
+        logger.info("Clicking Food Preference dropdown...");
+        addPatientPage.clickFoodPreferenceDropdown();
 
     }
 
     @Then("Values should be present inside Food preference dropdown")
     public void values_should_be_present_inside_food_preference_dropdown() {
 
-            logger.info("Validating Food Preference dropdown values from Excel...");
+        logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-            List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
 
 
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("foodPreference");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("foodPreference");
 
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
 
-            boolean isValid = actualValues.containsAll(expectedValues);
+        boolean isValid = actualValues.containsAll(expectedValues);
 
-            Assert.assertTrue(
-                    isValid,
-                    "Food Preference dropdown values mismatch.Expected: " + expectedValues +
-                            "Actual: " + actualValues
-            );
+        Assert.assertTrue(
+                isValid,
+                "Food Preference dropdown values mismatch.Expected: " + expectedValues +
+                        "Actual: " + actualValues
+        );
 
 
     }
@@ -583,16 +560,16 @@ public class AddPatientStepDefinition {
     @Then("Dropdown should contain {int} values in Food Preference dropdown")
     public void dropdown_should_contain_values_in_food_preference_dropdown(Integer expectedCount) {
 
-            logger.info("Validating number of values in Food Preference dropdown...");
+        logger.info("Validating number of values in Food Preference dropdown...");
 
-            List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
-            int actualCount = actualValues.size();
+        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        int actualCount = actualValues.size();
 
-            Assert.assertEquals(
-                    actualCount,
-                    expectedCount,
-                    "Mismatch in number of Food Preference dropdown values. Actual: " + actualCount
-            );
+        Assert.assertEquals(
+                actualCount,
+                expectedCount,
+                "Mismatch in number of Food Preference dropdown values. Actual: " + actualCount
+        );
 
 
     }
@@ -601,26 +578,26 @@ public class AddPatientStepDefinition {
     @Then("Dropdown should contain specific Food Preference values")
     public void dropdown_should_contain_specific_food_preference_values() {
 
-            logger.info("Validating Food Preference dropdown values from Excel...");
+        logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-            List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
 
 
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("foodPreference");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("foodPreference");
 
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
 
-            boolean isValid = actualValues.containsAll(expectedValues);
+        boolean isValid = actualValues.containsAll(expectedValues);
 
-            Assert.assertTrue(
-                    isValid,
-                    "Food Preference dropdown values mismatch.Expected: " + expectedValues +
-                            "Actual: " + actualValues
-            );
+        Assert.assertTrue(
+                isValid,
+                "Food Preference dropdown values mismatch.Expected: " + expectedValues +
+                        "Actual: " + actualValues
+        );
 
 
     }
@@ -628,29 +605,29 @@ public class AddPatientStepDefinition {
     @When("User clicks on Cuisine dropdown")
     public void user_clicks_on_cuisine_dropdown() {
 
-            logger.info("Clicking Cuisine dropdown...");
-            addPatientPage.clickCuisineDropdown();
+        logger.info("Clicking Cuisine dropdown...");
+        addPatientPage.clickCuisineDropdown();
 
     }
 
     @Then("Values should be present inside Cuisine dropdown")
     public void values_should_be_present_inside_cuisine_dropdown() {
 
-            logger.info("Validating Cuisine dropdown values from Excel...");
-            List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        logger.info("Validating Cuisine dropdown values from Excel...");
+        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
 
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("cuisine");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("cuisine");
 
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
-            boolean isValid = actualValues.containsAll(expectedValues);
-            Assert.assertTrue(
-                    isValid,
-                    "Cuisine dropdown values mismatch.Expected: " + expectedValues +
-                            "Actual: " + actualValues
-            );
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
+        boolean isValid = actualValues.containsAll(expectedValues);
+        Assert.assertTrue(
+                isValid,
+                "Cuisine dropdown values mismatch.Expected: " + expectedValues +
+                        "Actual: " + actualValues
+        );
 
 
     }
@@ -659,14 +636,14 @@ public class AddPatientStepDefinition {
     @Then("Cuisine dropdown should contain {int} values")
     public void cuisine_dropdown_should_contain_values(Integer expectedCount) {
 
-            logger.info("Validating number of values in Cuisine dropdown...");
-            List<String> actualValues = addPatientPage.getCuisineDropdownValues();
-            int actualCount = actualValues.size();
-            Assert.assertEquals(
-                    actualCount,
-                    expectedCount,
-                    "Mismatch in number of Cuisine dropdown values. Actual: " + actualCount
-            );
+        logger.info("Validating number of values in Cuisine dropdown...");
+        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        int actualCount = actualValues.size();
+        Assert.assertEquals(
+                actualCount,
+                expectedCount,
+                "Mismatch in number of Cuisine dropdown values. Actual: " + actualCount
+        );
 
 
     }
@@ -674,16 +651,16 @@ public class AddPatientStepDefinition {
     @Then("Dropdown should contain specific Cuisine values")
     public void dropdown_should_contain_specific_cuisine_values() {
 
-            logger.info("Validating Cuisine dropdown values from Excel...");
-            List<String> actualValues = addPatientPage.getCuisineDropdownValues();
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("cuisine");
-            List<String> expectedValues = excelData.stream()
-                    .map(row -> row.get("Values"))
-                    .toList();
-            boolean isValid = actualValues.containsAll(expectedValues);
-            Assert.assertTrue(isValid, "Cuisine dropdown values mismatch.Expected: " + expectedValues + "Actual: " + actualValues
-            );
+        logger.info("Validating Cuisine dropdown values from Excel...");
+        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("cuisine");
+        List<String> expectedValues = excelData.stream()
+                .map(row -> row.get("Values"))
+                .toList();
+        boolean isValid = actualValues.containsAll(expectedValues);
+        Assert.assertTrue(isValid, "Cuisine dropdown values mismatch.Expected: " + expectedValues + "Actual: " + actualValues
+        );
 
     }
 
@@ -691,19 +668,19 @@ public class AddPatientStepDefinition {
     @When("User enters valid values in all required fields")
     public void user_enters_valid_values_in_all_required_fields() {
 
-            logger.info("Reading required fields from Excel...");
-            List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
-            addPatientPage.fillRequiredFieldsFromExcel(excelData);
+        logger.info("Reading required fields from Excel...");
+        List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
+        addPatientPage.fillRequiredFieldsFromExcel(excelData);
 
     }
 
     @Then("Submit button should be enabled")
     public void submit_button_should_be_enabled() {
 
-            boolean enabled = addPatientPage.isSubmitButtonEnabled();
+        boolean enabled = addPatientPage.isSubmitButtonEnabled();
 
-            Assert.assertTrue(enabled, "Submit button is NOT enabled even after filling all required fields."
-            );
+        Assert.assertTrue(enabled, "Submit button is NOT enabled even after filling all required fields."
+        );
 
 
     }
@@ -711,23 +688,23 @@ public class AddPatientStepDefinition {
     @When("User clicks Submit after entering valid data in all mandatory fields")
     public void user_clicks_submit_after_entering_valid_data() {
 
-            logger.info("Clicking Submit button after filling mandatory fields...");
-            List<Map<String, String>> excelData =
-                    ExcelReader.readDataFromExcel("requiredFields");
-            addPatientPage.fillRequiredFieldsFromExcel(excelData);
-            addPatientPage.clickSubmitButton();
+        logger.info("Clicking Submit button after filling mandatory fields...");
+        List<Map<String, String>> excelData =
+                ExcelReader.readDataFromExcel("requiredFields");
+        addPatientPage.fillRequiredFieldsFromExcel(excelData);
+        addPatientPage.clickSubmitButton();
 
     }
 
     @Then("User should see patient successfully created toast message")
     public void user_should_see_patient_successfully_created_toast_message() {
 
-            logger.info("Validating success toast message...");
+        logger.info("Validating success toast message...");
 
-            String actualToast = addPatientPage.getToastMessageText();
+        String actualToast = addPatientPage.getToastMessageText();
 
-            Assert.assertEquals(actualToast, "Patient successfully created", "Toast message mismatch"
-            );
+        Assert.assertEquals(actualToast, "Patient successfully created", "Toast message mismatch"
+        );
 
 
     }
@@ -737,20 +714,20 @@ public class AddPatientStepDefinition {
     public void user_is_directed_to_my_patient_page_with_new_patient_details_created() {
 
 
-            addPatientPage.goToMyPatients();
-            List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
-            String firstName = excelData.get(0).get("firstName");
-            String lastName = excelData.get(0).get("lastName");
-            boolean isPresent = addPatientPage.isPatientPresent(firstName, lastName);
-            Assert.assertTrue(isPresent, "User was NOT directed to My Patient Page with the new patient details created"
-            );
+        addPatientPage.goToMyPatients();
+        List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
+        String firstName = excelData.get(0).get("firstName");
+        String lastName = excelData.get(0).get("lastName");
+        boolean isPresent = addPatientPage.isPatientPresent(firstName, lastName);
+        Assert.assertTrue(isPresent, "User was NOT directed to My Patient Page with the new patient details created"
+        );
 
     }
 
     @When("User selects {string} from Allergy dropdown")
     public void user_selects_from_allergy_dropdown(String allergy) {
 
-            addPatientPage.selectAllergy(allergy);
+        addPatientPage.selectAllergy(allergy);
 
     }
 
@@ -758,10 +735,10 @@ public class AddPatientStepDefinition {
     public void should_be_selected_in_the_allergy_field(String expected) {
 
 
-            String actual = addPatientPage.getSelectedAllergy();
+        String actual = addPatientPage.getSelectedAllergy();
 
-            Assert.assertEquals(actual, expected, "Allergy field does not show the expected selected value"
-            );
+        Assert.assertEquals(actual, expected, "Allergy field does not show the expected selected value"
+        );
 
     }
 
@@ -769,8 +746,8 @@ public class AddPatientStepDefinition {
     public void user_selects_and_from_allergy_dropdown(String first, String second) {
 
 
-            addPatientPage.selectAllergy(first);
-            addPatientPage.selectAllergy(second);
+        addPatientPage.selectAllergy(first);
+        addPatientPage.selectAllergy(second);
 
 
     }
@@ -778,7 +755,7 @@ public class AddPatientStepDefinition {
     @When("User tries to select {string} from Allergy dropdown")
     public void user_tries_to_select_from_allergy_dropdown(String allergy) {
 
-            selectionAttempt = addPatientPage.trySelectAllergy(allergy);
+        selectionAttempt = addPatientPage.trySelectAllergy(allergy);
 
     }
 
@@ -787,48 +764,48 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_allergy_field() {
 
 
-            String actual = addPatientPage.getSelectedAllergy();
-            Assert.assertEquals(actual, "Allergies", "Allergy field changed unexpectedly — no selection should have occurred"
-            );
+        String actual = addPatientPage.getSelectedAllergy();
+        Assert.assertEquals(actual, "Allergies", "Allergy field changed unexpectedly — no selection should have occurred"
+        );
 
     }
 
 
     @When("User selects {string} from Food Preference dropdown")
     public void user_selects_from_food_preference_dropdown(String preference) {
-            addPatientPage.selectFoodPreference(preference);
+        addPatientPage.selectFoodPreference(preference);
     }
 
     @Then("{string} should be selected in the Food Preference field")
     public void should_be_selected_in_the_food_preference_field(String expected) {
 
-            String actual = addPatientPage.getSelectedFoodPreference();
-            Assert.assertEquals(actual, expected, "Food Preference field does not show the expected selected value"
-            );
+        String actual = addPatientPage.getSelectedFoodPreference();
+        Assert.assertEquals(actual, expected, "Food Preference field does not show the expected selected value"
+        );
 
     }
 
     @When("User selects {string} and {string} from Food Preference dropdown")
     public void user_selects_and_from_food_preference_dropdown(String first, String second) {
 
-            addPatientPage.selectFoodPreference(first);
-            addPatientPage.selectFoodPreference(second);
+        addPatientPage.selectFoodPreference(first);
+        addPatientPage.selectFoodPreference(second);
 
     }
 
     @When("User tries to select {string} from Food Preference dropdown")
     public void user_tries_to_select_from_food_preference_dropdown(String preference) {
 
-            selectionAttempt = addPatientPage.trySelectFoodPreference(preference);
+        selectionAttempt = addPatientPage.trySelectFoodPreference(preference);
 
     }
 
     @Then("No selection should occur in the Food Preference field")
     public void no_selection_should_occur_in_the_food_preference_field() {
 
-            String actual = addPatientPage.getSelectedFoodPreference();
-            Assert.assertEquals(actual, "Food Preference", "Food Preference field changed unexpectedly — no selection should have occurred"
-            );
+        String actual = addPatientPage.getSelectedFoodPreference();
+        Assert.assertEquals(actual, "Food Preference", "Food Preference field changed unexpectedly — no selection should have occurred"
+        );
 
     }
 
@@ -836,7 +813,7 @@ public class AddPatientStepDefinition {
     @When("User selects {string} from Cuisine Category dropdown")
     public void user_selects_from_cuisine_category_dropdown(String category) {
 
-            addPatientPage.selectCuisineCategory(category);
+        addPatientPage.selectCuisineCategory(category);
 
     }
 
@@ -844,24 +821,24 @@ public class AddPatientStepDefinition {
     @Then("{string} should be selected in the Cuisine Category field")
     public void should_be_selected_in_the_cuisine_category_field(String expected) {
 
-            String actual = addPatientPage.getCuisineCategoryPlaceholder();
-            Assert.assertEquals(actual, expected, "Cuisine Category field does not show the expected selected value"
-            );
+        String actual = addPatientPage.getCuisineCategoryPlaceholder();
+        Assert.assertEquals(actual, expected, "Cuisine Category field does not show the expected selected value"
+        );
 
     }
 
     @When("User selects {string} and {string} from Cuisine Category dropdown")
     public void user_selects_and_from_cuisine_category_dropdown(String first, String second) {
 
-            addPatientPage.selectCuisineCategory(first);
-            addPatientPage.selectCuisineCategory(second);
+        addPatientPage.selectCuisineCategory(first);
+        addPatientPage.selectCuisineCategory(second);
 
     }
 
     @When("User tries to select {string} from Cuisine Category dropdown")
     public void user_tries_to_select_from_cuisine_category_dropdown(String category) {
 
-            selectionAttempt = addPatientPage.trySelectCuisineCategory(category);
+        selectionAttempt = addPatientPage.trySelectCuisineCategory(category);
 
     }
 
@@ -870,76 +847,41 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_cuisine_category_field() {
 
 
-            String actual = addPatientPage.getCuisineCategoryPlaceholder();
-            Assert.assertTrue(!selectionAttempt && actual.equals("Cuisine Category"), "Cuisine Category field changed unexpectedly or invalid selection was allowed"
-            );
+        String actual = addPatientPage.getCuisineCategoryPlaceholder();
+        Assert.assertTrue(!selectionAttempt && actual.equals("Cuisine Category"), "Cuisine Category field changed unexpectedly or invalid selection was allowed"
+        );
 
     }
 
     @When("User clicks Date of Birth field")
     public void user_clicks_date_of_birth_field() {
 
-            addPatientPage.clickDOBField();
+        addPatientPage.clickDOBField();
 
 
     }
+
     @Then("User should see calender date picker displayed with Month,Day,Year")
     public void user_should_see_calendar_date_picker_displayed_with_month_day_year() {
 
 
-            boolean visible = addPatientPage.isCalendarVisible();
-            boolean hasMonth = addPatientPage.hasMonthDropdown();
-            boolean hasYear = addPatientPage.hasYearInput();
-            boolean hasDay = addPatientPage.hasDayCells();
+        boolean visible = addPatientPage.isCalendarVisible();
+        boolean hasMonth = addPatientPage.hasMonthDropdown();
+        boolean hasYear = addPatientPage.hasYearInput();
+        boolean hasDay = addPatientPage.hasDayCells();
 
-            Assert.assertTrue(
-                    visible && hasMonth && hasYear && hasDay,
-                    "DOB date picker is missing Month/Day/Year or did not appear"
-            );
+        Assert.assertTrue(
+                visible && hasMonth && hasYear && hasDay,
+                "DOB date picker is missing Month/Day/Year or did not appear"
+        );
 
+
+    }
 
     }
 
 
-    @When("User clicks Date of Birth field, selects valid date 01/12/2000")
-    public void user_clicks_dob_and_selects_valid_date() {
 
-
-            addPatientPage.clickDOBField();
-            addPatientPage.selectMonth("January");
-            addPatientPage.selectYear("2000");
-
-            addPatientPage.selectDay("12");
-
-
-    }
-    @When("User clicks Date of Birth field and selects valid date {string} {string} {string}")
-    public void user_clicks_dob_and_selects_valid_date(String month, String day, String year) {
-
-
-            addPatientPage.clickDOBField();
-            addPatientPage.selectMonth(month);
-            addPatientPage.selectYear(year);
-            addPatientPage.selectDay(day);
-
-
-    }
-    @Then("User should see the selected date {string} {string} {string}")
-    public void user_should_see_the_selected_date(String month, String day, String year) {
-
-
-            String expected = year + "-" + month + "-" + day;
-            String actual = addPatientPage.getDOBValue();
-            Assert.assertEquals(
-                    actual,
-                    expected,
-                    "DOB field does not show the expected selected date " + month + "/" + day + "/" + year
-            );
-
-    }
-
-
-}
 
 
 

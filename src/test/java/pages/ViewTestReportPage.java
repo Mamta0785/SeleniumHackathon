@@ -1,7 +1,6 @@
 package pages;
 
-import java.util.List;
-
+import DriverManager.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,235 +9,186 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
-import DriverManager.DriverFactory;
+import java.util.List;
 
 
 public class ViewTestReportPage {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ViewTestReportPage.class);
 
-	private WebDriver driver;
-	
-	@FindBy(xpath = "//button[contains(text(),'View Previous Test Reports')]" ) 
-	private WebElement ViewTestReportButton;
-	
-	@FindBy (xpath = "//div[@class='modal-content']")
-	private WebElement modalContainer;
-	
-	@FindBy (xpath = "//div[@class='modal-title h4']")
-	private WebElement pageTitle;
-	
-	@FindBy(xpath = "//div[contains(text(),'Patient ID:')]")
+    private static final Logger logger = LoggerFactory.getLogger(ViewTestReportPage.class);
+
+    private WebDriver driver;
+
+    @FindBy(xpath = "//button[contains(text(),'View Previous Test Reports")
+    private WebElement ViewTestReportButton;
+
+    @FindBy(xpath = "//div[@class='modal-content']")
+    private WebElement modalContainer;
+
+    @FindBy(xpath = "//div[@class='modal-title h4']")
+    private WebElement pageTitle;
+
+    @FindBy(xpath = "//div[contains(text(),'Patient ID:')]")
     private WebElement patientId;
 
-	@FindBy(xpath = "//div[contains(text(),'Patient Name:')]")
+    @FindBy(xpath = "//div[contains(text(),'Patient Name:')]")
     private WebElement patientName;
-	
-	@FindBy(xpath = "//div[contains(text(),'Patient Email:')]")
+
+    @FindBy(xpath = "//div[contains(text(),'Patient Email:')]")
     private WebElement patientEmail;
-	
-	@FindBy(xpath = "//div[contains(text(),'Patient Contact Number:')]")
+
+    @FindBy(xpath = "//div[contains(text(),'Patient Contact Number:')]")
     private WebElement patientContactNumber;
-	
-	@FindBy(xpath = "//button[contains(text(),'Close')]")
+
+    @FindBy(xpath = "//button[contains(text(),'Close')]")
     private WebElement CloseButton;
-	
-	@FindBy(xpath = "//table[@name='ReportTable']//tr")
+
+    @FindBy(xpath = "//table[@name='ReportTable']//tr")
     private WebElement ReportTable;
-	
-	@FindBy(xpath = "//button[contains(text(),'View PDF')]" ) 
-	private WebElement ViewPDFButton;
-	
-	@FindBy(css = " table > tbody > tr:nth-child(1)")
-	private List<WebElement> tableHeaders;
-	
-	@FindBy(xpath = "//td[contains(@class,'vitals')]")
-	public List<WebElement> vitalsCells;
-	
-	@FindBy(xpath = "//button[normalize-space(text())='<<']")
-	private WebElement firstPageArrow;
-	
-	@FindBy(xpath = "//button[normalize-space(text())='<']")
-	private WebElement previousArrow;
-	
-	@FindBy(xpath = "//button[normalize-space(text())='>']")
-	private WebElement nextArrow;
-	
-	@FindBy(xpath = "//button[normalize-space(text())='>>']")
-	private WebElement lastPageArrow;
-	
-	public ViewTestReportPage() {
-		this.driver = DriverFactory.getDriver();
-		PageFactory.initElements(driver, this);;
-		logger.info("ViewTestReportPage initialized successfully.");	
-}
-	
-	public void clickViewTestReportButton() {
-		logger.info("Clicking View Test Report button.");
-		
-		try {
-	        ViewTestReportButton.click();
-	        logger.info("View Test Report button clicked successfully");
-	    } catch (Exception e) {
-	        logger.error("Failed to click View Test Report button", e);
-	        throw new AssertionError("Unable to click View Test Report button", e);
-	    }
-	}
-	
-	public boolean isReportOpenedForSelectedRecord() {
-		try {
-	        boolean opened = modalContainer.isDisplayed();
-	        logger.info("Report modal opened for selected record: {}", opened);
-	        return opened;
-	    } catch (Exception e) {
-	        logger.error("Error while checking report modal", e);
-	        return false;
-	    }
-	}
 
-	public String getPageTitle() {
-		try {
-	        String title = pageTitle.getText().trim();
-	        logger.info("Page title retrieved: {}", title);
-	        return title;
-	    } catch (Exception e) {
-	        logger.error("Error in page title display", e);
-	        return "";  
-	    }
-	}
+    @FindBy(xpath = "//button[contains(text(),'View PDF")
+    private WebElement ViewPDFButton;
 
-		
-	public boolean isCloseButtonDisplayed() {
-		try {
-	        boolean visible = CloseButton.isDisplayed();
-	        logger.info("Close Button visibility: {}", visible);
-	        return visible;
-	    } catch (Exception e) {
-	        logger.error("Error checking Close Button is visible", e);
-	        return false;
-	    }
-        
+    @FindBy(css = " table > tbody > tr:nth-child(1)")
+    private List<WebElement> tableHeaders;
+
+    @FindBy(xpath = "//td[contains(@class,'vitals')]")
+    public List<WebElement> vitalsCells;
+
+    @FindBy(xpath = "//button[normalize-space(text())='<<']")
+    private WebElement firstPageArrow;
+
+    @FindBy(xpath = "//button[normalize-space(text())='<']")
+    private WebElement previousArrow;
+
+    @FindBy(xpath = "//button[normalize-space(text())='>']")
+    private WebElement nextArrow;
+
+    @FindBy(xpath = "//button[normalize-space(text())='>>']")
+    private WebElement lastPageArrow;
+
+    public ViewTestReportPage() {
+        this.driver = DriverFactory.getDriver();
+        PageFactory.initElements(driver, this);
+        ;
+        logger.info("ViewTestReportPage initialized successfully.");
     }
-	
-	public boolean isPatientInfoFieldDisplayed(String fieldName) {
-	    try {
-	        switch (fieldName.trim().toLowerCase()) {
 
-	            case "patient id":
-	                return patientId.isDisplayed();
-
-	            case "patient name":
-	                return patientName.isDisplayed();
-
-	            case "patient email":
-	                return patientEmail.isDisplayed();
-
-	            case "contact number":
-	                return patientContactNumber.isDisplayed();
-
-	            default:
-	                logger.error("Invalid field name passed: {}", fieldName);
-	                return false;
-	        }
-
-	    } catch (Exception e) {
-	        logger.error("Error checking visibility for field: {}", fieldName, e);
-	        return false;
-	    }
-	}
-
-	public boolean isReportTableDisplayed() {
-		try {
-	        boolean visible = ReportTable.isDisplayed();
-	        logger.info("Report Table visibility: {}", visible);
-	        return visible;
-	    } catch (Exception e) {
-	        logger.error("Error checking Report Table is visible", e);
-	        return false;
-	    }
-		
+    public void clickViewTestReportButton() {
+        logger.info("Clicking Login button.");
+        //JSUtils.clickElement(ViewTestReportButton);
+        ViewTestReportButton.click();
     }
-		
-	public boolean isViewPDFButtonVisible() {
-		try {
-	        boolean visible = ViewPDFButton.isDisplayed();
-	        logger.info("View PDF button visibility: {}", visible);
-	        return visible;
-	    } catch (Exception e) {
-	        logger.error(" View PDF button is not visible", e);
-	        return false;
-	    }
-	}
-	
-	public boolean isTableHeaderDisplayed(String expectedHeader) {
 
-		try {
-	        for (WebElement header : tableHeaders) {
-	            if (header.getText().trim().equalsIgnoreCase(expectedHeader)) {
-	                logger.info("Header '{}' is displayed correctly", expectedHeader);
-	                return true;
-	            }
-	        }
-	        return false;
-	    } catch (Exception e) {
-	        logger.error("Error verifying table header: {}", expectedHeader, e);
-	        return false;
-	    }
-	    
-	}
-	
-	public void verifyVitalsOrder() {
+    public boolean isReportOpenedForSelectedRecord() {
+        boolean opened = modalContainer.isDisplayed();
+        logger.info("Report modal opened for selected record: {}", opened);
+        return opened;
+    }
 
-		try {
-	        String actualVitals = vitalsCells.get(0).getText().trim();
-	        logger.info("Actual Vitals text : {}", actualVitals);
+    public String getPageTitle() {
+        String title = pageTitle.getText().trim();
+        logger.info("Page title retrieved: {}", title);
+        return title;
+    }
 
-	        String[] expectedOrder = {"Weight", "Height", "Temperature", "SP", "DP"};
-	        int lastIndex = -1;
+    public boolean isPatientIdDisplayed() {
+        boolean visible = patientId.isDisplayed();
+        logger.info("Patient ID visibility: {}", visible);
+        return visible;
+    }
 
-	        for (String vital : expectedOrder) {
-	            int currentIndex = actualVitals.indexOf(vital);
+    public boolean isPatientNameDisplayed() {
+        boolean visible = patientName.isDisplayed();
+        logger.info("Patient Name visibility: {}", visible);
+        return visible;
+    }
 
-	            if (currentIndex == -1) {
-	                throw new AssertionError("Vital not found in cell: " + vital);
-	            }
+    public boolean isPatientEmailDisplayed() {
+        boolean visible = patientEmail.isDisplayed();
+        logger.info("Patient Email visibility: {}", visible);
+        return visible;
+    }
 
-	            if (currentIndex < lastIndex) {
-	                throw new AssertionError(
-	                        "Vital '" + vital + "' is out of order: " + actualVitals
-	                );
-	            }
+    public boolean isPatientContactNumberDisplayed() {
+        boolean visible = patientContactNumber.isDisplayed();
+        logger.info("Patient Contact Number visibility: {}", visible);
+        return visible;
+    }
 
-	            lastIndex = currentIndex;
-	        }
+    public boolean isCloseButtonDisplayed() {
+        boolean visible = CloseButton.isDisplayed();
+        logger.info("Close Button: {}", visible);
+        return visible;
+    }
 
-	        logger.info("Vitals are displayed in correct order: Weight → Height → Temperature → SP → DP");
+    public boolean isReportTableDisplayed() {
+        boolean visible = ReportTable.isDisplayed();
+        logger.info("Report Table: {}", visible);
+        return visible;
+    }
 
-	    } catch (Exception e) {
-	        logger.error("Error in vitals order", e);
-	        throw new AssertionError(
-	                "Vitals order validation failed ", e
-	        );
-	    }
-	}
-	
-	public boolean isPaginationControlsDisplayed() {
-		try {
-	        boolean first = firstPageArrow.isDisplayed();
-	        boolean prev = previousArrow.isDisplayed();
-	        boolean next = nextArrow.isDisplayed();
-	        boolean last = lastPageArrow.isDisplayed();
+    public boolean isViewPDFButtonVisible() {
+        boolean visible = ViewPDFButton.isDisplayed();
+        logger.info("View PDF button visibility: {}", visible);
+        return visible;
+    }
 
-	        logger.info("Pagination controls visibility: first={}, prev={}, next={}, last={}",
-	                first, prev, next, last);
+    public void isTableHeaderDisplayed(String expectedHeader) {
 
-	        return first && prev && next && last;
+        boolean found = false;
 
-	    } catch (Exception e) {
-	        logger.error("Error while checking pagination controls", e);
-	        return false;
-	    }
-	    }
-	
+        for (WebElement header : tableHeaders) {
+            String actualText = header.getText();
+
+            if (actualText.equalsIgnoreCase(expectedHeader)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw new AssertionError("Header not found: " + expectedHeader);
+        }
+    }
+
+    public void verifyVitalsOrder() {
+
+        String actualVitals = vitalsCells.get(0).getText().trim();
+        logger.info("Actual Vitals text retrieved: " + actualVitals);
+        String[] expectedOrder = {"Weight", "Height", "Temperature", "SP", "DP"};
+
+        int lastIndex = -1;
+        for (int i = 0; i < expectedOrder.length; i++) {
+
+            String vital = expectedOrder[i];
+            int currentIndex = actualVitals.indexOf(vital);
+
+
+            if (currentIndex == -1) {
+                throw new AssertionError("Vital not found in cell: " + vital);
+            }
+
+
+            if (currentIndex < lastIndex) {
+                throw new AssertionError("Vital '" + vital + "' is out of order in: " + actualVitals);
+            }
+
+            lastIndex = currentIndex;
+        }
+
+        logger.info("Vitals are displayed in correct order: Weight → Height → Temperature → SP → DP");
+    }
+
+    public void isPaginationControlsDisplayed() {
+        Assert.assertTrue(firstPageArrow.isDisplayed(),
+                "First page arrow is not displayed");
+        Assert.assertTrue(previousArrow.isDisplayed(),
+                "Previous arrow is not displayed");
+        Assert.assertTrue(nextArrow.isDisplayed(),
+                "Next arrow is not displayed");
+        Assert.assertTrue(lastPageArrow.isDisplayed(),
+                "Last page arrow is not displayed");
+        logger.info("All pagination controls are displayed: <<, <, >, >>");
+    }
+
 }
-		
