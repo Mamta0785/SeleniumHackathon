@@ -106,6 +106,7 @@ public class MyPatientPage {
 		logger.info("MyPatientPage initialized successfully.");
 	}
 	
+		
 	public String getPageHeadingText() {
 		String heading = pageHeading.getText().trim();
 		logger.info("Page heading retrieved: {}", heading);
@@ -363,5 +364,76 @@ public class MyPatientPage {
 	    }
 
 	    return actual.equals(expected);
+	}
+
+
+public void clickEditIconforSelectedRow(WebElement selectedRow) {
+	
+	try {
+		
+		int rowIndex = tableRows.indexOf(selectedRow);
+		
+		if(rowIndex>= 0 && rowIndex <editIcon.size()) {
+			WebElement icon = editIcon.get(rowIndex);
+			
+			if (icon.isDisplayed()) {
+				icon.click();
+			}else {
+				throw new RuntimeException ("Edit icon is not visble for the selected row");
+			}
+				
+			}else {
+				throw new RuntimeException ("Selected row is not found in tableRows list");
+			}
+		}catch (Exception e)	 {
+			throw new RuntimeException ("failed to click edit icon for the selected row",e);
+			
+		}
+	
+
+	}	
+
+private WebElement userSelectedRow;
+
+public void selectRow(WebElement row) {
+	if (tableRows.contains(row)) {
+		userSelectedRow = row;
+		row.click();
+	}else {
+		throw new RuntimeException ("the row is not present");
+	}
+}
+
+
+public WebElement getUserSelectedRow () {
+	if (userSelectedRow !=null) {
+		return userSelectedRow;
+	} else {
+		throw new RuntimeException("no row has been selected");
+	}
+}	
+
+//Edit Icon
+public void clickEditIconForSelectedRow() {
+	if (userSelectedRow ==null) {
+		throw new RuntimeException("no row has been selected");
+	}
+	int rowIndex = tableRows.indexOf(userSelectedRow);
+	if (rowIndex >=0 && rowIndex <editIcon.size()) {
+		WebElement icon = editIcon.get(rowIndex);
+			if (icon.isDisplayed()) {
+				icon.click();
+			}else {
+				throw new RuntimeException("Edit icon is not visble");
+			}
+	}else {
+		throw new RuntimeException("Edit icon is not visble");
+	}
+			}
+		
+	
+
+public List<WebElement> getAllRows() {
+	return tableRows.subList(1,tableRows.size());
 	}
 }
