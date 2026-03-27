@@ -1,3 +1,4 @@
+
 Feature: Login Functionality
 
   Background: User enters the URL of the application in the browser

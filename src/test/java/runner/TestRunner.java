@@ -9,10 +9,9 @@ import org.testng.annotations.DataProvider;
         "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
         "com.aventstack.chaintest.plugins.ChainTestCucumberListener:"
 
-
 },
         monochrome = true,
-        features = {"src/test/resources/features/"},
+        features = {"src/test/resources/features/TC04_AddPatient.feature"},
         //tags = "@loginfeature",
         glue = "stepdefinition")
 

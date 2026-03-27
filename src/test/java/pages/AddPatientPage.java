@@ -13,7 +13,7 @@ public class AddPatientPage {
 
     private WebDriver driver;
 
-    @FindBy(css = "a#newPatientLink")
+    @FindBy(xpath = "//a[text()='New Patient']")
     private WebElement newPatientHeader;
 
     @FindBy(xpath = "//h2[text()='Add Patient Details']")
@@ -82,9 +82,6 @@ public class AddPatientPage {
     @FindBy(xpath = "//label[text()='Upload Health Report']")
     private WebElement uploadHealthReportText;
 
-    @FindBy(xpath = "//input[@type='file']")
-    private WebElement healthReportInput;
-
     @FindBy(xpath = "//label[contains(text(),'No file Chosen')]")
     private WebElement noFileChosenText;
 
@@ -125,185 +122,366 @@ public class AddPatientPage {
     @FindBy(xpath = "//a[text()='My Patients']")
     private WebElement myPatientsLink;
 
+    @FindBy(css = ".flatpickr-calendar")
+    private WebElement dobCalendar;
+
+    @FindBy(css = ".flatpickr-monthDropdown-months")
+    private WebElement monthDropdown;
+    @FindBy(css = ".flatpickr-monthDropdown-months .flatpickr-monthDropdown-month")
+    private List<WebElement> monthOptions;
+
+    @FindBy(css = ".numInput.cur-year")
+    private WebElement yearInput;
+
+    @FindBy(css = ".flatpickr-day")
+    private List<WebElement> dayCells;
 
     public AddPatientPage() {
         this.driver = DriverFactory.getDriver();
         PageFactory.initElements(this.driver, this);
     }
 
-    public void clickNewPatientHeader() {
-        newPatientHeader.click();
-    }
-
     public boolean isDialogDisplayed() {
         try {
             return dialogTitle.isDisplayed();
         } catch (Exception e) {
-            return false;
+            throw new AssertionError("Failed to verify if 'Add Patient Details' dialog is displayed: " + e.getMessage(), e);
         }
     }
 
+
     public String getDialogTitle() {
-        return dialogTitle.getText().trim();
+        try {
+            return dialogTitle.getText().trim();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve dialog title: " + e.getMessage(), e);
+        }
     }
+
 
     public int getInputFieldCount() {
-        return inputFields.size();
+        try {
+            return inputFields.size();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve input field count: " + e.getMessage(), e);
+        }
     }
+
 
     public int getDropdownCount() {
-        return dropdowns.size();
+        try {
+            return dropdowns.size();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve dropdown count: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isDobDatePicker() {
-
-        return dobField.getAttribute("type").equals("date");
+        try {
+            return "date".equalsIgnoreCase(dobField.getAttribute("type"));
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if DOB field is a date picker: " + e.getMessage(), e);
+        }
     }
+
 
     public String getDobPlaceholder() {
-
-        return dobField.getAttribute("placeholder");
+        try {
+            return dobField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve DOB placeholder: " + e.getMessage(), e);
+        }
     }
+
 
     public int getFileUploadCount() {
-        return fileUploadInputs.size();
+        try {
+            return fileUploadInputs.size();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve file upload input count: " + e.getMessage(), e);
+        }
     }
+
 
     public int getSubmitButtonCount() {
-        return submitButtons.size();
+        try {
+            return submitButtons.size();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve submit button count: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isSubmitButtonDisabled() {
-        String disabled = submitButton.getAttribute("disabled");
-        return disabled != null;
+        try {
+            String disabled = submitButton.getAttribute("disabled");
+            return disabled != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Submit button is disabled: " + e.getMessage(), e);
+        }
     }
+
 
     public int getCloseButtonCount() {
-        return closeButtons.size();
+        try {
+            return closeButtons.size();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve close button count: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isCloseButtonEnabled() {
-        return closeButton.isEnabled();
+        try {
+            return closeButton.isEnabled();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Close button is enabled: " + e.getMessage(), e);
+        }
     }
 
+
     public void clickFirstNameAndBlur() {
-        firstNameField.click();
-        firstNameField.sendKeys("");
-        firstNameField.sendKeys(Keys.TAB);
+        try {
+            firstNameField.click();
+            firstNameField.sendKeys("");
+            firstNameField.sendKeys(Keys.TAB);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click and blur the First Name field: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isFirstNameErrorDisplayed() {
         try {
             return firstNameErrorMessage.isDisplayed();
         } catch (Exception e) {
-            return false;
+            throw new AssertionError("Failed to verify if First Name error message is displayed: "
+                    + e.getMessage(), e);
         }
     }
 
+
     public String getLastNamePlaceholder() {
-        return lastNameField.getAttribute("placeholder");
+        try {
+            return lastNameField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Last Name placeholder: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isLastNameMandatory() {
-        return lastNameField.getAttribute("required") != null;
+        try {
+            return lastNameField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Last Name field is mandatory: " + e.getMessage(), e);
+        }
     }
+
 
     public String getEmailPlaceholder() {
-        return emailField.getAttribute("placeholder");
+        try {
+            return emailField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Email placeholder: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isEmailMandatory() {
-        return emailField.getAttribute("required") != null;
+        try {
+            return emailField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Email field is mandatory: " + e.getMessage(), e);
+        }
     }
+
 
     public String getContactNumberPlaceholder() {
-        return contactNumberField.getAttribute("placeholder");
+        try {
+            return contactNumberField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Contact Number placeholder: " + e.getMessage(), e);
+        }
     }
+
 
     public boolean isContactNumberMandatory() {
-        return contactNumberField.getAttribute("required") != null;
+        try {
+            return contactNumberField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Contact Number field is mandatory: " + e.getMessage(), e);
+        }
     }
 
-    public String getAllergiesPlaceholder() {
-        return allergiesDropdown.getAttribute("value");
-    }
 
     public boolean isAllergiesMandatory() {
-        return allergiesDropdown.getAttribute("required") != null;
+        try {
+            return allergiesDropdown.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Allergies dropdown is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
+
 
     public String getAllergiesSelectedText() {
-        Select select = new Select(allergiesDropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            Select select = new Select(allergiesDropdown);
+            return select.getFirstSelectedOption().getText();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve selected Allergies text: "
+                    + e.getMessage(), e);
+        }
     }
+
 
     public String getFoodPreferencePlaceholder() {
-        Select select = new Select(foodPreferenceDropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            Select select = new Select(foodPreferenceDropdown);
+            return select.getFirstSelectedOption().getText();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Food Preference placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
+
     public boolean isFoodPreferenceMandatory() {
-        return foodPreferenceDropdown.getAttribute("required") != null;
+        try {
+            return foodPreferenceDropdown.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Food Preference dropdown is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getCuisineCategoryPlaceholder() {
-        Select select = new Select(cuisineCategoryDropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            Select select = new Select(cuisineCategoryDropdown);
+            return select.getFirstSelectedOption().getText();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Cuisine Category placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
+
     public boolean isCuisineCategoryMandatory() {
-        return cuisineCategoryDropdown.getAttribute("required") != null;
+        try {
+            return cuisineCategoryDropdown.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Cuisine Category is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isDobMandatory() {
-        return dobField.getAttribute("required") != null;
+        try {
+            return dobField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if DOB field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getWeightPlaceholder() {
-        return weightField.getAttribute("placeholder");
+        try {
+            return weightField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Weight placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isWeightMandatory() {
-        return weightField.getAttribute("required") != null;
+        try {
+            return weightField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Weight field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getHeightPlaceholder() {
-        return heightField.getAttribute("placeholder");
+        try {
+            return heightField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Height placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isHeightMandatory() {
-        return heightField.getAttribute("required") != null;
+        try {
+            return heightField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Height field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getTemperaturePlaceholder() {
-        return temperatureField.getAttribute("placeholder");
+        try {
+            return temperatureField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Temperature placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isTemperatureMandatory() {
-        return temperatureField.getAttribute("required") != null;
+        try {
+            return temperatureField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Temperature field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getSpPlaceholder() {
-        return spField.getAttribute("placeholder");
+        try {
+            return spField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve SP placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isSpMandatory() {
-        return spField.getAttribute("required") != null;
+        try {
+            return spField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if SP field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getDpPlaceholder() {
-        return dpField.getAttribute("placeholder");
+        try {
+            return dpField.getAttribute("placeholder");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve DP placeholder: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isDpMandatory() {
-        return dpField.getAttribute("required") != null;
+        try {
+            return dpField.getAttribute("required") != null;
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if DP field is mandatory: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isUploadHealthReportVisible() {
         try {
             return uploadHealthReportText.isDisplayed();
         } catch (Exception e) {
-            return false;
+            throw new AssertionError("Failed to verify visibility of 'Upload Health Report' text: "
+                    + e.getMessage(), e);
         }
     }
 
@@ -311,200 +489,405 @@ public class AddPatientPage {
         try {
             return noFileChosenText.isDisplayed();
         } catch (Exception e) {
-            return false;
+            throw new AssertionError("Failed to verify visibility of 'No file chosen' text: "
+                    + e.getMessage(), e);
         }
     }
 
     public boolean isDialogScrollable() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        long scrollHeight = (long) js.executeScript(
-                "return arguments[0].scrollHeight;", dialogScroll);
-
-        long clientHeight = (long) js.executeScript(
-                "return arguments[0].clientHeight;", dialogScroll);
-
-        return scrollHeight > clientHeight;
-    }
-
-    public void clickAllergyDropdown() {
-        allergies.click();
-    }
-
-    public List<String> getAllergyDropdownValues() {
-        Select select = new Select(allergiesDropdown);
-        return select.getOptions()
-                .stream()
-                .map(WebElement::getText)
-                .toList();
-    }
-
-    public void clickFoodPreferenceDropdown() {
-        foodPreference.click();
-    }
-
-    public List<String> getFoodPreferenceDropdownValues() {
-        Select select = new Select(foodPreferenceDropdown);
-        return select.getOptions()
-                .stream()
-                .map(WebElement::getText)
-                .toList();
-    }
-
-    public void clickCuisineDropdown() {
-        cuisine.click();
-    }
-
-    public List<String> getCuisineDropdownValues() {
-        Select select = new Select(cuisine);
-        return select.getOptions()
-                .stream()
-                .map(WebElement::getText)
-                .toList();
-    }
-
-    public void fillRequiredFieldsFromExcel(List<Map<String, String>> excelData) {
-
-        for (Map<String, String> row : excelData) {
-
-            String field = row.get("Field");
-            String value = row.get("Value");
-
-            switch (field) {
-
-                case "firstName":
-                    firstNameField.sendKeys(value);
-                    break;
-
-                case "lastName":
-                    lastNameField.sendKeys(value);
-                    break;
-
-                case "email":
-                    emailField.sendKeys(value);
-                    break;
-
-                case "contactNumber":
-                    contactNumberField.sendKeys(value);
-                    break;
-
-                case "allergies":
-                    new Select(allergiesDropdown).selectByVisibleText(value);
-                    break;
-
-                case "foodPreference":
-                    new Select(foodPreferenceDropdown).selectByVisibleText(value);
-                    break;
-
-                case "cuisineCategory":
-                    new Select(cuisineCategoryDropdown).selectByVisibleText(value);
-                    break;
-
-                case "dob":
-                    enterDateOfBirth(value);
-                    break;
-
-                default:
-                    System.out.println("Unknown field in Excel: " + field);
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            Object scrollHeightObj = js.executeScript(
+                    "return arguments[0].scrollHeight;", dialogScroll);
+            Object clientHeightObj = js.executeScript(
+                    "return arguments[0].clientHeight;", dialogScroll);
+            if (scrollHeightObj == null || clientHeightObj == null) {
+                throw new AssertionError("JavaScript returned null for scrollHeight or clientHeight.");
             }
+
+            long scrollHeight = ((Number) scrollHeightObj).longValue();
+            long clientHeight = ((Number) clientHeightObj).longValue();
+
+            return scrollHeight > clientHeight;
+
+        } catch (Exception e) {
+            throw new AssertionError("Failed to determine if dialog is scrollable: "
+                    + e.getMessage(), e);
         }
     }
 
+
+    public void clickAllergyDropdown() {
+        try {
+            allergies.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click the Allergy dropdown: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public List<String> getAllergyDropdownValues() {
+        try {
+            Select select = new Select(allergiesDropdown);
+            return select.getOptions()
+                    .stream()
+                    .map(WebElement::getText)
+                    .toList();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Allergy dropdown values: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public void clickFoodPreferenceDropdown() {
+        try {
+            foodPreference.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click the Food Preference dropdown: "
+                    + e.getMessage(), e);
+        }
+    }
+
+
+    public List<String> getFoodPreferenceDropdownValues() {
+        try {
+            Select select = new Select(foodPreferenceDropdown);
+            return select.getOptions()
+                    .stream()
+                    .map(WebElement::getText)
+                    .toList();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Food Preference dropdown values: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public void clickCuisineDropdown() {
+        try {
+            cuisine.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click the Cuisine dropdown: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public List<String> getCuisineDropdownValues() {
+        try {
+            Select select = new Select(cuisine);
+            return select.getOptions()
+                    .stream()
+                    .map(WebElement::getText)
+                    .toList();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve Cuisine dropdown values: "
+                    + e.getMessage(), e);
+        }
+    }
+
+
+    public void fillRequiredFieldsFromExcel(List<Map<String, String>> excelData) {
+        try {
+            for (Map<String, String> row : excelData) {
+
+                String field = row.get("Field");
+                String value = row.get("Value");
+
+                switch (field) {
+
+                    case "firstName":
+                        firstNameField.sendKeys(value);
+                        break;
+
+                    case "lastName":
+                        lastNameField.sendKeys(value);
+                        break;
+
+                    case "email":
+                        emailField.sendKeys(value);
+                        break;
+
+                    case "contactNumber":
+                        contactNumberField.sendKeys(value);
+                        break;
+
+                    case "allergies":
+                        new Select(allergiesDropdown).selectByVisibleText(value);
+                        break;
+
+                    case "foodPreference":
+                        new Select(foodPreferenceDropdown).selectByVisibleText(value);
+                        break;
+
+                    case "cuisineCategory":
+                        new Select(cuisineCategoryDropdown).selectByVisibleText(value);
+                        break;
+
+                    case "dob":
+                        enterDateOfBirth(value);
+                        break;
+
+                    default:
+                        throw new AssertionError("Unknown field in Excel: " + field);
+                }
+            }
+        } catch (Exception e) {
+            throw new AssertionError("Failed to fill required fields from Excel: "
+                    + e.getMessage(), e);
+        }
+    }
+
+
     public boolean isSubmitButtonEnabled() {
-        return submitButton.isEnabled();
+        try {
+            return submitButton.isEnabled();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if Submit button is enabled: "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getToastMessageText() {
         try {
             return toastMessage.getText().trim();
         } catch (Exception e) {
-            return null;
+            throw new AssertionError("Failed to retrieve toast message text: "
+                    + e.getMessage(), e);
         }
     }
 
-    public WebElement getSubmitButton() {
-        return submitButton;
-    }
 
     public void clickSubmitButton() {
-        submitButton.click();
+        try {
+            submitButton.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click the Submit button: "
+                    + e.getMessage(), e);
+        }
     }
 
     public void enterDateOfBirth(String date) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].value = arguments[1];", dobField, date);
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].value = arguments[1];", dobField, date);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to enter Date of Birth: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean isPatientPresent(String firstName, String lastName) {
-        String first = firstName.toLowerCase();
-        String last = lastName.toLowerCase();
+        try {
+            String first = firstName.toLowerCase();
+            String last = lastName.toLowerCase();
 
-        for (WebElement row : patientRows) {
-            String rowText = row.getText().toLowerCase();
-            if (rowText.contains(first) && rowText.contains(last)) {
-                return true;
+            for (WebElement row : patientRows) {
+                String rowText = row.getText().toLowerCase();
+                if (rowText.contains(first) && rowText.contains(last)) {
+                    return true;
+                }
             }
+            return false;
+
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if patient is present: "
+                    + e.getMessage(), e);
         }
-        return false;
     }
 
     public void goToMyPatients() {
-        myPatientsLink.click();
+        try {
+            myPatientsLink.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to navigate to My Patients: "
+                    + e.getMessage(), e);
+        }
     }
 
     public void selectAllergy(String allergy) {
-        Select select = new Select(allergiesDropdown);
-        select.selectByVisibleText(allergy);
+        try {
+            Select select = new Select(allergiesDropdown);
+            select.selectByVisibleText(allergy);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select allergy: " + allergy + " — "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getSelectedAllergy() {
-        Select select = new Select(allergiesDropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            Select select = new Select(allergiesDropdown);
+            return select.getFirstSelectedOption().getText();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve selected allergy: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean trySelectAllergy(String allergy) {
-        Select select = new Select(allergiesDropdown);
         try {
+            Select select = new Select(allergiesDropdown);
             select.selectByVisibleText(allergy);
             return true;
         } catch (NoSuchElementException e) {
             return false;
+        } catch (Exception e) {
+            throw new AssertionError("Unexpected failure while trying to select allergy: "
+                    + allergy + " — " + e.getMessage(), e);
         }
     }
 
+
     public void selectFoodPreference(String preference) {
-        Select select = new Select(foodPreferenceDropdown);
-        select.selectByVisibleText(preference);
+        try {
+            Select select = new Select(foodPreferenceDropdown);
+            select.selectByVisibleText(preference);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select Food Preference: " + preference + " — "
+                    + e.getMessage(), e);
+        }
     }
 
     public String getSelectedFoodPreference() {
-        Select select = new Select(foodPreferenceDropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            Select select = new Select(foodPreferenceDropdown);
+            return select.getFirstSelectedOption().getText();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve selected Food Preference: "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean trySelectFoodPreference(String preference) {
-        Select select = new Select(foodPreferenceDropdown);
         try {
+            Select select = new Select(foodPreferenceDropdown);
             select.selectByVisibleText(preference);
             return true;
         } catch (NoSuchElementException e) {
             return false;
+        } catch (Exception e) {
+            throw new AssertionError("Unexpected failure while trying to select Food Preference: "
+                    + preference + " — " + e.getMessage(), e);
         }
     }
 
 
     public void selectCuisineCategory(String category) {
-        Select select = new Select(cuisineCategoryDropdown);
-        select.selectByVisibleText(category);
+        try {
+            Select select = new Select(cuisineCategoryDropdown);
+            select.selectByVisibleText(category);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select Cuisine Category: " + category + " — "
+                    + e.getMessage(), e);
+        }
     }
 
     public boolean trySelectCuisineCategory(String category) {
-        Select select = new Select(cuisineCategoryDropdown);
         try {
+            Select select = new Select(cuisineCategoryDropdown);
             select.selectByVisibleText(category);
             return true;
         } catch (NoSuchElementException e) {
             return false;
+        } catch (Exception e) {
+            throw new AssertionError("Unexpected failure while trying to select Cuisine Category: "
+                    + category + " — " + e.getMessage(), e);
+        }
+    }
+
+    public void clickDOBField() {
+        try {
+            dobField.click();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to click the DOB field: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public boolean isCalendarVisible() {
+        try {
+            return dobCalendar.isDisplayed();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify if the calendar is visible: "
+                    + e.getMessage(), e);
+        }
+    }
+
+
+    public boolean hasMonthDropdown() {
+        try {
+            return monthDropdown.isDisplayed();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify visibility of Month dropdown: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public boolean hasYearInput() {
+        try {
+            return yearInput.isDisplayed();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify visibility of Year input: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public boolean hasDayCells() {
+        try {
+            return !dayCells.isEmpty();
+        } catch (Exception e) {
+            throw new AssertionError("Failed to verify presence of day cells: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public void selectMonth(String monthName) {
+        try {
+            monthDropdown.click();
+            for (WebElement m : monthOptions) {
+                if (m.getText().equalsIgnoreCase(monthName)) {
+                    m.click();
+                    return;
+                }
+            }
+            throw new AssertionError("Month option not found: " + monthName);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select month: " + monthName + " — "
+                    + e.getMessage(), e);
+        }
+    }
+
+
+    public void selectYear(String year) {
+        try {
+            yearInput.clear();
+            yearInput.sendKeys(year);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select year: " + year + " — "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public void selectDay(String day) {
+        try {
+            for (WebElement d : dayCells) {
+                if (d.getText().equals(day)) {
+                    d.click();
+                    return;
+                }
+            }
+            throw new AssertionError("Day not found in calendar: " + day);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to select day: " + day + " — "
+                    + e.getMessage(), e);
+        }
+    }
+
+    public String getDOBValue() {
+        try {
+            return dobField.getAttribute("value");
+        } catch (Exception e) {
+            throw new AssertionError("Failed to retrieve DOB value: "
+                    + e.getMessage(), e);
         }
     }
 

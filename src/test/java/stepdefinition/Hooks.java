@@ -52,6 +52,7 @@ public class Hooks {
         logger.info("Performed login with valid credentials");
     }
 
+
     @AfterStep
     public void screenShot(Scenario scenario) {
         if (scenario.isFailed()) {
