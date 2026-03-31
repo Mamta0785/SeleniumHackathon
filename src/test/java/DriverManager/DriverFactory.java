@@ -16,18 +16,21 @@ public class DriverFactory {
 
 	public static void launchBrowser(String browser) {
 
-		logger.info("Launching browser: {}", browser);
+		logger.info("======= Launching browser: {} on thread {} =======", browser, Thread.currentThread().getId());
 
 		try {
 			if (browser.equalsIgnoreCase("Chrome")) {
+				logger.info("Creating ChromeDriver instance...");
 				mydriver.set(new ChromeDriver());
 				logger.info("Chrome browser launched successfully.");
 			}
 			else if (browser.equalsIgnoreCase("Firefox")) {
+				logger.info("Creating FirefoxDriver instance...");
 				mydriver.set(new FirefoxDriver());
 				logger.info("Firefox browser launched successfully.");
 			}
 			else if (browser.equalsIgnoreCase("Edge")) {
+				logger.info("Creating EdgeDriver instance...");
 				mydriver.set(new EdgeDriver());
 				logger.info("Edge browser launched successfully.");
 			}

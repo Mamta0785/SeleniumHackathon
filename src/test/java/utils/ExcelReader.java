@@ -24,6 +24,10 @@ public class ExcelReader {
         try (FileInputStream fis = new FileInputStream(prop.getProperty("xlPath"));
              Workbook workbook = new XSSFWorkbook(fis)) {
 
+            if (sheetName == null || sheetName.trim().isEmpty()) {
+                throw new IllegalArgumentException("Sheet name is null or empty: " + sheetName);
+            }
+
             Sheet sheet = workbook.getSheet(sheetName);
             if (sheet == null) {
                 throw new IllegalArgumentException("Sheet not found: " + sheetName);

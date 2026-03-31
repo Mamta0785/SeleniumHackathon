@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import pages.PageObjectManager;
 import utils.ConfigReader;
 import utils.ExcelReader;
+import utils.ReadConfig;
 import utils.ScreenShot;
 
 import java.io.IOException;
@@ -32,8 +33,15 @@ public class Hooks {
         ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
         logger.info("Excel test data loaded");
 
-        String browser = System.getProperty("browserName", prop.getProperty("browserName"));
-        logger.info("Launching browser: {}", browser);
+        ReadConfig readConfig = new ReadConfig();
+        String browser = readConfig.getBrowserFromTestNG();
+        if (browser == null || browser.trim().isEmpty()) {
+            browser = System.getProperty("browserName");
+        }
+        if (browser == null || browser.trim().isEmpty()) {
+            browser = prop.getProperty("browserName");
+        }
+        logger.info("Launching browser: {} on thread {}", browser, Thread.currentThread().getId());
 
         DriverFactory.launchBrowser(browser);
         driver = DriverFactory.getDriver();

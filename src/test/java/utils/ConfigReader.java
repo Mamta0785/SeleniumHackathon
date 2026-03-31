@@ -7,7 +7,7 @@ public class ConfigReader {
 
     private static Properties prop;
 
-    public static Properties initializeProperties() {
+    public static synchronized Properties initializeProperties() {
         if (prop == null) {
             prop = new Properties();
             try (InputStream input = ConfigReader.class.getClassLoader()
