@@ -9,10 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.PageObjectManager;
-import utils.ConfigReader;
-import utils.ExcelReader;
-import utils.ReadConfig;
-import utils.ScreenShot;
+import utils.*;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -25,7 +22,7 @@ public class Hooks {
 
     @Before(order = 0)
     public void setup() {
-        logger.info("Initializing test setup...");
+        logger.info("Initializing test setup on thread: {}", Thread.currentThread().getId());
 
         Properties prop = ConfigReader.initializeProperties();
         logger.debug("Loaded configuration properties");
@@ -33,16 +30,26 @@ public class Hooks {
         ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
         logger.info("Excel test data loaded");
 
-        ReadConfig readConfig = new ReadConfig();
-        String browser = readConfig.getBrowserFromTestNG();
+        //ReadConfig readConfig = new ReadConfig();
+        //String browser = readConfig.getBrowserFromTestNG();
+        TestContext testContext = new TestContext();
+        String browser = testContext.getBrowserFromTestNG();
+        logger.info("Browser from TestNG (ThreadLocal): {}", browser);
+
         if (browser == null || browser.trim().isEmpty()) {
             browser = System.getProperty("browserName");
+            logger.info("Browser from System Property: {}", browser);
         }
         if (browser == null || browser.trim().isEmpty()) {
             browser = prop.getProperty("browserName");
+            logger.info("Browser from config.properties: {}", browser);
         }
-        logger.info("Launching browser: {} on thread {}", browser, Thread.currentThread().getId());
+        if (browser == null || browser.trim().isEmpty()) {
+            browser = "chrome"; // Final fallback
+            logger.warn("No browser specified, using default: chrome");
+        }
 
+        logger.info("Final browser selection: {} on thread {}", browser, Thread.currentThread().getId());
         DriverFactory.launchBrowser(browser);
         driver = DriverFactory.getDriver();
         driver.get(prop.getProperty("baseURL"));

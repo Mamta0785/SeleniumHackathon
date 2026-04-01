@@ -152,7 +152,8 @@ public class AddPatientPage {
 
     public String getDialogTitle() {
         try {
-            return dialogTitle.getText().trim();
+            String text = dialogTitle.getText();
+            return text != null ? text.trim() : "";
         } catch (Exception e) {
             throw new AssertionError("Failed to retrieve dialog title: " + e.getMessage(), e);
         }

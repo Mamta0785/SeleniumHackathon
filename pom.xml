@@ -76,17 +76,17 @@
             <version>7.11.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>3.0.0-alpha1</version>
-        </dependency>
-        <!--https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>3.0.0-alpha1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-api</artifactId>-->
+<!--            <version>3.0.0-alpha1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash;https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-core</artifactId>-->
+<!--            <version>3.0.0-alpha1</version>-->
+<!--        </dependency>-->
 
         <!--https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
         <dependency>
@@ -113,30 +113,46 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.9</version>
         </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.4.14</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        logback-classic comes transitively via chaintest-cucumber-jvm so this block can be commented
+this can be verified using the command mvn dependency:tree -Dincludes=ch.qos.logback -->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.4.14</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.32</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>2.29.1</version>
         </dependency>
-        <dependency>
+<!--        You need the freemarker dependency uncommented because chaintest-cucumber-jvm depends on it but doesn't declare it properly
+(or declares an older incompatible version).
+ChainTest 1.0.3 was built against FreeMarker 2.3.33, but:
+It doesn't declare FreeMarker as a dependency (or declares it with a loose version range)
+Another dependency (possibly extentreports or cucumber) pulls in an older FreeMarker
+
+Maven resolves to the older version → runtime incompatibility
+
+Bottom line: Keep FreeMarker 2.3.33 declared somewhere in your pom (either as a direct dependency or in <dependencyManagement>) because ChainTest requires that specific version to work.-->
+
+
+                <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.33</version>
         </dependency>
     </dependencies>
+
+    <properties>
+        <suiteXmlFile>testng.xml</suiteXmlFile>
+    </properties>
+
     <build>
         <plugins>
             <!-- Surefire Plugin -->
@@ -146,7 +162,7 @@
                 <version>3.5.4</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>testngCrossBrowser.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
@@ -163,5 +179,20 @@
         </plugins>
     </build>
 
+
+    <profiles>
+        <profile>
+            <id>crossbrowser</id>
+            <properties>
+                <suiteXmlFile>testngCrossBrowser.xml</suiteXmlFile>
+            </properties>
+        </profile>
+        <profile>
+            <id>chrome</id>
+            <properties>
+                <suiteXmlFile>testng.xml</suiteXmlFile>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
