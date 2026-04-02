@@ -182,7 +182,7 @@ Bottom line: Keep FreeMarker 2.3.33 declared somewhere in your pom (either as a 
 
     <profiles>
         <profile>
-            <id>crossbrowser</id>
+            <id>maya</id>
             <properties>
                 <suiteXmlFile>testngCrossBrowser.xml</suiteXmlFile>
             </properties>

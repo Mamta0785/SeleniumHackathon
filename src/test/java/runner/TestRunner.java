@@ -18,7 +18,7 @@ import utils.TestContext;
 
 },
         monochrome = true,
-        features = {"src/test/resources/features/"},
+        features = {"src/test/resources/features/TC04_AddPatient.feature"},
         //tags = "@loginfeature",
         glue ={"stepdefinition"} )
 
@@ -38,7 +38,7 @@ public class TestRunner extends AbstractTestNGCucumberTests {
             TestContext testContext = new TestContext();
             testContext.setBrowserFromTestNG(browserName);
 
-//            System.setProperty("browserName", browserName); //setting a JVM‑wide global property, NOT a thread‑specific value.
+           //System.setProperty("browserName", browserName); //setting a JVM‑wide global property, NOT a thread‑specific value.
             System.out.println("Browser parameter successfully set to for: {}"+ browserName);
         }
     }

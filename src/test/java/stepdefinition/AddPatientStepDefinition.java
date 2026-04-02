@@ -27,7 +27,34 @@ public class AddPatientStepDefinition {
 //    private LoginPage loginPage;
 //    private DashboardPage dashboardPage;
     private boolean selectionAttempt;
+    // THIS constructor enables PicoContainer
+    /*
+    What PicoContainer Does Automatically
+Before each scenario,
+ Cucumber asks PicoContainer: *"Give me an instance of AddPatientStepDefinitionAddPatientStepDefinition"
 
+PicoContainer sees your constructor needs a PageObjectManager
+
+PicoContainer tries to create a PageObjectManager by calling its zero-argument constructor:
+PicoContainer injects the newly created PageObjectManager into your step definition:
+new AddPatientStepDefinition(new PageObjectManager())
+
+Cucumber Scenario Starts
+         ↓
+PicoContainer creates PageObjectManager (via zero-arg constructor)
+         ↓
+PicoContainer creates AddPatientStepDefinition(PageObjectManager)
+         ↓
+Your test runs with pom already injected
+Why It Fails When You Remove cucumber-picocontainer
+Without the PicoContainer dependency:
+
+Cucumber uses the default ObjectFactory (DefaultObjectFactory)
+
+The default factory ONLY supports zero-argument constructors
+
+Your constructor has 1 parameter →doesnt work
+     */
     public AddPatientStepDefinition(PageObjectManager pom) {
         this.pom = pom;
         //pom = new PageObjectManager();

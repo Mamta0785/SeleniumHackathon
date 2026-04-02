@@ -17,9 +17,12 @@ import java.util.Properties;
 public class Hooks {
 
     private WebDriver driver;
-    private PageObjectManager pom;
+    private final PageObjectManager pom;
     private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
-
+    // PicoContainer injects the SAME PageObjectManager into all step defs
+    public Hooks(PageObjectManager pom) {
+        this.pom = pom;
+    }
     @Before(order = 0)
     public void setup() {
         logger.info("Initializing test setup on thread: {}", Thread.currentThread().getId());
@@ -30,8 +33,6 @@ public class Hooks {
         ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
         logger.info("Excel test data loaded");
 
-        //ReadConfig readConfig = new ReadConfig();
-        //String browser = readConfig.getBrowserFromTestNG();
         TestContext testContext = new TestContext();
         String browser = testContext.getBrowserFromTestNG();
         logger.info("Browser from TestNG (ThreadLocal): {}", browser);
@@ -55,7 +56,7 @@ public class Hooks {
         driver.get(prop.getProperty("baseURL"));
         logger.info("Navigated to base URL: {}", prop.getProperty("baseURL"));
 
-        pom = new PageObjectManager();
+//        pom = new PageObjectManager();
         logger.info("PageObjectManager initialized");
     }
 

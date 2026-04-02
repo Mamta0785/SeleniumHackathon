@@ -1,7 +1,10 @@
 package pages;
 
 public class PageObjectManager {
-
+    // ✅ Has implicit zero-arg constructor (you didn't define any constructor)
+//    public PageObjectManager() {
+//        // Java provides this automatically
+//    }
     private DashboardPage dashboardPage;
     private LoginPage loginPage;
     private AddPatientPage newPatientPage;
