@@ -104,10 +104,10 @@ public class MyPatientPage {
     @FindBy(xpath = "//div[contains(text(),'Showing')]")
     WebElement commonPageText;
 
-    public MyPatientPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(this.driver, this);
-        logger.info("MyPatientPage initialized successfully.");
+    public MyPatientPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+
     }
 
     public void clickPaginationarrow(String arrow) {

@@ -66,8 +66,8 @@ public class ViewTestReportPage {
     @FindBy(xpath = "//button[normalize-space(text())='>>']")
     private WebElement lastPageArrow;
 
-    public ViewTestReportPage() {
-        this.driver = DriverFactory.getDriver();
+    public ViewTestReportPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
         ;
         logger.info("ViewTestReportPage initialized successfully.");

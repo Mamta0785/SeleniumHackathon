@@ -25,8 +25,9 @@ public class EditPatientPageStepDefinition {
 	private DashboardPage dashboardPage;
 	private MyPatientPage myPatientPage;
 
-	public EditPatientPageStepDefinition() {
-		pom = new PageObjectManager();
+	public EditPatientPageStepDefinition(PageObjectManager pom) {
+		//pom = new PageObjectManager();
+        this.pom=pom;
 		driver = DriverFactory.getDriver();
 		editPatientPage = pom.getEditPatientPage();
 		dashboardPage = pom.getDashboardPage();

@@ -77,15 +77,12 @@ public class EditPatientPage {
 
 	// Constructor
 
-	public EditPatientPage() {
-		try {
-			this.driver = DriverFactory.getDriver();
-			PageFactory.initElements(this.driver, this);
-			logger.info("EditPatientPage initialized successfully.");
-		} catch (Exception e) {
-			logger.error("Failed to initialize EditPatientPage", e);
-			throw e;
-		}
+	public EditPatientPage(WebDriver driver) {
+
+            this.driver = driver;
+            PageFactory.initElements(driver, this);
+
+
 	}
 
 	public void clearFirstNameField() {

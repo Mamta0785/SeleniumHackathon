@@ -136,9 +136,9 @@ public class AddPatientPage {
     @FindBy(css = ".flatpickr-day")
     private List<WebElement> dayCells;
 
-    public AddPatientPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(this.driver, this);
+    public AddPatientPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public boolean isDialogDisplayed() {

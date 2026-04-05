@@ -52,9 +52,9 @@ public class LoginPage {
 
     // Constructor
 
-    public LoginPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(this.driver, this);
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
         logger.info("LoginPage initialized successfully.");
     }
 
