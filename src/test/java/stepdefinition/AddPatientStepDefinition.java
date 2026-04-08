@@ -8,9 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import pages.AddPatientPage;
-import pages.DashboardPage;
-import pages.LoginPage;
+
 import pages.PageObjectManager;
 import utils.ExcelReader;
 
@@ -25,25 +23,53 @@ public class AddPatientStepDefinition {
 
     WebDriver driver;
     private final PageObjectManager pom;
-    private AddPatientPage addPatientPage;
-    private LoginPage loginPage;
-    private DashboardPage dashboardPage;
+//    private AddPatientPage addPatientPage;
+//    private LoginPage loginPage;
+//    private DashboardPage dashboardPage;
     private boolean selectionAttempt;
+    // THIS constructor enables PicoContainer
+    /*
+    What PicoContainer Does Automatically
+Before each scenario,
+ Cucumber asks PicoContainer: *"Give me an instance of AddPatientStepDefinitionAddPatientStepDefinition"
 
-    public AddPatientStepDefinition() {
+PicoContainer sees your constructor needs a PageObjectManager
 
-        pom = new PageObjectManager();
-        driver = DriverFactory.getDriver();
-        addPatientPage = pom.getNewPatientPage();
-        loginPage = pom.getLoginPage();
-        dashboardPage = pom.getDashboardPage();
+PicoContainer tries to create a PageObjectManager by calling its zero-argument constructor:
+PicoContainer injects the newly created PageObjectManager into your step definition:
+new AddPatientStepDefinition(new PageObjectManager())
+
+Cucumber Scenario Starts
+         ↓
+PicoContainer creates PageObjectManager (via zero-arg constructor)
+         ↓
+PicoContainer creates AddPatientStepDefinition(PageObjectManager)
+         ↓
+Your test runs with pom already injected
+Why It Fails When You Remove cucumber-picocontainer
+Without the PicoContainer dependency:
+
+Cucumber uses the default ObjectFactory (DefaultObjectFactory)
+
+The default factory ONLY supports zero-argument constructors
+
+Your constructor has 1 parameter →doesnt work
+     */
+    public AddPatientStepDefinition(PageObjectManager pom) {
+        this.pom = pom;
+        //pom = new PageObjectManager();
+       // driver = DriverFactory.getDriver();
+      //  addPatientPage = pom.getNewPatientPage();
+        //loginPage = pom.getLoginPage();
+        //dashboardPage = pom.getDashboardPage();
     }
 
 
     @When("User clicks on New Patient in the header section")
     public void user_clicks_on_new_patient_in_the_header_section() {
         logger.info("Clicking New Patient header link...");
-        dashboardPage.clicknavigationLink("NewPatient");
+        //dashboardPage.clicknavigationLink("NewPatient");
+        pom.getDashboardPage().clicknavigationLink("NewPatient");
     }
 
     @Then("User should see Add Patient Details on the dialog box")
@@ -61,7 +87,8 @@ public class AddPatientStepDefinition {
     @Then("User should see 9 input boxes in the Add Patient Details dialog box")
     public void user_should_see_9_input_boxes_in_the_add_patient_details_dialog_box() {
 
-        int actualCount = addPatientPage.getInputFieldCount();
+        //int actualCount = addPatientPage.getInputFieldCount();
+        int actualCount = pom.getNewPatientPage().getInputFieldCount();
         Assert.assertEquals(actualCount, 9, "Input field count mismatch");
 
     }
@@ -69,7 +96,8 @@ public class AddPatientStepDefinition {
     @Then("User should see 3 dropdowns in the Add Patient Details dialog box")
     public void user_should_see_3_dropdowns_in_the_add_patient_details_dialog_box() {
 
-        int actualCount = addPatientPage.getDropdownCount();
+        //int actualCount = addPatientPage.getDropdownCount();
+        int actualCount =  pom.getNewPatientPage().getDropdownCount();
         Assert.assertEquals(actualCount, 3, "Dropdown count mismatch");
 
     }
@@ -78,7 +106,8 @@ public class AddPatientStepDefinition {
     @Then("User should see exactly 1 file upload option in Add Patient Details dialog box")
     public void user_should_see_exactly_1_file_upload_option_in_add_patient_details_dialog_box() {
 
-        int actualCount = addPatientPage.getFileUploadCount();
+        //int actualCount = addPatientPage.getFileUploadCount();
+        int actualCount = pom.getNewPatientPage().getFileUploadCount();
         Assert.assertEquals(actualCount, 1, "File upload option count mismatch");
 
     }
@@ -86,7 +115,8 @@ public class AddPatientStepDefinition {
     @Then("User should see one Submit button")
     public void user_should_see_one_submit_button() {
 
-        int actualCount = addPatientPage.getSubmitButtonCount();
+        //int actualCount = addPatientPage.getSubmitButtonCount();
+        int actualCount = pom.getNewPatientPage().getSubmitButtonCount();
         Assert.assertEquals(actualCount, 1, "Submit button count mismatch");
 
     }
@@ -95,7 +125,7 @@ public class AddPatientStepDefinition {
     public void user_should_see_one_submit_button_in_disabled_state() {
 
         logger.info("Validating disabled state of Submit button...");
-        Assert.assertTrue(addPatientPage.isSubmitButtonDisabled(), "Submit button is NOT disabled"
+        Assert.assertTrue(pom.getNewPatientPage().isSubmitButtonDisabled(), "Submit button is NOT disabled"
         );
 
 
@@ -104,7 +134,7 @@ public class AddPatientStepDefinition {
     @Then("User should see one Close button")
     public void user_should_see_one_close_button() {
 
-        int actualCount = addPatientPage.getCloseButtonCount();
+        int actualCount = pom.getNewPatientPage().getCloseButtonCount();
         Assert.assertEquals(actualCount, 1, "Close button count mismatch");
 
     }
@@ -115,7 +145,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating enabled state of Close button...");
 
         Assert.assertTrue(
-                addPatientPage.isCloseButtonEnabled(),
+                pom.getNewPatientPage().isCloseButtonEnabled(),
                 "Close button is NOT enabled"
         );
 
@@ -126,10 +156,10 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating mandatory error message for First Name...");
 
-        addPatientPage.clickFirstNameAndBlur();
+        pom.getNewPatientPage().clickFirstNameAndBlur();
 
         Assert.assertTrue(
-                addPatientPage.isFirstNameErrorDisplayed(),
+                pom.getNewPatientPage().isFirstNameErrorDisplayed(),
                 "Expected 'First name is required' error message was NOT displayed"
         );
 
@@ -140,8 +170,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Last Name field...");
 
-        String actualPlaceholder = addPatientPage.getLastNamePlaceholder();
-        boolean isMandatory = addPatientPage.isLastNameMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getLastNamePlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isLastNameMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -161,8 +191,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Email field...");
 
-        String actualPlaceholder = addPatientPage.getEmailPlaceholder();
-        boolean isMandatory = addPatientPage.isEmailMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getEmailPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isEmailMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -183,8 +213,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Contact Number field...");
 
-        String actualPlaceholder = addPatientPage.getContactNumberPlaceholder();
-        boolean isMandatory = addPatientPage.isContactNumberMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getContactNumberPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isContactNumberMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -204,8 +234,8 @@ public class AddPatientStepDefinition {
     public void user_should_see_mandatory_dropdown_with_placeholder_for_allergies(String expectedPlaceholder) {
         logger.info("Validating placeholder and mandatory state for Allergies dropdown...");
 
-        String actualText = addPatientPage.getAllergiesSelectedText();
-        boolean isMandatory = addPatientPage.isAllergiesMandatory();
+        String actualText = pom.getNewPatientPage().getAllergiesSelectedText();
+        boolean isMandatory = pom.getNewPatientPage().isAllergiesMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -226,8 +256,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Food Preference dropdown...");
 
-        String actualText = addPatientPage.getFoodPreferencePlaceholder();
-        boolean isMandatory = addPatientPage.isFoodPreferenceMandatory();
+        String actualText = pom.getNewPatientPage().getFoodPreferencePlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isFoodPreferenceMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -248,8 +278,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Cuisine Category dropdown...");
 
-        String actualText = addPatientPage.getCuisineCategoryPlaceholder();
-        boolean isMandatory = addPatientPage.isCuisineCategoryMandatory();
+        String actualText = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isCuisineCategoryMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -270,8 +300,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for DOB field...");
 
-        String actualPlaceholder = addPatientPage.getDobPlaceholder();
-        boolean isMandatory = addPatientPage.isDobMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getDobPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isDobMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -292,8 +322,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Weight field...");
 
-        String actualPlaceholder = addPatientPage.getWeightPlaceholder();
-        boolean isMandatory = addPatientPage.isWeightMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getWeightPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isWeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -314,8 +344,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Height field...");
 
-        String actualPlaceholder = addPatientPage.getHeightPlaceholder();
-        boolean isMandatory = addPatientPage.isHeightMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getHeightPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isHeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -336,8 +366,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Temperature field...");
 
-        String actualPlaceholder = addPatientPage.getTemperaturePlaceholder();
-        boolean isMandatory = addPatientPage.isTemperatureMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getTemperaturePlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isTemperatureMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -358,8 +388,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for SP field...");
 
-        String actualPlaceholder = addPatientPage.getSpPlaceholder();
-        boolean isMandatory = addPatientPage.isSpMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getSpPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isSpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -379,8 +409,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for DP field...");
 
-        String actualPlaceholder = addPatientPage.getDpPlaceholder();
-        boolean isMandatory = addPatientPage.isDpMandatory();
+        String actualPlaceholder = pom.getNewPatientPage().getDpPlaceholder();
+        boolean isMandatory = pom.getNewPatientPage().isDpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -401,7 +431,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of Upload Health Report text...");
 
-        boolean isVisible = addPatientPage.isUploadHealthReportVisible();
+        boolean isVisible = pom.getNewPatientPage().isUploadHealthReportVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -416,7 +446,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of 'No file Chosen' text...");
 
-        boolean isVisible = addPatientPage.isNoFileChosenVisible();
+        boolean isVisible = pom.getNewPatientPage().isNoFileChosenVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -431,7 +461,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of scroll bar on dialog box...");
 
-        boolean isScrollable = addPatientPage.isDialogScrollable();
+        boolean isScrollable = pom.getNewPatientPage().isDialogScrollable();
 
         Assert.assertTrue(
                 isScrollable,
@@ -445,7 +475,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_allergy_dropdown() {
 
         logger.info("Clicking Allergy dropdown...");
-        addPatientPage.clickAllergyDropdown();
+        pom.getNewPatientPage().clickAllergyDropdown();
 
     }
 
@@ -455,7 +485,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Allergy dropdown values...");
 
 
-        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -481,7 +511,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating number of values in Allergy dropdown...");
 
-        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
 
         int actualCount = actualValues.size();
 
@@ -500,7 +530,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating specific Allergy dropdown values from Excel...");
 
 
-        List<String> actualValues = addPatientPage.getAllergyDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -525,7 +555,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_food_preference_dropdown() {
 
         logger.info("Clicking Food Preference dropdown...");
-        addPatientPage.clickFoodPreferenceDropdown();
+        pom.getNewPatientPage().clickFoodPreferenceDropdown();
 
     }
 
@@ -535,7 +565,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -562,7 +592,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating number of values in Food Preference dropdown...");
 
-        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getFoodPreferenceDropdownValues();
         int actualCount = actualValues.size();
 
         Assert.assertEquals(
@@ -581,7 +611,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues = addPatientPage.getFoodPreferenceDropdownValues();
+        List<String> actualValues =  pom.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -606,7 +636,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_cuisine_dropdown() {
 
         logger.info("Clicking Cuisine dropdown...");
-        addPatientPage.clickCuisineDropdown();
+        pom.getNewPatientPage().clickCuisineDropdown();
 
     }
 
@@ -614,7 +644,7 @@ public class AddPatientStepDefinition {
     public void values_should_be_present_inside_cuisine_dropdown() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
 
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
@@ -637,7 +667,7 @@ public class AddPatientStepDefinition {
     public void cuisine_dropdown_should_contain_values(Integer expectedCount) {
 
         logger.info("Validating number of values in Cuisine dropdown...");
-        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
         int actualCount = actualValues.size();
         Assert.assertEquals(
                 actualCount,
@@ -652,7 +682,7 @@ public class AddPatientStepDefinition {
     public void dropdown_should_contain_specific_cuisine_values() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues = addPatientPage.getCuisineDropdownValues();
+        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
         List<String> expectedValues = excelData.stream()
@@ -670,14 +700,14 @@ public class AddPatientStepDefinition {
 
         logger.info("Reading required fields from Excel...");
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
-        addPatientPage.fillRequiredFieldsFromExcel(excelData);
+        pom.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
 
     }
 
     @Then("Submit button should be enabled")
     public void submit_button_should_be_enabled() {
 
-        boolean enabled = addPatientPage.isSubmitButtonEnabled();
+        boolean enabled = pom.getNewPatientPage().isSubmitButtonEnabled();
 
         Assert.assertTrue(enabled, "Submit button is NOT enabled even after filling all required fields."
         );
@@ -691,8 +721,8 @@ public class AddPatientStepDefinition {
         logger.info("Clicking Submit button after filling mandatory fields...");
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("requiredFields");
-        addPatientPage.fillRequiredFieldsFromExcel(excelData);
-        addPatientPage.clickSubmitButton();
+        pom.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
+        pom.getNewPatientPage().clickSubmitButton();
 
     }
 
@@ -701,7 +731,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating success toast message...");
 
-        String actualToast = addPatientPage.getToastMessageText();
+        String actualToast = pom.getNewPatientPage().getToastMessageText();
 
         Assert.assertEquals(actualToast, "Patient successfully created", "Toast message mismatch"
         );
@@ -714,11 +744,11 @@ public class AddPatientStepDefinition {
     public void user_is_directed_to_my_patient_page_with_new_patient_details_created() {
 
 
-        addPatientPage.goToMyPatients();
+        pom.getNewPatientPage().goToMyPatients();
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
         String firstName = excelData.get(0).get("firstName");
         String lastName = excelData.get(0).get("lastName");
-        boolean isPresent = addPatientPage.isPatientPresent(firstName, lastName);
+        boolean isPresent = pom.getNewPatientPage().isPatientPresent(firstName, lastName);
         Assert.assertTrue(isPresent, "User was NOT directed to My Patient Page with the new patient details created"
         );
 
@@ -727,7 +757,7 @@ public class AddPatientStepDefinition {
     @When("User selects {string} from Allergy dropdown")
     public void user_selects_from_allergy_dropdown(String allergy) {
 
-        addPatientPage.selectAllergy(allergy);
+        pom.getNewPatientPage().selectAllergy(allergy);
 
     }
 
@@ -735,7 +765,7 @@ public class AddPatientStepDefinition {
     public void should_be_selected_in_the_allergy_field(String expected) {
 
 
-        String actual = addPatientPage.getSelectedAllergy();
+        String actual = pom.getNewPatientPage().getSelectedAllergy();
 
         Assert.assertEquals(actual, expected, "Allergy field does not show the expected selected value"
         );
@@ -746,8 +776,8 @@ public class AddPatientStepDefinition {
     public void user_selects_and_from_allergy_dropdown(String first, String second) {
 
 
-        addPatientPage.selectAllergy(first);
-        addPatientPage.selectAllergy(second);
+        pom.getNewPatientPage().selectAllergy(first);
+        pom.getNewPatientPage().selectAllergy(second);
 
 
     }
@@ -755,7 +785,7 @@ public class AddPatientStepDefinition {
     @When("User tries to select {string} from Allergy dropdown")
     public void user_tries_to_select_from_allergy_dropdown(String allergy) {
 
-        selectionAttempt = addPatientPage.trySelectAllergy(allergy);
+        selectionAttempt = pom.getNewPatientPage().trySelectAllergy(allergy);
 
     }
 
@@ -764,7 +794,7 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_allergy_field() {
 
 
-        String actual = addPatientPage.getSelectedAllergy();
+        String actual = pom.getNewPatientPage().getSelectedAllergy();
         Assert.assertEquals(actual, "Allergies", "Allergy field changed unexpectedly — no selection should have occurred"
         );
 
@@ -773,13 +803,13 @@ public class AddPatientStepDefinition {
 
     @When("User selects {string} from Food Preference dropdown")
     public void user_selects_from_food_preference_dropdown(String preference) {
-        addPatientPage.selectFoodPreference(preference);
+        pom.getNewPatientPage().selectFoodPreference(preference);
     }
 
     @Then("{string} should be selected in the Food Preference field")
     public void should_be_selected_in_the_food_preference_field(String expected) {
 
-        String actual = addPatientPage.getSelectedFoodPreference();
+        String actual = pom.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, expected, "Food Preference field does not show the expected selected value"
         );
 
@@ -788,22 +818,22 @@ public class AddPatientStepDefinition {
     @When("User selects {string} and {string} from Food Preference dropdown")
     public void user_selects_and_from_food_preference_dropdown(String first, String second) {
 
-        addPatientPage.selectFoodPreference(first);
-        addPatientPage.selectFoodPreference(second);
+        pom.getNewPatientPage().selectFoodPreference(first);
+        pom.getNewPatientPage().selectFoodPreference(second);
 
     }
 
     @When("User tries to select {string} from Food Preference dropdown")
     public void user_tries_to_select_from_food_preference_dropdown(String preference) {
 
-        selectionAttempt = addPatientPage.trySelectFoodPreference(preference);
+        selectionAttempt = pom.getNewPatientPage().trySelectFoodPreference(preference);
 
     }
 
     @Then("No selection should occur in the Food Preference field")
     public void no_selection_should_occur_in_the_food_preference_field() {
 
-        String actual = addPatientPage.getSelectedFoodPreference();
+        String actual = pom.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, "Food Preference", "Food Preference field changed unexpectedly — no selection should have occurred"
         );
 
@@ -813,7 +843,7 @@ public class AddPatientStepDefinition {
     @When("User selects {string} from Cuisine Category dropdown")
     public void user_selects_from_cuisine_category_dropdown(String category) {
 
-        addPatientPage.selectCuisineCategory(category);
+        pom.getNewPatientPage().selectCuisineCategory(category);
 
     }
 
@@ -821,7 +851,7 @@ public class AddPatientStepDefinition {
     @Then("{string} should be selected in the Cuisine Category field")
     public void should_be_selected_in_the_cuisine_category_field(String expected) {
 
-        String actual = addPatientPage.getCuisineCategoryPlaceholder();
+        String actual = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertEquals(actual, expected, "Cuisine Category field does not show the expected selected value"
         );
 
@@ -830,15 +860,15 @@ public class AddPatientStepDefinition {
     @When("User selects {string} and {string} from Cuisine Category dropdown")
     public void user_selects_and_from_cuisine_category_dropdown(String first, String second) {
 
-        addPatientPage.selectCuisineCategory(first);
-        addPatientPage.selectCuisineCategory(second);
+        pom.getNewPatientPage().selectCuisineCategory(first);
+        pom.getNewPatientPage().selectCuisineCategory(second);
 
     }
 
     @When("User tries to select {string} from Cuisine Category dropdown")
     public void user_tries_to_select_from_cuisine_category_dropdown(String category) {
 
-        selectionAttempt = addPatientPage.trySelectCuisineCategory(category);
+        selectionAttempt = pom.getNewPatientPage().trySelectCuisineCategory(category);
 
     }
 
@@ -847,7 +877,7 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_cuisine_category_field() {
 
 
-        String actual = addPatientPage.getCuisineCategoryPlaceholder();
+        String actual = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertTrue(!selectionAttempt && actual.equals("Cuisine Category"), "Cuisine Category field changed unexpectedly or invalid selection was allowed"
         );
 
@@ -856,7 +886,7 @@ public class AddPatientStepDefinition {
     @When("User clicks Date of Birth field")
     public void user_clicks_date_of_birth_field() {
 
-        addPatientPage.clickDOBField();
+        pom.getNewPatientPage().clickDOBField();
 
 
     }
@@ -865,10 +895,10 @@ public class AddPatientStepDefinition {
     public void user_should_see_calendar_date_picker_displayed_with_month_day_year() {
 
 
-        boolean visible = addPatientPage.isCalendarVisible();
-        boolean hasMonth = addPatientPage.hasMonthDropdown();
-        boolean hasYear = addPatientPage.hasYearInput();
-        boolean hasDay = addPatientPage.hasDayCells();
+        boolean visible = pom.getNewPatientPage().isCalendarVisible();
+        boolean hasMonth = pom.getNewPatientPage().hasMonthDropdown();
+        boolean hasYear = pom.getNewPatientPage().hasYearInput();
+        boolean hasDay = pom.getNewPatientPage().hasDayCells();
 
         Assert.assertTrue(
                 visible && hasMonth && hasYear && hasDay,
@@ -879,10 +909,4 @@ public class AddPatientStepDefinition {
     }
 
     }
-
-
-
-
-
-
 

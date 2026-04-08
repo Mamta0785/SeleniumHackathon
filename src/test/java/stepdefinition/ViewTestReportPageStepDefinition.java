@@ -18,8 +18,9 @@ public class ViewTestReportPageStepDefinition {
     WebDriver driver;
     private ViewTestReportPage viewtestreportPage;
 
-    public ViewTestReportPageStepDefinition() {
-        pom = new PageObjectManager();
+    public ViewTestReportPageStepDefinition(PageObjectManager pom) {
+        this.pom=pom;
+       // pom = new PageObjectManager();
         driver = DriverFactory.getDriver();
         viewtestreportPage = pom.getViewTestReportPage();
     }

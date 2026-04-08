@@ -31,8 +31,8 @@ public class DashboardPage {
     @FindBy(xpath = "//img[@alt='Home']")//*
     private WebElement homeIcon;
 
-    public DashboardPage() {
-        this.driver = DriverFactory.getDriver();
+    public DashboardPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
         ;
         logger.info("DashboardPage initialized successfully.");

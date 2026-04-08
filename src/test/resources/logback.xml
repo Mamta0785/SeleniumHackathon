@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Define console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Define file appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/test.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <!-- Logger for your application packages -->
+    <logger name="DriverManager" level="DEBUG" />
+    <logger name="stepdefinition" level="DEBUG" />
+    <logger name="utils" level="DEBUG" />
+    <logger name="pages" level="DEBUG" />
+    <logger name="runner" level="DEBUG" />
+
+</configuration>
+

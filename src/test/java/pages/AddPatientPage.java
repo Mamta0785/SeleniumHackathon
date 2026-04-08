@@ -136,9 +136,9 @@ public class AddPatientPage {
     @FindBy(css = ".flatpickr-day")
     private List<WebElement> dayCells;
 
-    public AddPatientPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(this.driver, this);
+    public AddPatientPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public boolean isDialogDisplayed() {
@@ -152,7 +152,8 @@ public class AddPatientPage {
 
     public String getDialogTitle() {
         try {
-            return dialogTitle.getText().trim();
+            String text = dialogTitle.getText();
+            return text != null ? text.trim() : "";
         } catch (Exception e) {
             throw new AssertionError("Failed to retrieve dialog title: " + e.getMessage(), e);
         }
