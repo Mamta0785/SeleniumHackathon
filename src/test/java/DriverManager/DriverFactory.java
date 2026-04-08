@@ -58,4 +58,13 @@ public class DriverFactory {
 		logger.debug("Fetching WebDriver instance from ThreadLocal.");
 		return mydriver.get();
 	}
+
+    public void closeDriver() {
+        if (getDriver() != null) {
+            getDriver().quit();
+            mydriver.remove(); // This clears the thread memory
+            logger.info("Driver quit and removed from ThreadLocal.");
+        }
+
+    }
 }

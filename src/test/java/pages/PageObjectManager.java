@@ -11,6 +11,7 @@ public class PageObjectManager {
 
 
 
+
     private DashboardPage dashboardPage;
     private LoginPage loginPage;
     private AddPatientPage newPatientPage;
@@ -20,49 +21,52 @@ public class PageObjectManager {
 
     private MyPatientPage myPatientPage;
     private ViewTestReportPage viewtestreportPage;
-//WebDriver comes from ThreadLocal, not from DI
-    private WebDriver getDriver() {
-        return DriverFactory.getDriver();   // always correct ThreadLocal driver
+    public PageObjectManager (WebDriver driver) {
+        this.driver = driver;
     }
+//WebDriver comes from ThreadLocal, not from DI
+//    private WebDriver getDriver() {
+//        return DriverFactory.getDriver();   // always correct ThreadLocal driver
+//    }
 
     public LoginPage getLoginPage() {
         if (loginPage == null) {
-            loginPage = new LoginPage(getDriver());
+            loginPage = new LoginPage(driver);
         }
         return loginPage;
     }
 
     public DashboardPage getDashboardPage() {
         if (dashboardPage == null) {
-            dashboardPage = new DashboardPage(getDriver());
+            dashboardPage = new DashboardPage(driver);
         }
         return dashboardPage;
     }
 
     public MyPatientPage getMyPatientPage() {
         if (myPatientPage == null) {
-            myPatientPage = new MyPatientPage(getDriver());
+            myPatientPage = new MyPatientPage(driver);
         }
         return myPatientPage;
     }
 
     public EditPatientPage getEditPatientPage() {
         if (editPatientPage == null) {
-            editPatientPage = new EditPatientPage(getDriver());
+            editPatientPage = new EditPatientPage(driver);
         }
         return editPatientPage;
     }
 
     public AddPatientPage getNewPatientPage() {
         if (newPatientPage == null) {
-            newPatientPage = new AddPatientPage(getDriver());
+            newPatientPage = new AddPatientPage(driver);
         }
         return newPatientPage;
     }
 
     public ViewTestReportPage getViewTestReportPage() {
         if (viewtestreportPage == null) {
-            viewtestreportPage = new ViewTestReportPage(getDriver());
+            viewtestreportPage = new ViewTestReportPage(driver);
         }
         return viewtestreportPage;
     }

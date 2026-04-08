@@ -17,54 +17,56 @@ import java.util.Properties;
 public class Hooks {
 
     private WebDriver driver;
-    private final PageObjectManager pom;
+    private TestContext context;
     private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
     // PicoContainer injects the SAME PageObjectManager into all step defs
-    public Hooks(PageObjectManager pom) {
-        this.pom = pom;
+
+    public Hooks(TestContext context) {
+        this.context = context;
     }
     @Before(order = 0)
     public void setup() {
         logger.info("Initializing test setup on thread: {}", Thread.currentThread().getId());
-
+        logger.info("Starting Hooks setup");
         Properties prop = ConfigReader.initializeProperties();
         logger.debug("Loaded configuration properties");
 
-        ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
-        logger.info("Excel test data loaded");
+        String browser = null;
 
-        TestContext testContext = new TestContext();
-        String browser = testContext.getBrowserFromTestNG();
-        logger.info("Browser from TestNG (ThreadLocal): {}", browser);
-
-        if (browser == null || browser.trim().isEmpty()) {
-            browser = System.getProperty("browserName");
-            logger.info("Browser from System Property: {}", browser);
+        // First: Try to get browser from TestRunner's ThreadLocal (set by @BeforeClass)
+        browser = runner.TestRunner.browserName.get();
+        if (browser != null && !browser.trim().isEmpty()) {
+            logger.info("Browser from TestRunner ThreadLocal: {}", browser);
         }
+
+        // Fallback to config.properties if not set
         if (browser == null || browser.trim().isEmpty()) {
             browser = prop.getProperty("browserName");
             logger.info("Browser from config.properties: {}", browser);
         }
+
+        // Final fallback to chrome
         if (browser == null || browser.trim().isEmpty()) {
-            browser = "chrome"; // Final fallback
+            browser = "chrome";
             logger.warn("No browser specified, using default: chrome");
         }
 
         logger.info("Final browser selection: {} on thread {}", browser, Thread.currentThread().getId());
-        DriverFactory.launchBrowser(browser);
-        driver = DriverFactory.getDriver();
-        driver.get(prop.getProperty("baseURL"));
+        context.driverFactory.launchBrowser(browser);
+        context.setupManagers();
+        context.driverFactory.getDriver().get(prop.getProperty("baseURL"));
         logger.info("Navigated to base URL: {}", prop.getProperty("baseURL"));
 
-//        pom = new PageObjectManager();
         logger.info("PageObjectManager initialized");
+
+        ExcelReader.readDataFromExcel(prop.getProperty("sheetName"));
+        logger.info("Excel test data loaded");
     }
 
     @Before(value = "@Login", order = 1)
     public void performLogin() throws IOException {
         logger.info("Clicked Sign In button");
-
-        pom.getLoginPage().login("Submits the login form", "valid_login");
+context.loginPage.login("Submits the login form", "valid_login");
         logger.info("Performed login with valid credentials");
     }
 
@@ -73,7 +75,7 @@ public class Hooks {
     public void screenShot(Scenario scenario) {
         if (scenario.isFailed()) {
             logger.warn("Scenario '{}' failed. Capturing screenshot...", scenario.getName());
-            byte[] screenshot = ScreenShot.takeScreenshotAsBytes(DriverFactory.getDriver(), scenario.getName());
+            byte[] screenshot = ScreenShot.takeScreenshotAsBytes(context.driverFactory.getDriver(), scenario.getName());
             scenario.attach(screenshot, "image/png", "Failed Step Screenshot");
         }
     }
@@ -82,8 +84,7 @@ public class Hooks {
     public void tearDown() {
         if (DriverFactory.getDriver() != null) {
             logger.info("Tearing down WebDriver and closing browser");
-            DriverFactory.getDriver().quit();
-            DriverFactory.mydriver.remove();
+            context.driverFactory.closeDriver();
             logger.info("Driver removed from ThreadLocal");
         }
     }

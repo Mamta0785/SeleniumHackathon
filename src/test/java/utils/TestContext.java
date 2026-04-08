@@ -1,16 +1,31 @@
 package utils;
 
+import DriverManager.DriverFactory;
+import org.openqa.selenium.WebDriver;
+import pages.PageObjectManager;
+
 import java.util.Map;
+import pages.LoginPage;
 
 public class TestContext {
-    private static ThreadLocal<String> browserFromTestNG = new ThreadLocal<>();
-	// For single-row usage
-	public static Map<String, String> testData;
+    public WebDriver driver;
+    public DriverFactory driverFactory;
+    public PageObjectManager poManager;
+    public LoginPage loginPage;
 
-    public String getBrowserFromTestNG() {
-        return browserFromTestNG.get();
+    public static Map<String, String> testData;
+
+    public TestContext() {
+
+        driverFactory = new DriverFactory();
+
     }
-    public void setBrowserFromTestNG(String browser) {
-        browserFromTestNG.set(browser);
+    public void setupManagers() {
+
+        this.driver = driverFactory.getDriver();
+        this.poManager = new PageObjectManager(driver);
+        this.loginPage = new LoginPage(driver);
+
+
     }
 }
