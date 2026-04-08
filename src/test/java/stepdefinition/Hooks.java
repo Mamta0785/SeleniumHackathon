@@ -53,7 +53,7 @@ public class Hooks {
 
         logger.info("Final browser selection: {} on thread {}", browser, Thread.currentThread().getId());
         context.driverFactory.launchBrowser(browser);
-        context.setupManagers();
+        context.initializeContext();
         context.driverFactory.getDriver().get(prop.getProperty("baseURL"));
         logger.info("Navigated to base URL: {}", prop.getProperty("baseURL"));
 
