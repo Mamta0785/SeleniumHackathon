@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import pages.PageObjectManager;
 import utils.ExcelReader;
+import utils.TestContext;
 
 import java.util.List;
 import java.util.Map;
@@ -21,55 +22,21 @@ public class AddPatientStepDefinition {
     private static final Logger logger = LoggerFactory.getLogger(AddPatientStepDefinition.class);
 
 
-    WebDriver driver;
-    private final PageObjectManager pom;
-//    private AddPatientPage addPatientPage;
-//    private LoginPage loginPage;
-//    private DashboardPage dashboardPage;
+
+
+    public TestContext context;
+
     private boolean selectionAttempt;
-    // THIS constructor enables PicoContainer
-    /*
-    What PicoContainer Does Automatically
-Before each scenario,
- Cucumber asks PicoContainer: *"Give me an instance of AddPatientStepDefinitionAddPatientStepDefinition"
 
-PicoContainer sees your constructor needs a PageObjectManager
-
-PicoContainer tries to create a PageObjectManager by calling its zero-argument constructor:
-PicoContainer injects the newly created PageObjectManager into your step definition:
-new AddPatientStepDefinition(new PageObjectManager())
-
-Cucumber Scenario Starts
-         ↓
-PicoContainer creates PageObjectManager (via zero-arg constructor)
-         ↓
-PicoContainer creates AddPatientStepDefinition(PageObjectManager)
-         ↓
-Your test runs with pom already injected
-Why It Fails When You Remove cucumber-picocontainer
-Without the PicoContainer dependency:
-
-Cucumber uses the default ObjectFactory (DefaultObjectFactory)
-
-The default factory ONLY supports zero-argument constructors
-
-Your constructor has 1 parameter →doesnt work
-     */
-    public AddPatientStepDefinition(PageObjectManager pom) {
-        this.pom = pom;
-        //pom = new PageObjectManager();
-       // driver = DriverFactory.getDriver();
-      //  addPatientPage = pom.getNewPatientPage();
-        //loginPage = pom.getLoginPage();
-        //dashboardPage = pom.getDashboardPage();
+    public AddPatientStepDefinition(TestContext context) {
+        this.context = context;
     }
 
 
     @When("User clicks on New Patient in the header section")
     public void user_clicks_on_new_patient_in_the_header_section() {
         logger.info("Clicking New Patient header link...");
-        //dashboardPage.clicknavigationLink("NewPatient");
-        pom.getDashboardPage().clicknavigationLink("NewPatient");
+        context.poManager.getDashboardPage().clicknavigationLink("NewPatient");
     }
 
     @Then("User should see Add Patient Details on the dialog box")
@@ -77,8 +44,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating Add Patient Details dialog...");
         boolean dialogIsValid =
-                pom.getNewPatientPage().isDialogDisplayed() &&
-                        pom.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
+                context.poManager.getNewPatientPage().isDialogDisplayed() &&
+                        context.poManager.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
         Assert.assertTrue(dialogIsValid,
                 "Dialog is not displayed OR dialog title is incorrect");
     }
@@ -87,8 +54,8 @@ Your constructor has 1 parameter →doesnt work
     @Then("User should see 9 input boxes in the Add Patient Details dialog box")
     public void user_should_see_9_input_boxes_in_the_add_patient_details_dialog_box() {
 
-        //int actualCount = addPatientPage.getInputFieldCount();
-        int actualCount = pom.getNewPatientPage().getInputFieldCount();
+
+        int actualCount =  context.poManager.getNewPatientPage().getInputFieldCount();
         Assert.assertEquals(actualCount, 9, "Input field count mismatch");
 
     }
@@ -96,8 +63,8 @@ Your constructor has 1 parameter →doesnt work
     @Then("User should see 3 dropdowns in the Add Patient Details dialog box")
     public void user_should_see_3_dropdowns_in_the_add_patient_details_dialog_box() {
 
-        //int actualCount = addPatientPage.getDropdownCount();
-        int actualCount =  pom.getNewPatientPage().getDropdownCount();
+
+        int actualCount =   context.poManager.getNewPatientPage().getDropdownCount();
         Assert.assertEquals(actualCount, 3, "Dropdown count mismatch");
 
     }
@@ -106,8 +73,7 @@ Your constructor has 1 parameter →doesnt work
     @Then("User should see exactly 1 file upload option in Add Patient Details dialog box")
     public void user_should_see_exactly_1_file_upload_option_in_add_patient_details_dialog_box() {
 
-        //int actualCount = addPatientPage.getFileUploadCount();
-        int actualCount = pom.getNewPatientPage().getFileUploadCount();
+        int actualCount =  context.poManager.getNewPatientPage().getFileUploadCount();
         Assert.assertEquals(actualCount, 1, "File upload option count mismatch");
 
     }
@@ -115,8 +81,7 @@ Your constructor has 1 parameter →doesnt work
     @Then("User should see one Submit button")
     public void user_should_see_one_submit_button() {
 
-        //int actualCount = addPatientPage.getSubmitButtonCount();
-        int actualCount = pom.getNewPatientPage().getSubmitButtonCount();
+        int actualCount =  context.poManager.getNewPatientPage().getSubmitButtonCount();
         Assert.assertEquals(actualCount, 1, "Submit button count mismatch");
 
     }
@@ -125,7 +90,7 @@ Your constructor has 1 parameter →doesnt work
     public void user_should_see_one_submit_button_in_disabled_state() {
 
         logger.info("Validating disabled state of Submit button...");
-        Assert.assertTrue(pom.getNewPatientPage().isSubmitButtonDisabled(), "Submit button is NOT disabled"
+        Assert.assertTrue( context.poManager.getNewPatientPage().isSubmitButtonDisabled(), "Submit button is NOT disabled"
         );
 
 
@@ -134,7 +99,7 @@ Your constructor has 1 parameter →doesnt work
     @Then("User should see one Close button")
     public void user_should_see_one_close_button() {
 
-        int actualCount = pom.getNewPatientPage().getCloseButtonCount();
+        int actualCount =  context.poManager.getNewPatientPage().getCloseButtonCount();
         Assert.assertEquals(actualCount, 1, "Close button count mismatch");
 
     }
@@ -145,7 +110,7 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Validating enabled state of Close button...");
 
         Assert.assertTrue(
-                pom.getNewPatientPage().isCloseButtonEnabled(),
+                context.poManager.getNewPatientPage().isCloseButtonEnabled(),
                 "Close button is NOT enabled"
         );
 
@@ -156,10 +121,10 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating mandatory error message for First Name...");
 
-        pom.getNewPatientPage().clickFirstNameAndBlur();
+        context.poManager.getNewPatientPage().clickFirstNameAndBlur();
 
         Assert.assertTrue(
-                pom.getNewPatientPage().isFirstNameErrorDisplayed(),
+                context.poManager.getNewPatientPage().isFirstNameErrorDisplayed(),
                 "Expected 'First name is required' error message was NOT displayed"
         );
 
@@ -170,8 +135,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for Last Name field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getLastNamePlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isLastNameMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getLastNamePlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isLastNameMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -191,8 +156,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for Email field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getEmailPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isEmailMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getEmailPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isEmailMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -213,8 +178,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for Contact Number field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getContactNumberPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isContactNumberMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getContactNumberPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isContactNumberMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -234,8 +199,8 @@ Your constructor has 1 parameter →doesnt work
     public void user_should_see_mandatory_dropdown_with_placeholder_for_allergies(String expectedPlaceholder) {
         logger.info("Validating placeholder and mandatory state for Allergies dropdown...");
 
-        String actualText = pom.getNewPatientPage().getAllergiesSelectedText();
-        boolean isMandatory = pom.getNewPatientPage().isAllergiesMandatory();
+        String actualText =  context.poManager.getNewPatientPage().getAllergiesSelectedText();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isAllergiesMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -256,8 +221,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for Food Preference dropdown...");
 
-        String actualText = pom.getNewPatientPage().getFoodPreferencePlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isFoodPreferenceMandatory();
+        String actualText =  context.poManager.getNewPatientPage().getFoodPreferencePlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isFoodPreferenceMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -278,8 +243,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for Cuisine Category dropdown...");
 
-        String actualText = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isCuisineCategoryMandatory();
+        String actualText =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isCuisineCategoryMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -300,8 +265,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and mandatory state for DOB field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getDobPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isDobMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getDobPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isDobMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -322,8 +287,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and non-mandatory state for Weight field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getWeightPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isWeightMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getWeightPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isWeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -344,8 +309,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and non-mandatory state for Height field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getHeightPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isHeightMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getHeightPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isHeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -366,8 +331,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and non-mandatory state for Temperature field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getTemperaturePlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isTemperatureMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getTemperaturePlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isTemperatureMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -388,8 +353,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and non-mandatory state for SP field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getSpPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isSpMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getSpPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isSpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -409,8 +374,8 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating placeholder and non-mandatory state for DP field...");
 
-        String actualPlaceholder = pom.getNewPatientPage().getDpPlaceholder();
-        boolean isMandatory = pom.getNewPatientPage().isDpMandatory();
+        String actualPlaceholder =  context.poManager.getNewPatientPage().getDpPlaceholder();
+        boolean isMandatory =  context.poManager.getNewPatientPage().isDpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -431,7 +396,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating presence of Upload Health Report text...");
 
-        boolean isVisible = pom.getNewPatientPage().isUploadHealthReportVisible();
+        boolean isVisible =  context.poManager.getNewPatientPage().isUploadHealthReportVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -446,7 +411,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating presence of 'No file Chosen' text...");
 
-        boolean isVisible = pom.getNewPatientPage().isNoFileChosenVisible();
+        boolean isVisible =  context.poManager.getNewPatientPage().isNoFileChosenVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -461,7 +426,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating presence of scroll bar on dialog box...");
 
-        boolean isScrollable = pom.getNewPatientPage().isDialogScrollable();
+        boolean isScrollable =  context.poManager.getNewPatientPage().isDialogScrollable();
 
         Assert.assertTrue(
                 isScrollable,
@@ -475,7 +440,7 @@ Your constructor has 1 parameter →doesnt work
     public void user_clicks_on_allergy_dropdown() {
 
         logger.info("Clicking Allergy dropdown...");
-        pom.getNewPatientPage().clickAllergyDropdown();
+        context.poManager.getNewPatientPage().clickAllergyDropdown();
 
     }
 
@@ -485,7 +450,7 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Validating Allergy dropdown values...");
 
 
-        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -511,7 +476,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating number of values in Allergy dropdown...");
 
-        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
 
         int actualCount = actualValues.size();
 
@@ -530,7 +495,7 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Validating specific Allergy dropdown values from Excel...");
 
 
-        List<String> actualValues = pom.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -555,7 +520,7 @@ Your constructor has 1 parameter →doesnt work
     public void user_clicks_on_food_preference_dropdown() {
 
         logger.info("Clicking Food Preference dropdown...");
-        pom.getNewPatientPage().clickFoodPreferenceDropdown();
+        context.poManager.getNewPatientPage().clickFoodPreferenceDropdown();
 
     }
 
@@ -565,7 +530,7 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues = pom.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -592,7 +557,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating number of values in Food Preference dropdown...");
 
-        List<String> actualValues = pom.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
         int actualCount = actualValues.size();
 
         Assert.assertEquals(
@@ -611,7 +576,7 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues =  pom.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =   context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -636,7 +601,7 @@ Your constructor has 1 parameter →doesnt work
     public void user_clicks_on_cuisine_dropdown() {
 
         logger.info("Clicking Cuisine dropdown...");
-        pom.getNewPatientPage().clickCuisineDropdown();
+        context.poManager.getNewPatientPage().clickCuisineDropdown();
 
     }
 
@@ -644,7 +609,7 @@ Your constructor has 1 parameter →doesnt work
     public void values_should_be_present_inside_cuisine_dropdown() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
 
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
@@ -667,7 +632,7 @@ Your constructor has 1 parameter →doesnt work
     public void cuisine_dropdown_should_contain_values(Integer expectedCount) {
 
         logger.info("Validating number of values in Cuisine dropdown...");
-        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
         int actualCount = actualValues.size();
         Assert.assertEquals(
                 actualCount,
@@ -682,7 +647,7 @@ Your constructor has 1 parameter →doesnt work
     public void dropdown_should_contain_specific_cuisine_values() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues = pom.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
         List<String> expectedValues = excelData.stream()
@@ -700,14 +665,14 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Reading required fields from Excel...");
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
-        pom.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
+        context.poManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
 
     }
 
     @Then("Submit button should be enabled")
     public void submit_button_should_be_enabled() {
 
-        boolean enabled = pom.getNewPatientPage().isSubmitButtonEnabled();
+        boolean enabled =  context.poManager.getNewPatientPage().isSubmitButtonEnabled();
 
         Assert.assertTrue(enabled, "Submit button is NOT enabled even after filling all required fields."
         );
@@ -721,8 +686,8 @@ Your constructor has 1 parameter →doesnt work
         logger.info("Clicking Submit button after filling mandatory fields...");
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("requiredFields");
-        pom.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
-        pom.getNewPatientPage().clickSubmitButton();
+        context.poManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
+        context.poManager.getNewPatientPage().clickSubmitButton();
 
     }
 
@@ -731,7 +696,7 @@ Your constructor has 1 parameter →doesnt work
 
         logger.info("Validating success toast message...");
 
-        String actualToast = pom.getNewPatientPage().getToastMessageText();
+        String actualToast =  context.poManager.getNewPatientPage().getToastMessageText();
 
         Assert.assertEquals(actualToast, "Patient successfully created", "Toast message mismatch"
         );
@@ -744,11 +709,11 @@ Your constructor has 1 parameter →doesnt work
     public void user_is_directed_to_my_patient_page_with_new_patient_details_created() {
 
 
-        pom.getNewPatientPage().goToMyPatients();
+        context.poManager.getNewPatientPage().goToMyPatients();
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
         String firstName = excelData.get(0).get("firstName");
         String lastName = excelData.get(0).get("lastName");
-        boolean isPresent = pom.getNewPatientPage().isPatientPresent(firstName, lastName);
+        boolean isPresent =  context.poManager.getNewPatientPage().isPatientPresent(firstName, lastName);
         Assert.assertTrue(isPresent, "User was NOT directed to My Patient Page with the new patient details created"
         );
 
@@ -757,7 +722,7 @@ Your constructor has 1 parameter →doesnt work
     @When("User selects {string} from Allergy dropdown")
     public void user_selects_from_allergy_dropdown(String allergy) {
 
-        pom.getNewPatientPage().selectAllergy(allergy);
+        context.poManager.getNewPatientPage().selectAllergy(allergy);
 
     }
 
@@ -765,7 +730,7 @@ Your constructor has 1 parameter →doesnt work
     public void should_be_selected_in_the_allergy_field(String expected) {
 
 
-        String actual = pom.getNewPatientPage().getSelectedAllergy();
+        String actual =  context.poManager.getNewPatientPage().getSelectedAllergy();
 
         Assert.assertEquals(actual, expected, "Allergy field does not show the expected selected value"
         );
@@ -776,8 +741,8 @@ Your constructor has 1 parameter →doesnt work
     public void user_selects_and_from_allergy_dropdown(String first, String second) {
 
 
-        pom.getNewPatientPage().selectAllergy(first);
-        pom.getNewPatientPage().selectAllergy(second);
+        context.poManager.getNewPatientPage().selectAllergy(first);
+        context.poManager.getNewPatientPage().selectAllergy(second);
 
 
     }
@@ -785,7 +750,7 @@ Your constructor has 1 parameter →doesnt work
     @When("User tries to select {string} from Allergy dropdown")
     public void user_tries_to_select_from_allergy_dropdown(String allergy) {
 
-        selectionAttempt = pom.getNewPatientPage().trySelectAllergy(allergy);
+        selectionAttempt =  context.poManager.getNewPatientPage().trySelectAllergy(allergy);
 
     }
 
@@ -794,7 +759,7 @@ Your constructor has 1 parameter →doesnt work
     public void no_selection_should_occur_in_the_allergy_field() {
 
 
-        String actual = pom.getNewPatientPage().getSelectedAllergy();
+        String actual =  context.poManager.getNewPatientPage().getSelectedAllergy();
         Assert.assertEquals(actual, "Allergies", "Allergy field changed unexpectedly — no selection should have occurred"
         );
 
@@ -803,13 +768,13 @@ Your constructor has 1 parameter →doesnt work
 
     @When("User selects {string} from Food Preference dropdown")
     public void user_selects_from_food_preference_dropdown(String preference) {
-        pom.getNewPatientPage().selectFoodPreference(preference);
+        context.poManager.getNewPatientPage().selectFoodPreference(preference);
     }
 
     @Then("{string} should be selected in the Food Preference field")
     public void should_be_selected_in_the_food_preference_field(String expected) {
 
-        String actual = pom.getNewPatientPage().getSelectedFoodPreference();
+        String actual =  context.poManager.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, expected, "Food Preference field does not show the expected selected value"
         );
 
@@ -818,22 +783,22 @@ Your constructor has 1 parameter →doesnt work
     @When("User selects {string} and {string} from Food Preference dropdown")
     public void user_selects_and_from_food_preference_dropdown(String first, String second) {
 
-        pom.getNewPatientPage().selectFoodPreference(first);
-        pom.getNewPatientPage().selectFoodPreference(second);
+        context.poManager.getNewPatientPage().selectFoodPreference(first);
+        context.poManager.getNewPatientPage().selectFoodPreference(second);
 
     }
 
     @When("User tries to select {string} from Food Preference dropdown")
     public void user_tries_to_select_from_food_preference_dropdown(String preference) {
 
-        selectionAttempt = pom.getNewPatientPage().trySelectFoodPreference(preference);
+        selectionAttempt =  context.poManager.getNewPatientPage().trySelectFoodPreference(preference);
 
     }
 
     @Then("No selection should occur in the Food Preference field")
     public void no_selection_should_occur_in_the_food_preference_field() {
 
-        String actual = pom.getNewPatientPage().getSelectedFoodPreference();
+        String actual =  context.poManager.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, "Food Preference", "Food Preference field changed unexpectedly — no selection should have occurred"
         );
 
@@ -843,7 +808,7 @@ Your constructor has 1 parameter →doesnt work
     @When("User selects {string} from Cuisine Category dropdown")
     public void user_selects_from_cuisine_category_dropdown(String category) {
 
-        pom.getNewPatientPage().selectCuisineCategory(category);
+        context.poManager.getNewPatientPage().selectCuisineCategory(category);
 
     }
 
@@ -851,7 +816,7 @@ Your constructor has 1 parameter →doesnt work
     @Then("{string} should be selected in the Cuisine Category field")
     public void should_be_selected_in_the_cuisine_category_field(String expected) {
 
-        String actual = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
+        String actual =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertEquals(actual, expected, "Cuisine Category field does not show the expected selected value"
         );
 
@@ -860,15 +825,15 @@ Your constructor has 1 parameter →doesnt work
     @When("User selects {string} and {string} from Cuisine Category dropdown")
     public void user_selects_and_from_cuisine_category_dropdown(String first, String second) {
 
-        pom.getNewPatientPage().selectCuisineCategory(first);
-        pom.getNewPatientPage().selectCuisineCategory(second);
+        context.poManager.getNewPatientPage().selectCuisineCategory(first);
+        context.poManager.getNewPatientPage().selectCuisineCategory(second);
 
     }
 
     @When("User tries to select {string} from Cuisine Category dropdown")
     public void user_tries_to_select_from_cuisine_category_dropdown(String category) {
 
-        selectionAttempt = pom.getNewPatientPage().trySelectCuisineCategory(category);
+        selectionAttempt =  context.poManager.getNewPatientPage().trySelectCuisineCategory(category);
 
     }
 
@@ -877,7 +842,7 @@ Your constructor has 1 parameter →doesnt work
     public void no_selection_should_occur_in_the_cuisine_category_field() {
 
 
-        String actual = pom.getNewPatientPage().getCuisineCategoryPlaceholder();
+        String actual =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertTrue(!selectionAttempt && actual.equals("Cuisine Category"), "Cuisine Category field changed unexpectedly or invalid selection was allowed"
         );
 
@@ -886,7 +851,7 @@ Your constructor has 1 parameter →doesnt work
     @When("User clicks Date of Birth field")
     public void user_clicks_date_of_birth_field() {
 
-        pom.getNewPatientPage().clickDOBField();
+        context.poManager.getNewPatientPage().clickDOBField();
 
 
     }
@@ -895,10 +860,10 @@ Your constructor has 1 parameter →doesnt work
     public void user_should_see_calendar_date_picker_displayed_with_month_day_year() {
 
 
-        boolean visible = pom.getNewPatientPage().isCalendarVisible();
-        boolean hasMonth = pom.getNewPatientPage().hasMonthDropdown();
-        boolean hasYear = pom.getNewPatientPage().hasYearInput();
-        boolean hasDay = pom.getNewPatientPage().hasDayCells();
+        boolean visible =  context.poManager.getNewPatientPage().isCalendarVisible();
+        boolean hasMonth =  context.poManager.getNewPatientPage().hasMonthDropdown();
+        boolean hasYear =  context.poManager.getNewPatientPage().hasYearInput();
+        boolean hasDay =  context.poManager.getNewPatientPage().hasDayCells();
 
         Assert.assertTrue(
                 visible && hasMonth && hasYear && hasDay,
