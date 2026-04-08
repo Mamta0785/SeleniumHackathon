@@ -59,7 +59,7 @@ The framework supports **cross‑browser execution**, **optional parallel execut
 │       - testData map                          │
 │  • initializeContext():                       │
 │       - driver = DriverFactory.getDriver()    │
-│       - poManager = new PageObjectManager()   │
+│       - pomManager = new PageObjectManager()   │
 │       - loginPage = new LoginPage()           │
 └───────────────────────┬──────────────────────┘
                         │
@@ -105,7 +105,7 @@ The framework supports **cross‑browser execution**, **optional parallel execut
 │               Step Definitions               │
 │  • Injected with TestContext                  │
 │  • Use:                                       │
-│       - context.poManager                     │
+│       - context.pomManager                     │
 │       - context.loginPage                     │
 │       - context.driverFactory                 │
 │       - context.driver                        │
