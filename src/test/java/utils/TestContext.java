@@ -10,7 +10,7 @@ import pages.LoginPage;
 public class TestContext {
     public WebDriver driver;
     public DriverFactory driverFactory;
-    public PageObjectManager poManager;
+    public PageObjectManager pomManager;
     public LoginPage loginPage;
 
     public static Map<String, String> testData;
@@ -23,7 +23,7 @@ public class TestContext {
     public void initializeContext() {
 
         this.driver = driverFactory.getDriver();
-        this.poManager = new PageObjectManager(driver);
+        this.pomManager = new PageObjectManager(driver);
         this.loginPage = new LoginPage(driver);
 
 
