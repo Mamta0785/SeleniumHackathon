@@ -62,7 +62,7 @@ public class DriverFactory {
     public void closeDriver() {
         if (getDriver() != null) {
             getDriver().quit();
-            mydriver.remove(); // This clears the thread memory
+            mydriver.remove();
             logger.info("Driver quit and removed from ThreadLocal.");
         }
 

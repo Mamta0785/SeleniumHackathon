@@ -4,12 +4,6 @@ import DriverManager.DriverFactory;
 import org.openqa.selenium.WebDriver;
 
 public class PageObjectManager {
-    // ✅ Has implicit zero-arg constructor (you didn't define any constructor)
-//    public PageObjectManager() {
-//        // Java provides this automatically
-//    }
-
-
 
 
     private DashboardPage dashboardPage;
@@ -24,10 +18,7 @@ public class PageObjectManager {
     public PageObjectManager (WebDriver driver) {
         this.driver = driver;
     }
-//WebDriver comes from ThreadLocal, not from DI
-//    private WebDriver getDriver() {
-//        return DriverFactory.getDriver();   // always correct ThreadLocal driver
-//    }
+
 
     public LoginPage getLoginPage() {
         if (loginPage == null) {
