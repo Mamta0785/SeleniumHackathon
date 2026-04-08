@@ -1,15 +1,14 @@
 package stepdefinition;
 
-import DriverManager.DriverFactory;
-import io.cucumber.java.PendingException;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
-import pages.PageObjectManager;
+
 import utils.ExcelReader;
 import utils.TestContext;
 
@@ -36,7 +35,7 @@ public class AddPatientStepDefinition {
     @When("User clicks on New Patient in the header section")
     public void user_clicks_on_new_patient_in_the_header_section() {
         logger.info("Clicking New Patient header link...");
-        context.poManager.getDashboardPage().clicknavigationLink("NewPatient");
+        context.pomManager.getDashboardPage().clicknavigationLink("NewPatient");
     }
 
     @Then("User should see Add Patient Details on the dialog box")
@@ -44,8 +43,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating Add Patient Details dialog...");
         boolean dialogIsValid =
-                context.poManager.getNewPatientPage().isDialogDisplayed() &&
-                        context.poManager.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
+                context.pomManager.getNewPatientPage().isDialogDisplayed() &&
+                        context.pomManager.getNewPatientPage().getDialogTitle().equals("Add Patient Details");
         Assert.assertTrue(dialogIsValid,
                 "Dialog is not displayed OR dialog title is incorrect");
     }
@@ -55,7 +54,7 @@ public class AddPatientStepDefinition {
     public void user_should_see_9_input_boxes_in_the_add_patient_details_dialog_box() {
 
 
-        int actualCount =  context.poManager.getNewPatientPage().getInputFieldCount();
+        int actualCount =  context.pomManager.getNewPatientPage().getInputFieldCount();
         Assert.assertEquals(actualCount, 9, "Input field count mismatch");
 
     }
@@ -64,7 +63,7 @@ public class AddPatientStepDefinition {
     public void user_should_see_3_dropdowns_in_the_add_patient_details_dialog_box() {
 
 
-        int actualCount =   context.poManager.getNewPatientPage().getDropdownCount();
+        int actualCount =   context.pomManager.getNewPatientPage().getDropdownCount();
         Assert.assertEquals(actualCount, 3, "Dropdown count mismatch");
 
     }
@@ -73,7 +72,7 @@ public class AddPatientStepDefinition {
     @Then("User should see exactly 1 file upload option in Add Patient Details dialog box")
     public void user_should_see_exactly_1_file_upload_option_in_add_patient_details_dialog_box() {
 
-        int actualCount =  context.poManager.getNewPatientPage().getFileUploadCount();
+        int actualCount =  context.pomManager.getNewPatientPage().getFileUploadCount();
         Assert.assertEquals(actualCount, 1, "File upload option count mismatch");
 
     }
@@ -81,7 +80,7 @@ public class AddPatientStepDefinition {
     @Then("User should see one Submit button")
     public void user_should_see_one_submit_button() {
 
-        int actualCount =  context.poManager.getNewPatientPage().getSubmitButtonCount();
+        int actualCount =  context.pomManager.getNewPatientPage().getSubmitButtonCount();
         Assert.assertEquals(actualCount, 1, "Submit button count mismatch");
 
     }
@@ -90,7 +89,7 @@ public class AddPatientStepDefinition {
     public void user_should_see_one_submit_button_in_disabled_state() {
 
         logger.info("Validating disabled state of Submit button...");
-        Assert.assertTrue( context.poManager.getNewPatientPage().isSubmitButtonDisabled(), "Submit button is NOT disabled"
+        Assert.assertTrue( context.pomManager.getNewPatientPage().isSubmitButtonDisabled(), "Submit button is NOT disabled"
         );
 
 
@@ -99,7 +98,7 @@ public class AddPatientStepDefinition {
     @Then("User should see one Close button")
     public void user_should_see_one_close_button() {
 
-        int actualCount =  context.poManager.getNewPatientPage().getCloseButtonCount();
+        int actualCount =  context.pomManager.getNewPatientPage().getCloseButtonCount();
         Assert.assertEquals(actualCount, 1, "Close button count mismatch");
 
     }
@@ -110,7 +109,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating enabled state of Close button...");
 
         Assert.assertTrue(
-                context.poManager.getNewPatientPage().isCloseButtonEnabled(),
+                context.pomManager.getNewPatientPage().isCloseButtonEnabled(),
                 "Close button is NOT enabled"
         );
 
@@ -121,10 +120,10 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating mandatory error message for First Name...");
 
-        context.poManager.getNewPatientPage().clickFirstNameAndBlur();
+        context.pomManager.getNewPatientPage().clickFirstNameAndBlur();
 
         Assert.assertTrue(
-                context.poManager.getNewPatientPage().isFirstNameErrorDisplayed(),
+                context.pomManager.getNewPatientPage().isFirstNameErrorDisplayed(),
                 "Expected 'First name is required' error message was NOT displayed"
         );
 
@@ -135,8 +134,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Last Name field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getLastNamePlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isLastNameMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getLastNamePlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isLastNameMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -156,8 +155,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Email field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getEmailPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isEmailMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getEmailPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isEmailMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -178,8 +177,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Contact Number field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getContactNumberPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isContactNumberMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getContactNumberPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isContactNumberMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -199,8 +198,8 @@ public class AddPatientStepDefinition {
     public void user_should_see_mandatory_dropdown_with_placeholder_for_allergies(String expectedPlaceholder) {
         logger.info("Validating placeholder and mandatory state for Allergies dropdown...");
 
-        String actualText =  context.poManager.getNewPatientPage().getAllergiesSelectedText();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isAllergiesMandatory();
+        String actualText =  context.pomManager.getNewPatientPage().getAllergiesSelectedText();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isAllergiesMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -221,8 +220,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Food Preference dropdown...");
 
-        String actualText =  context.poManager.getNewPatientPage().getFoodPreferencePlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isFoodPreferenceMandatory();
+        String actualText =  context.pomManager.getNewPatientPage().getFoodPreferencePlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isFoodPreferenceMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -243,8 +242,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for Cuisine Category dropdown...");
 
-        String actualText =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isCuisineCategoryMandatory();
+        String actualText =  context.pomManager.getNewPatientPage().getCuisineCategoryPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isCuisineCategoryMandatory();
 
         boolean isValid =
                 actualText.equals(expectedPlaceholder) &&
@@ -265,8 +264,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and mandatory state for DOB field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getDobPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isDobMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getDobPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isDobMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -287,8 +286,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Weight field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getWeightPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isWeightMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getWeightPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isWeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -309,8 +308,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Height field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getHeightPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isHeightMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getHeightPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isHeightMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -331,8 +330,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for Temperature field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getTemperaturePlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isTemperatureMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getTemperaturePlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isTemperatureMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -353,8 +352,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for SP field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getSpPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isSpMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getSpPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isSpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -374,8 +373,8 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating placeholder and non-mandatory state for DP field...");
 
-        String actualPlaceholder =  context.poManager.getNewPatientPage().getDpPlaceholder();
-        boolean isMandatory =  context.poManager.getNewPatientPage().isDpMandatory();
+        String actualPlaceholder =  context.pomManager.getNewPatientPage().getDpPlaceholder();
+        boolean isMandatory =  context.pomManager.getNewPatientPage().isDpMandatory();
 
         boolean isValid =
                 actualPlaceholder.equals(expectedPlaceholder) &&
@@ -396,7 +395,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of Upload Health Report text...");
 
-        boolean isVisible =  context.poManager.getNewPatientPage().isUploadHealthReportVisible();
+        boolean isVisible =  context.pomManager.getNewPatientPage().isUploadHealthReportVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -411,7 +410,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of 'No file Chosen' text...");
 
-        boolean isVisible =  context.poManager.getNewPatientPage().isNoFileChosenVisible();
+        boolean isVisible =  context.pomManager.getNewPatientPage().isNoFileChosenVisible();
 
         Assert.assertTrue(
                 isVisible,
@@ -426,7 +425,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating presence of scroll bar on dialog box...");
 
-        boolean isScrollable =  context.poManager.getNewPatientPage().isDialogScrollable();
+        boolean isScrollable =  context.pomManager.getNewPatientPage().isDialogScrollable();
 
         Assert.assertTrue(
                 isScrollable,
@@ -440,7 +439,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_allergy_dropdown() {
 
         logger.info("Clicking Allergy dropdown...");
-        context.poManager.getNewPatientPage().clickAllergyDropdown();
+        context.pomManager.getNewPatientPage().clickAllergyDropdown();
 
     }
 
@@ -450,7 +449,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Allergy dropdown values...");
 
 
-        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -476,7 +475,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating number of values in Allergy dropdown...");
 
-        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getAllergyDropdownValues();
 
         int actualCount = actualValues.size();
 
@@ -495,7 +494,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating specific Allergy dropdown values from Excel...");
 
 
-        List<String> actualValues =  context.poManager.getNewPatientPage().getAllergyDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getAllergyDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -520,7 +519,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_food_preference_dropdown() {
 
         logger.info("Clicking Food Preference dropdown...");
-        context.poManager.getNewPatientPage().clickFoodPreferenceDropdown();
+        context.pomManager.getNewPatientPage().clickFoodPreferenceDropdown();
 
     }
 
@@ -530,7 +529,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues =  context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -557,7 +556,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating number of values in Food Preference dropdown...");
 
-        List<String> actualValues =  context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getFoodPreferenceDropdownValues();
         int actualCount = actualValues.size();
 
         Assert.assertEquals(
@@ -576,7 +575,7 @@ public class AddPatientStepDefinition {
         logger.info("Validating Food Preference dropdown values from Excel...");
 
 
-        List<String> actualValues =   context.poManager.getNewPatientPage().getFoodPreferenceDropdownValues();
+        List<String> actualValues =   context.pomManager.getNewPatientPage().getFoodPreferenceDropdownValues();
 
 
         List<Map<String, String>> excelData =
@@ -601,7 +600,7 @@ public class AddPatientStepDefinition {
     public void user_clicks_on_cuisine_dropdown() {
 
         logger.info("Clicking Cuisine dropdown...");
-        context.poManager.getNewPatientPage().clickCuisineDropdown();
+        context.pomManager.getNewPatientPage().clickCuisineDropdown();
 
     }
 
@@ -609,7 +608,7 @@ public class AddPatientStepDefinition {
     public void values_should_be_present_inside_cuisine_dropdown() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getCuisineDropdownValues();
 
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
@@ -632,7 +631,7 @@ public class AddPatientStepDefinition {
     public void cuisine_dropdown_should_contain_values(Integer expectedCount) {
 
         logger.info("Validating number of values in Cuisine dropdown...");
-        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getCuisineDropdownValues();
         int actualCount = actualValues.size();
         Assert.assertEquals(
                 actualCount,
@@ -647,7 +646,7 @@ public class AddPatientStepDefinition {
     public void dropdown_should_contain_specific_cuisine_values() {
 
         logger.info("Validating Cuisine dropdown values from Excel...");
-        List<String> actualValues =  context.poManager.getNewPatientPage().getCuisineDropdownValues();
+        List<String> actualValues =  context.pomManager.getNewPatientPage().getCuisineDropdownValues();
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("cuisine");
         List<String> expectedValues = excelData.stream()
@@ -665,14 +664,14 @@ public class AddPatientStepDefinition {
 
         logger.info("Reading required fields from Excel...");
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
-        context.poManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
+        context.pomManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
 
     }
 
     @Then("Submit button should be enabled")
     public void submit_button_should_be_enabled() {
 
-        boolean enabled =  context.poManager.getNewPatientPage().isSubmitButtonEnabled();
+        boolean enabled =  context.pomManager.getNewPatientPage().isSubmitButtonEnabled();
 
         Assert.assertTrue(enabled, "Submit button is NOT enabled even after filling all required fields."
         );
@@ -686,8 +685,8 @@ public class AddPatientStepDefinition {
         logger.info("Clicking Submit button after filling mandatory fields...");
         List<Map<String, String>> excelData =
                 ExcelReader.readDataFromExcel("requiredFields");
-        context.poManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
-        context.poManager.getNewPatientPage().clickSubmitButton();
+        context.pomManager.getNewPatientPage().fillRequiredFieldsFromExcel(excelData);
+        context.pomManager.getNewPatientPage().clickSubmitButton();
 
     }
 
@@ -696,7 +695,7 @@ public class AddPatientStepDefinition {
 
         logger.info("Validating success toast message...");
 
-        String actualToast =  context.poManager.getNewPatientPage().getToastMessageText();
+        String actualToast =  context.pomManager.getNewPatientPage().getToastMessageText();
 
         Assert.assertEquals(actualToast, "Patient successfully created", "Toast message mismatch"
         );
@@ -709,11 +708,11 @@ public class AddPatientStepDefinition {
     public void user_is_directed_to_my_patient_page_with_new_patient_details_created() {
 
 
-        context.poManager.getNewPatientPage().goToMyPatients();
+        context.pomManager.getNewPatientPage().goToMyPatients();
         List<Map<String, String>> excelData = ExcelReader.readDataFromExcel("requiredFields");
         String firstName = excelData.get(0).get("firstName");
         String lastName = excelData.get(0).get("lastName");
-        boolean isPresent =  context.poManager.getNewPatientPage().isPatientPresent(firstName, lastName);
+        boolean isPresent =  context.pomManager.getNewPatientPage().isPatientPresent(firstName, lastName);
         Assert.assertTrue(isPresent, "User was NOT directed to My Patient Page with the new patient details created"
         );
 
@@ -722,7 +721,7 @@ public class AddPatientStepDefinition {
     @When("User selects {string} from Allergy dropdown")
     public void user_selects_from_allergy_dropdown(String allergy) {
 
-        context.poManager.getNewPatientPage().selectAllergy(allergy);
+        context.pomManager.getNewPatientPage().selectAllergy(allergy);
 
     }
 
@@ -730,7 +729,7 @@ public class AddPatientStepDefinition {
     public void should_be_selected_in_the_allergy_field(String expected) {
 
 
-        String actual =  context.poManager.getNewPatientPage().getSelectedAllergy();
+        String actual =  context.pomManager.getNewPatientPage().getSelectedAllergy();
 
         Assert.assertEquals(actual, expected, "Allergy field does not show the expected selected value"
         );
@@ -741,8 +740,8 @@ public class AddPatientStepDefinition {
     public void user_selects_and_from_allergy_dropdown(String first, String second) {
 
 
-        context.poManager.getNewPatientPage().selectAllergy(first);
-        context.poManager.getNewPatientPage().selectAllergy(second);
+        context.pomManager.getNewPatientPage().selectAllergy(first);
+        context.pomManager.getNewPatientPage().selectAllergy(second);
 
 
     }
@@ -750,7 +749,7 @@ public class AddPatientStepDefinition {
     @When("User tries to select {string} from Allergy dropdown")
     public void user_tries_to_select_from_allergy_dropdown(String allergy) {
 
-        selectionAttempt =  context.poManager.getNewPatientPage().trySelectAllergy(allergy);
+        selectionAttempt =  context.pomManager.getNewPatientPage().trySelectAllergy(allergy);
 
     }
 
@@ -759,7 +758,7 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_allergy_field() {
 
 
-        String actual =  context.poManager.getNewPatientPage().getSelectedAllergy();
+        String actual =  context.pomManager.getNewPatientPage().getSelectedAllergy();
         Assert.assertEquals(actual, "Allergies", "Allergy field changed unexpectedly — no selection should have occurred"
         );
 
@@ -768,13 +767,13 @@ public class AddPatientStepDefinition {
 
     @When("User selects {string} from Food Preference dropdown")
     public void user_selects_from_food_preference_dropdown(String preference) {
-        context.poManager.getNewPatientPage().selectFoodPreference(preference);
+        context.pomManager.getNewPatientPage().selectFoodPreference(preference);
     }
 
     @Then("{string} should be selected in the Food Preference field")
     public void should_be_selected_in_the_food_preference_field(String expected) {
 
-        String actual =  context.poManager.getNewPatientPage().getSelectedFoodPreference();
+        String actual =  context.pomManager.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, expected, "Food Preference field does not show the expected selected value"
         );
 
@@ -783,22 +782,22 @@ public class AddPatientStepDefinition {
     @When("User selects {string} and {string} from Food Preference dropdown")
     public void user_selects_and_from_food_preference_dropdown(String first, String second) {
 
-        context.poManager.getNewPatientPage().selectFoodPreference(first);
-        context.poManager.getNewPatientPage().selectFoodPreference(second);
+        context.pomManager.getNewPatientPage().selectFoodPreference(first);
+        context.pomManager.getNewPatientPage().selectFoodPreference(second);
 
     }
 
     @When("User tries to select {string} from Food Preference dropdown")
     public void user_tries_to_select_from_food_preference_dropdown(String preference) {
 
-        selectionAttempt =  context.poManager.getNewPatientPage().trySelectFoodPreference(preference);
+        selectionAttempt =  context.pomManager.getNewPatientPage().trySelectFoodPreference(preference);
 
     }
 
     @Then("No selection should occur in the Food Preference field")
     public void no_selection_should_occur_in_the_food_preference_field() {
 
-        String actual =  context.poManager.getNewPatientPage().getSelectedFoodPreference();
+        String actual =  context.pomManager.getNewPatientPage().getSelectedFoodPreference();
         Assert.assertEquals(actual, "Food Preference", "Food Preference field changed unexpectedly — no selection should have occurred"
         );
 
@@ -808,7 +807,7 @@ public class AddPatientStepDefinition {
     @When("User selects {string} from Cuisine Category dropdown")
     public void user_selects_from_cuisine_category_dropdown(String category) {
 
-        context.poManager.getNewPatientPage().selectCuisineCategory(category);
+        context.pomManager.getNewPatientPage().selectCuisineCategory(category);
 
     }
 
@@ -816,7 +815,7 @@ public class AddPatientStepDefinition {
     @Then("{string} should be selected in the Cuisine Category field")
     public void should_be_selected_in_the_cuisine_category_field(String expected) {
 
-        String actual =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
+        String actual =  context.pomManager.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertEquals(actual, expected, "Cuisine Category field does not show the expected selected value"
         );
 
@@ -825,15 +824,15 @@ public class AddPatientStepDefinition {
     @When("User selects {string} and {string} from Cuisine Category dropdown")
     public void user_selects_and_from_cuisine_category_dropdown(String first, String second) {
 
-        context.poManager.getNewPatientPage().selectCuisineCategory(first);
-        context.poManager.getNewPatientPage().selectCuisineCategory(second);
+        context.pomManager.getNewPatientPage().selectCuisineCategory(first);
+        context.pomManager.getNewPatientPage().selectCuisineCategory(second);
 
     }
 
     @When("User tries to select {string} from Cuisine Category dropdown")
     public void user_tries_to_select_from_cuisine_category_dropdown(String category) {
 
-        selectionAttempt =  context.poManager.getNewPatientPage().trySelectCuisineCategory(category);
+        selectionAttempt =  context.pomManager.getNewPatientPage().trySelectCuisineCategory(category);
 
     }
 
@@ -842,7 +841,7 @@ public class AddPatientStepDefinition {
     public void no_selection_should_occur_in_the_cuisine_category_field() {
 
 
-        String actual =  context.poManager.getNewPatientPage().getCuisineCategoryPlaceholder();
+        String actual =  context.pomManager.getNewPatientPage().getCuisineCategoryPlaceholder();
         Assert.assertTrue(!selectionAttempt && actual.equals("Cuisine Category"), "Cuisine Category field changed unexpectedly or invalid selection was allowed"
         );
 
@@ -851,7 +850,7 @@ public class AddPatientStepDefinition {
     @When("User clicks Date of Birth field")
     public void user_clicks_date_of_birth_field() {
 
-        context.poManager.getNewPatientPage().clickDOBField();
+        context.pomManager.getNewPatientPage().clickDOBField();
 
 
     }
@@ -860,10 +859,10 @@ public class AddPatientStepDefinition {
     public void user_should_see_calendar_date_picker_displayed_with_month_day_year() {
 
 
-        boolean visible =  context.poManager.getNewPatientPage().isCalendarVisible();
-        boolean hasMonth =  context.poManager.getNewPatientPage().hasMonthDropdown();
-        boolean hasYear =  context.poManager.getNewPatientPage().hasYearInput();
-        boolean hasDay =  context.poManager.getNewPatientPage().hasDayCells();
+        boolean visible =  context.pomManager.getNewPatientPage().isCalendarVisible();
+        boolean hasMonth =  context.pomManager.getNewPatientPage().hasMonthDropdown();
+        boolean hasYear =  context.pomManager.getNewPatientPage().hasYearInput();
+        boolean hasDay =  context.pomManager.getNewPatientPage().hasDayCells();
 
         Assert.assertTrue(
                 visible && hasMonth && hasYear && hasDay,
