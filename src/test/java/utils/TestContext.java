@@ -20,7 +20,7 @@ public class TestContext {
         driverFactory = new DriverFactory();
 
     }
-    public void setupManagers() {
+    public void initializeContext() {
 
         this.driver = driverFactory.getDriver();
         this.poManager = new PageObjectManager(driver);

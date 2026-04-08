@@ -76,17 +76,6 @@
             <version>7.11.0</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.logging.log4j</groupId>-->
-<!--            <artifactId>log4j-api</artifactId>-->
-<!--            <version>3.0.0-alpha1</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash;https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.logging.log4j</groupId>-->
-<!--            <artifactId>log4j-core</artifactId>-->
-<!--            <version>3.0.0-alpha1</version>-->
-<!--        </dependency>-->
 
         <!--https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
         <dependency>
@@ -182,7 +171,7 @@ Bottom line: Keep FreeMarker 2.3.33 declared somewhere in your pom (either as a 
 
     <profiles>
         <profile>
-            <id>maya</id>
+            <id>crossBrowser</id>
             <properties>
                 <suiteXmlFile>testngCrossBrowser.xml</suiteXmlFile>
             </properties>
