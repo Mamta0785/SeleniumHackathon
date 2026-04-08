@@ -10,7 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.PageObjectManager;
 import utils.*;
+import io.qameta.allure.Allure;
 
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -76,7 +79,10 @@ context.loginPage.login("Submits the login form", "valid_login");
         if (scenario.isFailed()) {
             logger.warn("Scenario '{}' failed. Capturing screenshot...", scenario.getName());
             byte[] screenshot = ScreenShot.takeScreenshotAsBytes(context.driverFactory.getDriver(), scenario.getName());
+            // Attach for Cucumber
             scenario.attach(screenshot, "image/png", "Failed Step Screenshot");
+            // Attach for Allure
+            Allure.addAttachment("Failed Step Screenshot", "image/png", new ByteArrayInputStream(screenshot), ".png");
         }
     }
 
