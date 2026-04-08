@@ -79,7 +79,7 @@ context.loginPage.login("Submits the login form", "valid_login");
         if (scenario.isFailed()) {
             logger.warn("Scenario '{}' failed. Capturing screenshot...", scenario.getName());
             byte[] screenshot = ScreenShot.takeScreenshotAsBytes(context.driverFactory.getDriver(), scenario.getName());
-            // Attach for Cucumber
+            // Attach for Cucumber,extent,chaintest
             scenario.attach(screenshot, "image/png", "Failed Step Screenshot");
             // Attach for Allure
             Allure.addAttachment("Failed Step Screenshot", "image/png", new ByteArrayInputStream(screenshot), ".png");
